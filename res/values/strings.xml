@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drinking">What are you drinking now?</string>
+    <string name="search_menu_button">Search</string>
+    <string name="update">Update</string>
+    <string name="app_name">RateBeer Mobile</string>
+<string name="search_searching">Searching</string>
+<string name="search_searching_text">Searching for beers</string>
+<string name="settings_username">Username</string>
+<string name="settings_password">Password</string>
+<string name="settings_save_button">Save</string>
+<string name="menu_item_settings">Settings</string>
+<string name="search_button">Search</string>
+<string name="rate_aroma">Aroma</string>
+<string name="rate_appearance">Appearance</string>
+<string name="rate_flavor">Flavor</string>
+<string name="rate_palate">Palate</string>
+<string name="rate_overall">Overall</string>
+<string name="rate_button">Add Rating</string>
+<string name="toast_rate_success">Rating submitted successfully</string>
+<string name="toast_rate_failure">There was an error submitting the rating. Please try Again!</string>
+<string name="toast_drink_empty">Please enter the name of the drink!</string>
+<string name="toast_network_error">There was a connection error. Please check your connections!</string>
+<string name="toast_settings_saved">You settings was saved</string>
+<string name="rate_charleft">Min Characters Remaining: </string>
+<string name="toast_rate_shortcomment">You must enter at least 75 characters in your rating</string>
+<string name="rate_totalscore">Total</string>
+<string name="rating_retrieving">Retrieving</string>
+<string name="rating_retrieving_text">Retrieving beer data</string>
+<string name="new_mail_button">Compose Beermail</string>
+<string name="beermail_menu_button">Beermail</string>
+<string name="beermail_retrieving">Refreshing beermails</string>
+<string name="beermail_retrieving_text">Updating mail list and retrieving new mails</string>
+<string name="reply_mail_button">Reply</string>
+<string name="delete_mail_button">Delete</string>
+<string name="mail_action_to_label">To:</string>
+<string name="mail_action_subject_label">Subject:</string>
+<string name="mail_action_message_label">Message:</string>
+<string name="send_mail_button">Send Message</string>
+<string name="toast_mail_sent">Mail Sent Succesfully</string>
+<string name="toast_mail_failed">Sending of beer mail failed</string>
+<string name="toast_mail_deleted">Mail Deleted Succesfully</string>
+<string name="toast_mail_deleted_failed">There was an error deleting the mail</string>
+<string name="settings_beermail_notification">Enable Beermail Notifications</string>
+<string name="settings_notification_interval_label">Beermail Notification Interval</string>
+</resources>

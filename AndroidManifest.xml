@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="dk.moerks.ratebeermobile"
+      android:versionCode="4" android:versionName="1.2.1">
+    
+    <uses-sdk android:minSdkVersion="3" />
+
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+<application android:label="@string/app_name" android:icon="@drawable/rbicon">
+<activity android:name="Home">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+</activity>
+
+<activity android:name="Search"></activity>
+<activity android:name="Settings"></activity>
+<activity android:name="Rate"></activity>
+<activity android:name="Rating"></activity>
+<activity android:name="BeerMail">
+</activity>
+
+<activity android:name="MailAction" android:noHistory="true"></activity>
+<activity android:noHistory="true" android:name="MailView"></activity>
+<service android:name=".services.BeerMailService"></service>
+<receiver android:name=".receivers.BeerMailServiceReceiver">
+</receiver>
+<receiver android:name=".receivers.BootReceiver">
+	<intent-filter> 
+		<action android:value="android.intent.action.BOOT_COMPLETED" android:name="android.intent.action.BOOT_COMPLETED"/> 
+	</intent-filter> 
+</receiver>
+
+</application>
+
+</manifest> 

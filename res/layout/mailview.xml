@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	>
+	<TextView android:id="@+id/mail_reply_from"
+       	android:layout_width="fill_parent"
+       	android:layout_height="wrap_content"
+       	android:textSize="15px"
+       	android:paddingLeft="10px"
+       	/>
+	<TextView android:id="@+id/mail_reply_time"
+       	android:layout_width="fill_parent"
+       	android:layout_height="wrap_content"
+       	android:textSize="15px"
+       	android:paddingLeft="10px"
+       	/>
+	<TextView android:id="@+id/mail_reply_subject"
+       	android:layout_width="fill_parent"
+       	android:layout_height="wrap_content"
+       	android:textSize="15px"
+       	android:paddingLeft="10px"
+       	/>
+	<ScrollView
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/mail_scrollview"
+		android:layout_width="fill_parent"
+       	android:layout_height="0dip"
+       	android:layout_weight="1"
+  		>
+		<TextView android:id="@+id/mail_reply_message"
+	       	android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+	       	android:textSize="12px"
+	       	android:paddingLeft="10px"
+	       	/>
+		</ScrollView>
+    <LinearLayout
+	 	android:orientation="horizontal"
+  		android:layout_width="fill_parent"
+  		android:layout_height="wrap_content"
+  		>
+  		<Button
+			android:id="@+id/replyMailButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/reply_mail_button"
+			/>
+  		<Button
+			android:id="@+id/deleteMailButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/delete_mail_button"
+			/>
+    </LinearLayout>
+</LinearLayout>
