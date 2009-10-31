@@ -83,7 +83,6 @@ public class MailAction extends Activity {
         
         Button sendMailButton = (Button) findViewById(R.id.sendMailButton);
         sendMailButton.setOnClickListener(new View.OnClickListener() {
-            @Override
         	public void onClick(View v) {
                 setProgressBarIndeterminateVisibility(true);
 

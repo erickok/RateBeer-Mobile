@@ -65,7 +65,6 @@ public class Home extends Activity {
         EditText updateTextGen = (EditText) findViewById(R.id.drinkingText);
         
         searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
         	public void onClick(View v) {
             	Intent searchIntent = new Intent(Home.this, Search.class);  
             	startActivity(searchIntent);  
@@ -73,7 +72,6 @@ public class Home extends Activity {
         });
         
         beermailButton.setOnClickListener(new View.OnClickListener() {
-            @Override
         	public void onClick(View v) {
             	Intent beermailIntent = new Intent(Home.this, BeerMail.class);  
             	startActivity(beermailIntent);  
@@ -81,7 +79,6 @@ public class Home extends Activity {
         });
         
         updateButton.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				EditText updateText = (EditText) findViewById(R.id.drinkingText);
         		final String updateTextString = updateText.getText().toString();
@@ -112,7 +109,6 @@ public class Home extends Activity {
         updateTextGen.setOnFocusChangeListener(new View.OnFocusChangeListener() {
         	EditText updateTextFocus = (EditText) findViewById(R.id.drinkingText);
         	
-			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if(hasFocus){
 					updateTextFocus.setText("");

@@ -73,7 +73,6 @@ public class MailView extends Activity {
 
         Button replyMailButton = (Button) findViewById(R.id.replyMailButton);
         replyMailButton.setOnClickListener(new View.OnClickListener() {
-            @Override
         	public void onClick(View v) {
             	Intent mailIntent = new Intent(MailView.this, MailAction.class);
             	mailIntent.putExtra("ISREPLY", true);
@@ -88,7 +87,6 @@ public class MailView extends Activity {
         
         Button deleteMailButton = (Button) findViewById(R.id.deleteMailButton);
         deleteMailButton.setOnClickListener(new View.OnClickListener() {
-            @Override
         	public void onClick(View v) {
                 setProgressBarIndeterminateVisibility(true);
             	Thread deleteThread = new Thread(){

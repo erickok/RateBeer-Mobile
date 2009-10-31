@@ -34,7 +34,6 @@ public class Settings extends Activity {
         notificationIntervalGen.setSelection(getNotificationIntervalIndex(settings.getString("rb_notification_interval", "")));
         Button saveButton = (Button) findViewById(R.id.settings_button_save);
         saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
         	public void onClick(View v) {
             	Log.d(LOGTAG, "Saving Preferences");
             	EditText username = (EditText) findViewById(R.id.settings_value_username);

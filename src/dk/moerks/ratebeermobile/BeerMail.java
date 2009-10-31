@@ -64,8 +64,7 @@ public class BeerMail extends ListActivity {
     	
         Button composeMailButton = (Button) findViewById(R.id.newMailButton);
         composeMailButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-        	public void onClick(View v) {
+            public void onClick(View v) {
             	Activity composeActivity = new MailAction();
             	Intent mailIntent = new Intent(BeerMail.this, MailAction.class);
             	mailIntent.putExtra("ISREPLY", false);

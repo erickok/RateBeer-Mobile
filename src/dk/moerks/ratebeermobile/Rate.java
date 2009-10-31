@@ -58,15 +58,12 @@ public class Rate extends Activity {
         EditText rateComment = (EditText) findViewById(R.id.rate_value_comments);
         rateComment.addTextChangedListener(new TextWatcher(){
 
-			@Override
 			public void afterTextChanged(Editable s) {
 			}
 
-			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,	int after) {
 			}
 
-			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				int charNumber = s.length();
 				int resultNumber = 75 - charNumber;
@@ -86,7 +83,6 @@ public class Rate extends Activity {
         
         Button rateButton = (Button) findViewById(R.id.rate_button);
         rateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
         	public void onClick(View v) {
                 setProgressBarIndeterminateVisibility(true);
 
