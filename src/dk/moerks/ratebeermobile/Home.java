@@ -192,8 +192,10 @@ public class Home extends ListActivity {
 			updateStatusGen.setFocusableInTouchMode(true);
 			updateStatusGen.requestFocus();
 			
+			//Update Drinking Status
 			updateStatusGen.setText("You are currently drinking " + drink);
 
+			//Update Activity List
 			FeedAdapter adapter = new FeedAdapter(this, feeds);
 		    setListAdapter(adapter);
 
