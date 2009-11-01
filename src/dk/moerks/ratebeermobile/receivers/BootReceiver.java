@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.util.Log;
-import dk.moerks.ratebeermobile.services.BeerMailService;
 
 public class BootReceiver extends BroadcastReceiver {
 	private static final String LOGTAG = "BootReceiver";

@@ -2,17 +2,13 @@ package dk.moerks.ratebeermobile;
 
 import java.util.List;
 
-import org.apache.http.HttpResponse;
-
 import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -20,9 +16,9 @@ import dk.moerks.ratebeermobile.adapters.MessageAdapter;
 import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.util.RBParser;
 import dk.moerks.ratebeermobile.vo.MessageHeader;
-import dk.moerks.ratebeermobile.vo.SearchResult;
 
 public class BeerMail extends ListActivity {
+	@SuppressWarnings("unused")
 	private static final String LOGTAG = "BeerMail";
 	private List<MessageHeader> results = null;
 	private ProgressDialog beermailDialog = null;

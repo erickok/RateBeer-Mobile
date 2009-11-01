@@ -24,7 +24,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import dk.moerks.ratebeermobile.adapters.FeedAdapter;
-import dk.moerks.ratebeermobile.adapters.SearchAdapter;
 import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.util.RBParser;
 import dk.moerks.ratebeermobile.vo.Feed;

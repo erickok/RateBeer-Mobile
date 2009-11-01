@@ -3,11 +3,9 @@ package dk.moerks.ratebeermobile;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import dk.moerks.ratebeermobile.io.NetBroker;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +13,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -23,8 +20,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import dk.moerks.ratebeermobile.io.NetBroker;
 
 public class Rate extends Activity {
+	@SuppressWarnings("unused")
 	private static final String LOGTAG = "Rate";
     String beerid =  null;
 	

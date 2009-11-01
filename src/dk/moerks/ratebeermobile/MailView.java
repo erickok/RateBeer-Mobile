@@ -1,22 +1,23 @@
 package dk.moerks.ratebeermobile;
 
-import dk.moerks.ratebeermobile.io.NetBroker;
-import dk.moerks.ratebeermobile.util.RBParser;
-import dk.moerks.ratebeermobile.vo.Message;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import dk.moerks.ratebeermobile.io.NetBroker;
+import dk.moerks.ratebeermobile.util.RBParser;
+import dk.moerks.ratebeermobile.vo.Message;
 
 public class MailView extends Activity {
-	private static final String LOGTAG = "ReplyMail";
+	@SuppressWarnings("unused")
+	private static final String LOGTAG = "MailView";
+	
 	final Handler threadHandler = new Handler();
     // Create runnable for posting
     final Runnable clearIndeterminateProgress = new Runnable() {
@@ -32,7 +33,6 @@ public class MailView extends Activity {
         final String from;
         final String senderId;
         final String subject;
-        final String messageString;
         final Message message;
         
 		// Request progress bar
