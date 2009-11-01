@@ -27,26 +27,41 @@
 	<TextView
 		android:id="@+id/drinkingStatus"
 		android:layout_width="fill_parent"
-		android:layout_height="0dip"
-    	android:layout_weight="1"		
+		android:layout_height="wrap_content"
 	    android:paddingLeft="5dip"
     	/>
-	<LinearLayout 
-    	android:orientation="horizontal"
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	>
-		<Button
-			android:id="@+id/searchMenuButton"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/search_menu_button"
-			/>
-		<Button
-			android:id="@+id/beermailMenuButton"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/beermail_menu_button"
-			/>
-		</LinearLayout>
+   	<ListView
+		android:id="@android:id/list"
+		android:layout_width="fill_parent"
+		android:layout_height="0dip"
+		android:layout_weight="1"
+		/>
+  	<TableLayout
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:stretchColumns="0,1,2"
+		android:gravity="fill_horizontal"
+		>
+		<TableRow>
+			<Button
+				android:id="@+id/searchMenuButton"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/search_menu_button"
+				/>
+			<Button
+				android:id="@+id/beermailMenuButton"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/beermail_menu_button"
+				/>
+			<Button
+				android:id="@+id/placesMenuButton"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/places_menu_button"
+				android:enabled="false"
+				/>
+		</TableRow>
+	</TableLayout>
 </LinearLayout>

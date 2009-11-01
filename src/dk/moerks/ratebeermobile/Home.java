@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -23,12 +23,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import dk.moerks.ratebeermobile.adapters.FeedAdapter;
+import dk.moerks.ratebeermobile.adapters.SearchAdapter;
 import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.util.RBParser;
+import dk.moerks.ratebeermobile.vo.Feed;
 
-public class Home extends Activity {
+public class Home extends ListActivity {
 	private static final String LOGTAG = "Home";
 	private String drink;
+	private List<Feed> feeds;
 	private boolean firstRun;
 	final Handler threadHandler = new Handler();
     // Create runnable for posting
@@ -142,6 +146,7 @@ public class Home extends Activity {
 	    			String responseString = NetBroker.doGet(getApplicationContext(), "http://www.ratebeer.com/activity");
 	    			if(responseString != null){
 	    				drink = RBParser.parseDrink(responseString);
+	    				feeds = RBParser.parseFeed(responseString);
 	    				threadHandler.post(updateDrink);
 	    			} else {
 	    				drink = null;
@@ -188,6 +193,9 @@ public class Home extends Activity {
 			updateStatusGen.requestFocus();
 			
 			updateStatusGen.setText("You are currently drinking " + drink);
+
+			FeedAdapter adapter = new FeedAdapter(this, feeds);
+		    setListAdapter(adapter);
 
 			setProgressBarIndeterminateVisibility(false);
 		} else {

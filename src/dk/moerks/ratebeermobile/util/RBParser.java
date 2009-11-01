@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.util.Log;
 
+import dk.moerks.ratebeermobile.vo.Feed;
 import dk.moerks.ratebeermobile.vo.Message;
 import dk.moerks.ratebeermobile.vo.MessageHeader;
 import dk.moerks.ratebeermobile.vo.RatingData;
@@ -18,8 +19,6 @@ public class RBParser {
 		int contentBegin = responseString.indexOf("<!-- Content begins -->")+23;
 		int contentEnd = responseString.indexOf("<!-- Content ends -->");
 		String content = responseString.substring(contentBegin, contentEnd);
-		
-		//Log.d(LOGTAG, content);
 		
 		String[] beers = content.split("<TD class=\"beer\" width=\"330\" align=left>");
 		
@@ -121,7 +120,6 @@ public class RBParser {
 			//Status
 			int statusBegin = mailLines[i].indexOf("\">")+2;
 			int statusEnd = mailLines[i].indexOf("</FONT>");
-			//Log.d(LOGTAG, mailLines[i]);
 			header.setStatus(stripItalic(mailLines[i].substring(statusBegin, statusEnd)));
 			
 			//MessageId
@@ -201,5 +199,9 @@ public class RBParser {
 
 	public static boolean parseNewMail(String responseString) {
 		return responseString.contains("You have unread messages");
+	}
+
+	public static List<Feed> parseFeed(String responseString) {
+		return null;
 	}
 }

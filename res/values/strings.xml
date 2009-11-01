@@ -43,4 +43,5 @@
 <string name="toast_mail_deleted_failed">There was an error deleting the mail</string>
 <string name="settings_beermail_notification">Enable Beermail Notifications</string>
 <string name="settings_notification_interval_label">Beermail Notification Interval</string>
+<string name="places_menu_button">Places</string>
 </resources>

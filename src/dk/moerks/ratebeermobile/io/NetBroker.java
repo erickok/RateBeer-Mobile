@@ -31,9 +31,8 @@ import dk.moerks.ratebeermobile.Settings;
 
 public class NetBroker {
 	private static final String LOGTAG = "NetBroker";
-	//private static DefaultHttpClient httpclient = null;
 	
-	public static String doGet(Context context, String url){
+	public static String doGet(Context context, String url) {
 		DefaultHttpClient httpclient = init();
 		if(!signin(context, httpclient)){
 			return null;
@@ -91,7 +90,6 @@ public class NetBroker {
 		return null;
 	}
 	
-	@SuppressWarnings("unchecked")
 	private static boolean signin(Context context, DefaultHttpClient httpclient){
 		HttpPost httppost = new HttpPost("http://www.ratebeer.com/signin/");  
 
@@ -111,8 +109,8 @@ public class NetBroker {
 	
 				//Check to see if we are already logged in
 				List<Cookie> beforeCookies = httpclient.getCookieStore().getCookies();
-				for (Iterator iterator = beforeCookies.iterator(); iterator.hasNext();) {
-					Cookie cookie = (Cookie) iterator.next();
+				for (Iterator<Cookie> iterator = beforeCookies.iterator(); iterator.hasNext();) {
+					Cookie cookie = iterator.next();
 					if(cookie.getName().equalsIgnoreCase("SessionCode")){
 						return true;
 					}
@@ -124,8 +122,8 @@ public class NetBroker {
 				
 				if(statusCode == 200){
 					List<Cookie> cookies = httpclient.getCookieStore().getCookies();
-					for (Iterator iterator = cookies.iterator(); iterator.hasNext();) {
-						Cookie cookie = (Cookie) iterator.next();
+					for (Iterator<Cookie> iterator = cookies.iterator(); iterator.hasNext();) {
+						Cookie cookie = iterator.next();
 						if(cookie.getName().equalsIgnoreCase("SessionCode")){
 							result.getEntity().consumeContent();
 							return true;
@@ -156,15 +154,13 @@ public class NetBroker {
 	}
 	
 	private static DefaultHttpClient init(){
-		//if(httpclient == null){
-			HttpParams params = new BasicHttpParams();
-			params.setParameter("CookiePolicy", CookiePolicy.BROWSER_COMPATIBILITY);
-			
-			SchemeRegistry registry = new SchemeRegistry();
-	        registry.register(new Scheme("http", new PlainSocketFactory(), 80));
-	        registry.register(new Scheme("https",SSLSocketFactory.getSocketFactory(), 443));
+		HttpParams params = new BasicHttpParams();
+		params.setParameter("CookiePolicy", CookiePolicy.BROWSER_COMPATIBILITY);
+		
+		SchemeRegistry registry = new SchemeRegistry();
+        registry.register(new Scheme("http", new PlainSocketFactory(), 80));
+        registry.register(new Scheme("https",SSLSocketFactory.getSocketFactory(), 443));
 
-			return new DefaultHttpClient(new ThreadSafeClientConnManager(params, registry), params);
-		//}
+		return new DefaultHttpClient(new ThreadSafeClientConnManager(params, registry), params);
 	}
 }
