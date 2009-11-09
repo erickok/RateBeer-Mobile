@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="drinking">What are you drinking now?</string>
+    <string name="drinking">What are you drinking?</string>
     <string name="search_menu_button">Search</string>
-    <string name="update">Update</string>
+    <string name="refresh">Refresh</string>
     <string name="app_name">RateBeer Mobile</string>
 <string name="search_searching">Searching</string>
 <string name="search_searching_text">Searching for beers</string>

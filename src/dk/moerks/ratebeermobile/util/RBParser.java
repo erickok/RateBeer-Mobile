@@ -156,13 +156,13 @@ public class RBParser {
 		int contentEnd = responseString.indexOf("<!-- Content ends -->");
 		String content = responseString.substring(contentBegin, contentEnd);
 
-		int messageBegin = content.indexOf("</h1></td></tr></table><P>")+26;
+		int messageBegin = content.indexOf("</h1>")+5;
 		int messageEnd = content.indexOf("<FORM NAME=Message>", messageBegin);
 		message.setMessage(cleanHtml(content.substring(messageBegin, messageEnd)));
 		Log.d(LOGTAG, message.getMessage());
 		
-		int timeBegin = content.indexOf("Time:</td><td class=\"beerfoot\" valign=\"bottom\" nowrap>")+54;
-		int timeEnd = content.indexOf("</td></tr><tr>", timeBegin);
+		int timeBegin = content.indexOf("</a><br>")+8;
+		int timeEnd = content.indexOf("</div>", timeBegin);
 		message.setTime(cleanHtml(content.substring(timeBegin, timeEnd)));
 		
 		return message;
@@ -185,10 +185,11 @@ public class RBParser {
 	
 	private static String cleanHtml(String value){
 		String result = value.replaceAll("&nbsp;", " ");
+		result = result.replaceAll("\n", "");
+		result = result.replaceAll("<br>", "\n");
 		result = result.replaceAll("<BR>", "\n");
 		result = result.replaceAll("&#41;", ")");
-		
-		return result;
+		return result.trim();
 	}
 
 	public static String parseUserId(String responseString) {
@@ -202,6 +203,81 @@ public class RBParser {
 	}
 
 	public static List<Feed> parseFeed(String responseString) {
-		return null;
+		ArrayList<Feed> result = new ArrayList<Feed>();
+		int contentBegin = responseString.indexOf("<!-- Content begins -->")+23;
+		int contentEnd = responseString.indexOf("<!-- Content ends -->");
+		String content = responseString.substring(contentBegin, contentEnd);
+		
+		String[] feedChunks = content.split("<span class=\"userheader\">");
+		
+		for (int i = 1; i < feedChunks.length; i++) {
+			int timeEnd = feedChunks[i].indexOf("</span></div>");
+			String time = feedChunks[i].substring(0, timeEnd);
+			
+			String[] actions = feedChunks[i].split("<div class=\"friendsStatus\">");
+			
+			for (int j = 1; j < actions.length; j++) {
+				Feed feed = new Feed();
+				feed.setDate(time);
+				
+				System.out.println(actions[j]);
+				int activityTimeStart = actions[j].indexOf("<span class=\"activityTime\">")+28;
+				int activityTimeEnd = actions[j].indexOf("</span>", activityTimeStart);
+				System.out.println("ACT START: " + activityTimeStart);
+				System.out.println("ACT END: " + activityTimeEnd);
+				System.out.println("Index: " + j);
+				feed.setActivityTime(actions[j].substring(activityTimeStart, activityTimeEnd));
+
+				//Rated Beer
+				if(actions[j].contains("edit_grey.gif")){
+					feed.setType(Feed.RATED_BEER_TYPE);
+					
+					//Friend
+					int friendStart = actions[j].indexOf("ratings/\"><b>")+13;
+					int friendEnd = actions[j].indexOf("</b>", friendStart);
+					feed.setFriend(actions[j].substring(friendStart, friendEnd));
+					
+					//Beer
+					int beerStart = actions[j].indexOf("\">", friendEnd)+2;
+					int beerEnd = actions[j].indexOf("</a>", beerStart);
+					feed.setBeer(actions[j].substring(beerStart, beerEnd));
+					
+					//Score
+					int scoreStart = actions[j].indexOf("(<b>")+4;
+					int scoreEnd = actions[j].indexOf("</b>)", scoreStart);
+					feed.setScore(actions[j].substring(scoreStart, scoreEnd));
+				}
+				
+				//Added Beer
+				if(actions[j].contains("action_add.gif")){
+					feed.setType(Feed.ADD_BEER_TYPE);
+
+					int friendStart = actions[j].indexOf("\"><b>")+5;
+					int friendEnd = actions[j].indexOf("</b></a>", friendStart);
+					feed.setFriend(actions[j].substring(friendStart, friendEnd));
+					
+					int beerStart = actions[j].indexOf("\"><b>", friendEnd)+5;
+					int beerEnd = actions[j].indexOf("</b></a>", beerStart);
+					feed.setBeer(actions[j].substring(beerStart, beerEnd));
+				}
+	
+				//Milestone Reached
+				if(actions[j].contains("14.png")){
+					feed.setType(Feed.MILESTONE_REACHED_TYPE);
+					
+					int friendStart = actions[j].indexOf("\"><b>")+5;
+					int friendEnd = actions[j].indexOf("</b></a>", friendStart);
+					feed.setFriend(actions[j].substring(friendStart, friendEnd));
+
+					int ratingsStart = actions[j].indexOf("<b>", friendEnd)+3;
+					int ratingsEnd = actions[j].indexOf("</b>", ratingsStart);
+					feed.setRatings(actions[j].substring(ratingsStart, ratingsEnd));
+				}
+				
+				result.add(feed);
+			}
+		}
+		
+		return result;
 	}
 }

@@ -35,18 +35,40 @@ public class FeedAdapter  extends ArrayAdapter<Feed>{
 			
 			//TODO: Finish setting the icon according to the right type. Types will have to be defined in the Feed VO
 			ImageView icon = (ImageView) row.findViewById(R.id.feed_row_icon);
-			if(feeds.get(position).getType().equalsIgnoreCase(Feed.ADD_BEER_TYPE)){
-				icon.setImageResource(R.drawable.rated);
-			} else {
-				icon.setImageResource(R.drawable.notrated);
-			}
-
+			TextView date = (TextView) row.findViewById(R.id.feed_row_date);
+			TextView text = (TextView) row.findViewById(R.id.feed_row_text);
 			
-			TextView text = (TextView)row.findViewById(R.id.feed_row_text);
-			text.setText(feeds.get(position).getValue());
+			Feed feed = feeds.get(position);
+			
+			//Added Beer
+			if(feed.getType().equalsIgnoreCase(Feed.ADD_BEER_TYPE)){
+				icon.setImageResource(R.drawable.added_beer);
 
-			TextView date = (TextView)row.findViewById(R.id.feed_row_date);
-			date.setText(feeds.get(position).getDate());
+				String textString = feed.getFriend() + " added " + feed.getBeer(); 
+				text.setText(textString);
+
+				date.setText(feed.getDate());
+			}
+			
+			//Rated Beer
+			if(feed.getType().equalsIgnoreCase(Feed.RATED_BEER_TYPE)){
+				icon.setImageResource(R.drawable.rated_pen);
+				String textString = feed.getFriend() + " rated " + feed.getBeer() + "(" + feed.getScore() + ")"; 
+				text.setText(textString);
+
+				date.setText(feed.getDate());
+			}
+			
+			//Milestone
+			if(feed.getType().equalsIgnoreCase(Feed.MILESTONE_REACHED_TYPE)){
+				icon.setImageResource(R.drawable.star);
+
+				String textString = feed.getFriend() + " reached " + feed.getRatings() + " ratings!"; 
+				text.setText(textString);
+
+				date.setText(feed.getDate());
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -33,8 +33,10 @@ public class Home extends ListActivity {
 	private String drink;
 	private List<Feed> feeds;
 	private boolean firstRun;
+	private boolean buttonFocus;
 	final Handler threadHandler = new Handler();
-    // Create runnable for posting
+
+	// Create runnable for posting
     final Runnable updateDrink = new Runnable() {
         public void run() {
         	updateDrinkView();
@@ -59,7 +61,6 @@ public class Home extends ListActivity {
 		// Request progress bar
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.main);
-        setProgressBarIndeterminateVisibility(true);
         
         Button updateButton = (Button) findViewById(R.id.drinkingUpdateButton);
         Button searchButton = (Button) findViewById(R.id.searchMenuButton);
@@ -86,40 +87,65 @@ public class Home extends ListActivity {
 				EditText updateText = (EditText) findViewById(R.id.drinkingText);
         		final String updateTextString = updateText.getText().toString();
         		drink = updateTextString;
-                setProgressBarIndeterminateVisibility(true);
-            	Thread updateDrinkingThread = new Thread(){
-            		public void run(){
-            			Log.d(LOGTAG, "Update Drink Status");
-            			Looper.prepare();
-		    			List<NameValuePair> parameters = new ArrayList<NameValuePair>();  
-		    			parameters.add(new BasicNameValuePair("MyStatus", updateTextString));  
-		
-		    			if(updateTextString.length() > 0){
-		    				NetBroker.doPost(getApplicationContext(), "http://www.ratebeer.com/userstatus-process.asp", parameters);
-		    				threadHandler.post(updateDrink);
-		    			} else {
-		   					Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_drink_empty), Toast.LENGTH_SHORT);
-		   					toast.show();
-		    			}
-		    			Looper.loop();
-            		}
-            	};
-            	updateDrinkingThread.start();
+
+        		if(buttonFocus){
+        			setProgressBarIndeterminateVisibility(true);
+	            	Thread updateDrinkingThread = new Thread(){
+	            		public void run(){
+	            			Log.d(LOGTAG, "Update Drink Status");
+	            			Looper.prepare();
+			    			List<NameValuePair> parameters = new ArrayList<NameValuePair>();  
+			    			parameters.add(new BasicNameValuePair("MyStatus", updateTextString));  
+			
+			    			if(updateTextString.length() > 0){
+			    				NetBroker.doPost(getApplicationContext(), "http://www.ratebeer.com/userstatus-process.asp", parameters);
+			    				threadHandler.post(updateDrink);
+			    			} else {
+			   					Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_drink_empty), Toast.LENGTH_SHORT);
+			   					toast.show();
+			    			}
+			    			Looper.loop();
+	            		}
+	            	};
+	            	updateDrinkingThread.start();
+        		} else {
+	                setProgressBarIndeterminateVisibility(true);
+	    			Thread drinkThread = new Thread(){
+	    	    		public void run(){
+	            			Looper.prepare();
+	    	    			String responseString = NetBroker.doGet(getApplicationContext(), "http://www.ratebeer.com/activity");
+	    	    			if(responseString != null){
+	    	    				drink = RBParser.parseDrink(responseString);
+	    	    				feeds = RBParser.parseFeed(responseString);
+	    	    				threadHandler.post(updateDrink);
+	    	    			} else {
+	    	    				drink = null;
+	    	    			}
+			    			Looper.loop();
+	    	    		}
+	    	    	};
+	    	    	drinkThread.start();
+        		}
 			}
 		});
         
         
         updateTextGen.setOnFocusChangeListener(new View.OnFocusChangeListener() {
         	EditText updateTextFocus = (EditText) findViewById(R.id.drinkingText);
+        	Button updateButtonFocus = (Button) findViewById(R.id.drinkingUpdateButton);
         	
 			public void onFocusChange(View v, boolean hasFocus) {
 				if(hasFocus){
 					updateTextFocus.setText("");
 					updateTextFocus.setTextColor(Color.BLACK);
+					updateButtonFocus.setText("Update");
+					buttonFocus = true;
 					Log.d(LOGTAG, "HAS FOCUS");
 				} else {
 					updateTextFocus.setText(getText(R.string.drinking));
 					updateTextFocus.setTextColor(Color.LTGRAY);
+					updateButtonFocus.setText("Refresh");
+					buttonFocus = false;
 					Log.d(LOGTAG, "NO FOCUS");
 				}
 			}
@@ -138,21 +164,6 @@ public class Home extends ListActivity {
 			updateStatusGen.setFocusable(true);
 			updateStatusGen.setFocusableInTouchMode(true);
 			updateStatusGen.requestFocus();
-			
-            setProgressBarIndeterminateVisibility(true);
-			Thread drinkThread = new Thread(){
-	    		public void run(){
-	    			String responseString = NetBroker.doGet(getApplicationContext(), "http://www.ratebeer.com/activity");
-	    			if(responseString != null){
-	    				drink = RBParser.parseDrink(responseString);
-	    				feeds = RBParser.parseFeed(responseString);
-	    				threadHandler.post(updateDrink);
-	    			} else {
-	    				drink = null;
-	    			}
-	    		}
-	    	};
-	    	drinkThread.start();
 	    }
 	}
 	
