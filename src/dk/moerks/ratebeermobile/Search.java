@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 import dk.moerks.ratebeermobile.adapters.SearchAdapter;
+import dk.moerks.ratebeermobile.exceptions.RBParserException;
 import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.util.RBParser;
 import dk.moerks.ratebeermobile.vo.SearchResult;
@@ -57,7 +58,13 @@ public class Search extends ListActivity {
 		
 		    			String responseString = NetBroker.doPost(getApplicationContext(), "http://www.ratebeer.com/findbeer.asp", parameters);
 		    			if(responseString != null){
-			    			results = RBParser.parseSearch(responseString);
+		    				try {
+		    					results = RBParser.parseSearch(responseString);
+		    				} catch(RBParserException e){
+    	    					Log.e(LOGTAG, "There was an error parsing search data");
+    	        				Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_parse_error), Toast.LENGTH_LONG);
+    	       					toast.show();
+		    				}
 		    			} else {
 		    				results = null;
 		    			}

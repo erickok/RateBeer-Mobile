@@ -5,17 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import dk.moerks.ratebeermobile.exceptions.RBParserException;
 import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.util.RBParser;
 import dk.moerks.ratebeermobile.vo.Message;
 
 public class MailView extends Activity {
-	@SuppressWarnings("unused")
 	private static final String LOGTAG = "MailView";
 	
 	final Handler threadHandler = new Handler();
@@ -33,7 +34,7 @@ public class MailView extends Activity {
         final String from;
         final String senderId;
         final String subject;
-        final Message message;
+        Message message = null;
         
 		// Request progress bar
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
@@ -55,7 +56,13 @@ public class MailView extends Activity {
 
         if(messageId != null){
         	String responseString = NetBroker.doGet(getApplicationContext(), "http://ratebeer.com/showmessage/"+messageId+"/");
-        	message = RBParser.parseMessage(responseString);
+        	try {
+        		message = RBParser.parseMessage(responseString);
+        	} catch(RBParserException e){
+				Log.e(LOGTAG, "There was an error parsing message data");
+				Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_parse_error), Toast.LENGTH_LONG);
+				toast.show();
+        	}
         	
 	        TextView fromText = (TextView) findViewById(R.id.mail_reply_from);
 	        TextView timeText = (TextView) findViewById(R.id.mail_reply_time);
@@ -74,13 +81,14 @@ public class MailView extends Activity {
         Button replyMailButton = (Button) findViewById(R.id.replyMailButton);
         replyMailButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
+    	        TextView messageTextT = (TextView) findViewById(R.id.mail_reply_message);
             	Intent mailIntent = new Intent(MailView.this, MailAction.class);
             	mailIntent.putExtra("ISREPLY", true);
             	mailIntent.putExtra("MESSAGEID", messageId);
             	mailIntent.putExtra("SENDER", from);
             	mailIntent.putExtra("SENDERID", senderId);
             	mailIntent.putExtra("SUBJECT", subject);
-            	mailIntent.putExtra("MESSAGE", message.getMessage());
+            	mailIntent.putExtra("MESSAGE", messageTextT.getText());
             	startActivity(mailIntent);  
             }
         });

@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import dk.moerks.ratebeermobile.adapters.FeedAdapter;
+import dk.moerks.ratebeermobile.exceptions.RBParserException;
 import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.util.RBParser;
 import dk.moerks.ratebeermobile.vo.Feed;
@@ -115,9 +116,15 @@ public class Home extends ListActivity {
 	            			Looper.prepare();
 	    	    			String responseString = NetBroker.doGet(getApplicationContext(), "http://www.ratebeer.com/activity");
 	    	    			if(responseString != null){
-	    	    				drink = RBParser.parseDrink(responseString);
-	    	    				feeds = RBParser.parseFeed(responseString);
-	    	    				threadHandler.post(updateDrink);
+	    	    				try {
+	    	    					drink = RBParser.parseDrink(responseString);
+	    	    					feeds = RBParser.parseFeed(responseString);
+	    	    					threadHandler.post(updateDrink);
+	    	    				} catch(RBParserException e){
+	    	    					Log.e(LOGTAG, "There was an error parsing either drink string or feed data");
+	    	        				Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_parse_error), Toast.LENGTH_LONG);
+	    	       					toast.show();
+	    	    				}
 	    	    			} else {
 	    	    				drink = null;
 	    	    			}

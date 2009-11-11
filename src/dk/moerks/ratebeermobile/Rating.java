@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
+import dk.moerks.ratebeermobile.exceptions.RBParserException;
 import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.util.RBParser;
 import dk.moerks.ratebeermobile.vo.RatingData;
@@ -58,8 +60,13 @@ public class Rating extends Activity {
     		public void run(){
     			Log.d(LOGTAG, "URL: " + beerUrl);
     			String responseString = NetBroker.doGet(getApplicationContext(), "http://www.ratebeer.com" + beerUrl);
-    			    			
-    			rating = RBParser.parseRating(responseString);
+    			try {
+    				rating = RBParser.parseRating(responseString);
+    			} catch(RBParserException e){
+					Log.e(LOGTAG, "There was an error parsing rating data");
+    				Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_parse_error), Toast.LENGTH_LONG);
+   					toast.show();
+    			}
     			ratingDialog.dismiss();
     		}
     	};

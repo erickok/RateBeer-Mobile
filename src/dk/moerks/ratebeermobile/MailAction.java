@@ -10,15 +10,19 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import dk.moerks.ratebeermobile.exceptions.RBParserException;
 import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.util.RBParser;
 
 public class MailAction extends Activity {
+	private static final String LOGTAG = "MailAction";
+	
 	final Handler threadHandler = new Handler();
     // Create runnable for posting
     final Runnable clearIndeterminateProgress = new Runnable() {
@@ -40,8 +44,8 @@ public class MailAction extends Activity {
 		final String senderId;
 		final String subject;
 		final String message;
-		final String currentUserId;
         Bundle extras = getIntent().getExtras();
+
         if(extras !=null) {
         	replyMode = extras.getBoolean("ISREPLY");
         	if(replyMode){
@@ -50,7 +54,7 @@ public class MailAction extends Activity {
 	        	senderId = extras.getString("SENDERID");
 	        	subject = extras.getString("SUBJECT");
 	        	message = extras.getString("MESSAGE");
-	        	currentUserId = null;
+	        	extras.putString("CURRENT_USER_ID", null);
 	        	
 	        	EditText fromText = (EditText) findViewById(R.id.mail_action_to);
 	        	fromText.setEnabled(false);
@@ -62,7 +66,13 @@ public class MailAction extends Activity {
 	            messageText.setText("\n\n......................................................\n" + message);
         	} else {
         		String responseString = NetBroker.doGet(getApplicationContext(), "http://ratebeer.com/user/messages/");
-        		currentUserId = RBParser.parseUserId(responseString);
+        		try {
+        			extras.putString("CURRENT_USER_ID", RBParser.parseUserId(responseString));
+        		} catch(RBParserException e){
+					Log.e(LOGTAG, "There was an error parsing either drink string or feed data");
+    				Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_parse_error), Toast.LENGTH_LONG);
+   					toast.show();
+        		}
         		messageId = null;
         		from = null;
         		senderId = null;
@@ -70,7 +80,6 @@ public class MailAction extends Activity {
         		message = null;
         	}
         } else {
-        	currentUserId = null;
         	replyMode = false;
     		messageId = null;
     		from = null;
@@ -106,8 +115,9 @@ public class MailAction extends Activity {
 		        			parameters.add(new BasicNameValuePair("nCcEmail2", ""));
 		        			responseString = NetBroker.doPost(getApplicationContext(), "http://ratebeer.com/SaveMessage.asp", parameters);
 		            	} else {
-		        			List<NameValuePair> parameters = new ArrayList<NameValuePair>();  
-		        			parameters.add(new BasicNameValuePair("nSource", currentUserId)); //MY User Id
+		        			List<NameValuePair> parameters = new ArrayList<NameValuePair>(); 
+		        	        Bundle extrasT = getIntent().getExtras();
+	        				parameters.add(new BasicNameValuePair("nSource", extrasT.getString("CURRENT_USER_ID"))); //MY User Id
 		        			parameters.add(new BasicNameValuePair("UserID", "0"));
 		        			parameters.add(new BasicNameValuePair("Referrer", "http://ratebeer.com/user/messages/"));
 		        			parameters.add(new BasicNameValuePair("RecipientName", fromText.getText().toString()));

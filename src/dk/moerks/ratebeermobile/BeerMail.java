@@ -8,17 +8,19 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 import dk.moerks.ratebeermobile.adapters.MessageAdapter;
+import dk.moerks.ratebeermobile.exceptions.RBParserException;
 import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.util.RBParser;
 import dk.moerks.ratebeermobile.vo.MessageHeader;
 
 public class BeerMail extends ListActivity {
-	@SuppressWarnings("unused")
 	private static final String LOGTAG = "BeerMail";
 	private List<MessageHeader> results = null;
 	private ProgressDialog beermailDialog = null;
@@ -48,7 +50,15 @@ public class BeerMail extends ListActivity {
     			String responseString = NetBroker.doGet(getApplicationContext(), "http://ratebeer.com/user/messages/");
     			
     			if(responseString != null){
-    				results = RBParser.parseBeermail(responseString);
+    				try {
+    					results = RBParser.parseBeermail(responseString);
+    				} catch(RBParserException e){
+    					Log.e(LOGTAG, "Error Parsing Beermail response");
+    					Looper.prepare();
+        				Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_parse_error), Toast.LENGTH_LONG);
+       					toast.show();
+    					Looper.loop();
+    				}
     			} else {
     				results = null;
     			}
@@ -95,7 +105,15 @@ public class BeerMail extends ListActivity {
         			String responseString = NetBroker.doGet(getApplicationContext(), "http://ratebeer.com/user/messages/");
         			
         			if(responseString != null){
-        				results = RBParser.parseBeermail(responseString);
+        				try {
+        					results = RBParser.parseBeermail(responseString);
+	    				} catch(RBParserException e){
+	    					Log.e(LOGTAG, "Error Parsing Beermail response");
+	    					Looper.prepare();
+	        				Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_parse_error), Toast.LENGTH_LONG);
+	       					toast.show();
+	    					Looper.loop();
+	    				}
         			} else {
         				results = null;
         			}
