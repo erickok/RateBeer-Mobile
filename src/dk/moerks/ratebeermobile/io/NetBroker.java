@@ -35,6 +35,7 @@ public class NetBroker {
 	public static String doGet(Context context, String url) {
 		DefaultHttpClient httpclient = init();
 		if(!signin(context, httpclient)){
+			Log.e(LOGTAG, "doGet - Ratebeer Login Failed");
 			return null;
 		}
 		HttpGet httpget = new HttpGet(url);  
@@ -49,11 +50,11 @@ public class NetBroker {
 			
 			return result; 
 		} catch (ClientProtocolException e) {
-			Log.e(LOGTAG, "ClientProtocolException");
+			Log.e(LOGTAG, "doGet - ClientProtocolException");
 		} catch (IOException e) {
-			Log.e(LOGTAG, "IOException");
+			Log.e(LOGTAG, "doGet - IOException");
 		} catch (Exception e){
-			Log.e(LOGTAG, "Exception");
+			Log.e(LOGTAG, "doGet - Exception");
 		}
 		
 		return null;
@@ -62,6 +63,7 @@ public class NetBroker {
 	public static String doPost(Context context, String url, List<NameValuePair> parameters){
 		DefaultHttpClient httpclient = init();
 		if(!signin(context, httpclient)){
+			Log.e(LOGTAG, "doPost - Ratebeer Login Failed");
 			return null;
 		}
 		HttpPost httppost = new HttpPost(url);  
@@ -82,8 +84,10 @@ public class NetBroker {
 			}
 			
 			return result;
-		} catch (ClientProtocolException e) {  
+		} catch (ClientProtocolException e) {
+			Log.e(LOGTAG, "doPost - ClientProtocolException");
 		} catch (IOException e) {
+			Log.e(LOGTAG, "doPost - IOException");
 		}
 		
 		httpclient.getConnectionManager().shutdown();
@@ -92,14 +96,14 @@ public class NetBroker {
 	
 	private static boolean signin(Context context, DefaultHttpClient httpclient){
 		HttpPost httppost = new HttpPost("http://www.ratebeer.com/signin/");  
-
+		Log.d(LOGTAG, "Before Try");
 		try {  
 			SharedPreferences settings = context.getSharedPreferences(Settings.PREFERENCETAG, 0);
 			String username = settings.getString("rb_username", "");
 			String password = settings.getString("rb_password", "");
 			
 			if(username != null && password != null && username.length()>0 && password.length() > 0){
-				
+				Log.d(LOGTAG, "Building Login Request");
 				// Add your data  
 				List<NameValuePair> parameters = new ArrayList<NameValuePair>();  
 				parameters.add(new BasicNameValuePair("SaveInfo", "on"));  
@@ -116,29 +120,40 @@ public class NetBroker {
 					}
 				}
 	
+				Log.d(LOGTAG, "Executing Login Request");
 				// Execute HTTP Post Request  
 				HttpResponse result = httpclient.execute(httppost);
 				int statusCode = result.getStatusLine().getStatusCode();
 				
+				Log.d(LOGTAG, "Validating we got the right status from server: " + statusCode);
 				if(statusCode == 200){
 					List<Cookie> cookies = httpclient.getCookieStore().getCookies();
+					
+					Log.d(LOGTAG, "Start Validating Cookies. List length: " + cookies.size());
 					for (Iterator<Cookie> iterator = cookies.iterator(); iterator.hasNext();) {
 						Cookie cookie = iterator.next();
+						
+						Log.d(LOGTAG, "Matching Cookie: " + cookie.getName());
 						if(cookie.getName().equalsIgnoreCase("SessionCode")){
 							result.getEntity().consumeContent();
 							return true;
 						}
 					}
+				} else {
+					Log.e(LOGTAG, "There was an error executing request. Statuscode was: " + statusCode);
 				}
+			} else {
+				Log.e(LOGTAG, "Username or Password not available in Shared Preferences");
 			}
 		} catch (ClientProtocolException e) { 
-			e.printStackTrace();
+			Log.e(LOGTAG, "signin - ClientProtocolException");
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(LOGTAG, "signin - IOException");
 		} catch (Exception e){
-			e.printStackTrace();
+			Log.e(LOGTAG, "signin - Exception");
 		}
 		
+		Log.d(LOGTAG, "FALSE - Signin failed");
 		return false;
 	}
 	

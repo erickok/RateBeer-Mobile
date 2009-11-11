@@ -20,7 +20,7 @@
 <string name="toast_rate_success">Rating submitted successfully</string>
 <string name="toast_rate_failure">There was an error submitting the rating. Please try Again!</string>
 <string name="toast_drink_empty">Please enter the name of the drink!</string>
-<string name="toast_network_error">There was a connection error. Please check your connections!</string>
+<string name="toast_network_error">There was a connection error. Please check your connection and ratebeer.com credentials!</string>
 <string name="toast_settings_saved">You settings was saved</string>
 <string name="rate_charleft">Min Characters Remaining: </string>
 <string name="toast_rate_shortcomment">You must enter at least 75 characters in your rating</string>
