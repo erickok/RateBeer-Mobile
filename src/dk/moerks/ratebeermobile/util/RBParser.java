@@ -219,14 +219,13 @@ public class RBParser {
 					Feed feed = new Feed();
 					feed.setDate(time);
 					
-					System.out.println(actions[j]);
-					int activityTimeStart = actions[j].indexOf("<span class=\"activityTime\">")+28;
+					Log.d(LOGTAG, actions[j]);
+					int activityTimeStart = actions[j].indexOf("<span class=\"activityTime\">")+27;
 					int activityTimeEnd = actions[j].indexOf("</span>", activityTimeStart);
-					System.out.println("ACT START: " + activityTimeStart);
-					System.out.println("ACT END: " + activityTimeEnd);
-					System.out.println("Index: " + j);
+					Log.d(LOGTAG, "START: " + activityTimeStart);
+					Log.d(LOGTAG, "END:   " + activityTimeEnd);
 					feed.setActivityTime(actions[j].substring(activityTimeStart, activityTimeEnd));
-	
+					
 					//Rated Beer
 					if(actions[j].contains("edit_grey.gif")){
 						feed.setType(Feed.RATED_BEER_TYPE);
@@ -239,7 +238,7 @@ public class RBParser {
 						//Beer
 						int beerStart = actions[j].indexOf("\">", friendEnd)+2;
 						int beerEnd = actions[j].indexOf("</a>", beerStart);
-						feed.setBeer(actions[j].substring(beerStart, beerEnd));
+						feed.setBeer(cleanHtml(actions[j].substring(beerStart, beerEnd)));
 						
 						//Score
 						int scoreStart = actions[j].indexOf("(<b>")+4;
@@ -257,7 +256,7 @@ public class RBParser {
 						
 						int beerStart = actions[j].indexOf("\"><b>", friendEnd)+5;
 						int beerEnd = actions[j].indexOf("</b></a>", beerStart);
-						feed.setBeer(actions[j].substring(beerStart, beerEnd));
+						feed.setBeer(cleanHtml(actions[j].substring(beerStart, beerEnd)));
 					}
 		
 					//Milestone Reached
@@ -272,11 +271,30 @@ public class RBParser {
 						int ratingsEnd = actions[j].indexOf("</b>", ratingsStart);
 						feed.setRatings(actions[j].substring(ratingsStart, ratingsEnd));
 					}
+
+					//Reviewed Place
+					if(actions[j].contains("comments_green.gif")){
+						feed.setType(Feed.REVIEWED_PLACE_TYPE);
+
+						int friendStart = actions[j].indexOf("\"><b>")+5;
+						int friendEnd = actions[j].indexOf("</b></a>", friendStart);
+						feed.setFriend(actions[j].substring(friendStart, friendEnd));
+
+						int placeStart = actions[j].indexOf("<b>", friendEnd)+3;
+						int placeEnd = actions[j].indexOf("</b>", placeStart);
+						feed.setPlace(cleanHtml(actions[j].substring(placeStart, placeEnd)));
+
+						//Score
+						int scoreStart = actions[j].indexOf("(<b>")+4;
+						int scoreEnd = actions[j].indexOf("</b>)", scoreStart);
+						feed.setScore(actions[j].substring(scoreStart, scoreEnd));
+					}
 					
 					result.add(feed);
 				}
 			}
 		} catch(Exception e){
+			e.printStackTrace();
 			throw new RBParserException();
 		}		
 		return result;
@@ -303,6 +321,7 @@ public class RBParser {
 		result = result.replaceAll("\n", "");
 		result = result.replaceAll("<br>", "\n");
 		result = result.replaceAll("<BR>", "\n");
+		result = result.replaceAll("&#40;", "(");
 		result = result.replaceAll("&#41;", ")");
 		return result.trim();
 	}

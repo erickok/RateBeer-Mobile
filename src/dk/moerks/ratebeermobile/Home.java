@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import dk.moerks.ratebeermobile.adapters.FeedAdapter;
@@ -122,6 +123,7 @@ public class Home extends ListActivity {
 	    	    					threadHandler.post(updateDrink);
 	    	    				} catch(RBParserException e){
 	    	    					Log.e(LOGTAG, "There was an error parsing either drink string or feed data");
+	    	    					e.printStackTrace();
 	    	        				Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_parse_error), Toast.LENGTH_LONG);
 	    	       					toast.show();
 	    	    				}

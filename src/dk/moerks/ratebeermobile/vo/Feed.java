@@ -4,6 +4,7 @@ public class Feed {
 	public static final String ADD_BEER_TYPE = "ADD_BEER_TYPE";
 	public static final String RATED_BEER_TYPE = "RATED_BEER_TYPE";
 	public static final String MILESTONE_REACHED_TYPE = "MILESTONE_REACHED_TYPE";
+	public static final String REVIEWED_PLACE_TYPE = "REVIEWED_PLACE_TYPE";
 	
 	private String type;
 	private String friend;
@@ -11,6 +12,7 @@ public class Feed {
 	private String score;
 	private String ratings;
 	private String activityTime;
+	private String place;
 	
 	public String getScore() {
 		return score;
@@ -55,5 +57,11 @@ public class Feed {
 	}
 	public String getActivityTime() {
 		return activityTime;
+	}
+	public void setPlace(String place) {
+		this.place = place;
+	}
+	public String getPlace() {
+		return place;
 	}
 }

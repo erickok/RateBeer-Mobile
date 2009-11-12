@@ -47,16 +47,16 @@ public class FeedAdapter  extends ArrayAdapter<Feed>{
 				String textString = feed.getFriend() + " added " + feed.getBeer(); 
 				text.setText(textString);
 
-				date.setText(feed.getDate());
+				date.setText(feed.getDate() + " (" + feed.getActivityTime() + ")");
 			}
 			
 			//Rated Beer
 			if(feed.getType().equalsIgnoreCase(Feed.RATED_BEER_TYPE)){
 				icon.setImageResource(R.drawable.rated_pen);
-				String textString = feed.getFriend() + " rated " + feed.getBeer() + "(" + feed.getScore() + ")"; 
+				String textString = feed.getFriend() + " rated " + feed.getBeer() + " (" + feed.getScore() + ")"; 
 				text.setText(textString);
 
-				date.setText(feed.getDate());
+				date.setText(feed.getDate() + " (" + feed.getActivityTime() + ")");
 			}
 			
 			//Milestone
@@ -66,9 +66,18 @@ public class FeedAdapter  extends ArrayAdapter<Feed>{
 				String textString = feed.getFriend() + " reached " + feed.getRatings() + " ratings!"; 
 				text.setText(textString);
 
-				date.setText(feed.getDate());
+				date.setText(feed.getDate() + " (" + feed.getActivityTime() + ")");
 			}
 			
+			//Place Review
+			if(feed.getType().equalsIgnoreCase(Feed.REVIEWED_PLACE_TYPE)){
+				icon.setImageResource(R.drawable.reviewed);
+
+				String textString = feed.getFriend() + " reviewed " + feed.getPlace() + " (" + feed.getScore() + ")"; 
+				text.setText(textString);
+
+				date.setText(feed.getDate() + " (" + feed.getActivityTime() + ")");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

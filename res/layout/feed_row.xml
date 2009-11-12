@@ -23,13 +23,18 @@
 	  		<TextView android:id="@+id/feed_row_text"
 	        	android:layout_width="fill_parent"
 	        	android:layout_height="wrap_content"
-	        	android:textSize="15px"
+				android:textColor="#aaffffff"
+				android:textColorHighlight="#aaffffff"
+	        	android:textSize="13px"
 	        	/>
 		</LinearLayout>
   		<TextView android:id="@+id/feed_row_date"
         	android:layout_width="fill_parent"
         	android:layout_height="fill_parent"
+			android:textColor="#aaffffff"
+			android:textColorHighlight="#aaffffff"
         	android:textSize="10px"
+        	android:paddingLeft="20px"
         	/>
 	</LinearLayout>
 </LinearLayout>
