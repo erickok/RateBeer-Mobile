@@ -85,13 +85,14 @@ public class Home extends ListActivity {
             }
         });
         
+        /*
         placesButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
             	Intent placesIntent = new Intent(Home.this, Places.class);  
             	startActivity(placesIntent);  
             }
         });
-        
+        */
         updateButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				EditText updateText = (EditText) findViewById(R.id.drinkingText);
