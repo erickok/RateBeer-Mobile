@@ -67,7 +67,8 @@ public class Home extends ListActivity {
         Button updateButton = (Button) findViewById(R.id.drinkingUpdateButton);
         Button searchButton = (Button) findViewById(R.id.searchMenuButton);
         Button beermailButton = (Button) findViewById(R.id.beermailMenuButton);
- 
+        Button placesButton = (Button) findViewById(R.id.placesMenuButton);
+        
         EditText updateTextGen = (EditText) findViewById(R.id.drinkingText);
         
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +82,13 @@ public class Home extends ListActivity {
         	public void onClick(View v) {
             	Intent beermailIntent = new Intent(Home.this, BeerMail.class);  
             	startActivity(beermailIntent);  
+            }
+        });
+        
+        placesButton.setOnClickListener(new View.OnClickListener() {
+        	public void onClick(View v) {
+            	Intent placesIntent = new Intent(Home.this, Places.class);  
+            	startActivity(placesIntent);  
             }
         });
         
