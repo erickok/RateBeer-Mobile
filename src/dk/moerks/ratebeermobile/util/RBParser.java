@@ -31,7 +31,7 @@ public class RBParser {
 				Log.d(LOGTAG, "RATED: " + searchResult.isRated());
 				
 				int idBegin = beers[i].indexOf("<a href=\"/beer/distribution/")+28;
-				int idEnd = beers[i].indexOf("/\">", idBegin);
+				int idEnd = beers[i].indexOf("/", idBegin);
 				searchResult.setBeerId(beers[i].substring(idBegin, idEnd));
 				Log.d(LOGTAG, "ID: " + searchResult.getBeerId());
 				
@@ -42,7 +42,7 @@ public class RBParser {
 				
 				int nameBegin = urlEnd+2;
 				int nameEnd = beers[i].indexOf("</A>&nbsp;", nameBegin);
-				searchResult.setBeerName(beers[i].substring(nameBegin, nameEnd));
+				searchResult.setBeerName(cleanHtml(beers[i].substring(nameBegin, nameEnd)));
 				Log.d(LOGTAG, "NAME: " + searchResult.getBeerName());
 				
 				result.add(searchResult);
@@ -72,7 +72,8 @@ public class RBParser {
 	public static RatingData parseRating(String responseString) throws RBParserException {
 		RatingData rating = new RatingData();
 		try {
-			int contentBegin = responseString.indexOf("<!-- Content begins -->")+23;
+			//int contentBegin = responseString.indexOf("<!-- Content begins -->")+23;
+			int contentBegin = responseString.indexOf("<div id=\"rbbody\">");
 			int contentEnd = responseString.indexOf("<!-- Content ends -->");
 			String content = responseString.substring(contentBegin, contentEnd);
 			
@@ -80,38 +81,45 @@ public class RBParser {
 			int aromaBegin = content.indexOf("SELECTED")-3;
 			int aromaEnd = aromaBegin + 3;
 			String aromaTemp = content.substring(aromaBegin, aromaEnd);
+			Log.d(LOGTAG, "AROMA: " + aromaTemp);
 			rating.setAroma(cleanValue(aromaTemp));
 	
 			//Appearance
 			int appearanceBegin = content.indexOf("SELECTED", aromaEnd+1)-3;
 			int appearanceEnd = appearanceBegin + 3;
 			String appearanceTemp = content.substring(appearanceBegin, appearanceEnd);
+			Log.d(LOGTAG, "APPEARANCE: " + appearanceTemp);
 			rating.setAppearance(cleanValue(appearanceTemp));
 	
 			//Flavor
 			int flavorBegin = content.indexOf("SELECTED", appearanceEnd+1)-3;
 			int flavorEnd = flavorBegin + 3;
 			String flavorTemp = content.substring(flavorBegin, flavorEnd);
+			Log.d(LOGTAG, "FLAVOR: " + flavorTemp);
 			rating.setFlavor(cleanValue(flavorTemp));
 	
 			//Palate
 			int palateBegin = content.indexOf("SELECTED", flavorEnd+1)-3;
 			int palateEnd = palateBegin + 3;
 			String palateTemp = content.substring(palateBegin, palateEnd);
+			Log.d(LOGTAG, "PALATE: " + palateTemp);
 			rating.setPalate(cleanValue(palateTemp));
 			
 			//Overall
 			int overallBegin = content.indexOf("SELECTED", palateEnd+1)-3;
 			int overallEnd = overallBegin + 3;
 			String overallTemp = content.substring(overallBegin, overallEnd);
+			Log.d(LOGTAG, "OVERALL: " + overallTemp);
 			rating.setOverall(cleanValue(overallTemp));
 			
 			//Comment
 			int commentBegin = content.indexOf("class=\"normBack\">") + 17;
 			int commentEnd = content.indexOf("</TEXTAREA>", commentBegin);
 			String comment = content.substring(commentBegin, commentEnd);
+			Log.d(LOGTAG, "COMMENT: " + comment);
 			rating.setComment(comment);
 		} catch(Exception e){
+			Log.e(LOGTAG, e.getMessage());
 			throw new RBParserException();
 		}		
 		return rating;

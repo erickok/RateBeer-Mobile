@@ -87,7 +87,7 @@ public class Search extends ListActivity {
     	if(item.isRated()){
         	Intent ratingIntent = new Intent(Search.this, Rating.class);  
         	ratingIntent.putExtra("BEERNAME", item.getBeerName());
-        	ratingIntent.putExtra("BEERURL", item.getBeerUrl());
+        	ratingIntent.putExtra("BEERID", item.getBeerId());
         	startActivity(ratingIntent);  
     	} else {
         	Intent rateIntent = new Intent(Search.this, Rate.class);  

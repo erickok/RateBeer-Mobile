@@ -38,6 +38,8 @@ public class NetBroker {
 			Log.e(LOGTAG, "doGet - Ratebeer Login Failed");
 			return null;
 		}
+		
+		Log.d(LOGTAG, "URL: " + url);
 		HttpGet httpget = new HttpGet(url);  
 
 		try {  
@@ -161,7 +163,8 @@ public class NetBroker {
 		try {
 			ByteArrayOutputStream ostream = new ByteArrayOutputStream();  
 			response.getEntity().writeTo(ostream);
-			return ostream.toString("ISO8859_1");
+			//return ostream.toString("ISO8859_1");
+			return ostream.toString("windows-1252"); 
 		} catch(IOException e){
 			e.printStackTrace();
 		}
