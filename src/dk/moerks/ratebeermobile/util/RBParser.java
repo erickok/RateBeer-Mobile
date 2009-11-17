@@ -222,6 +222,11 @@ public class RBParser {
 				int timeEnd = feedChunks[i].indexOf("</span></div>");
 				String time = feedChunks[i].substring(0, timeEnd);
 				
+				//If there is no activity then this day should not be parsed!
+				if(feedChunks[i].contains("No activity today")){
+					continue;
+				}
+				
 				String[] actions = feedChunks[i].split("<div class=\"friendsStatus\">");
 				
 				for (int j = 1; j < actions.length; j++) {
