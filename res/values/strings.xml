@@ -45,4 +45,5 @@
 <string name="settings_notification_interval_label">Beermail Notification Interval</string>
 <string name="places_menu_button">Places</string>
 <string name="toast_parse_error">There was an error parsing the response from ratebeer.com.</string>
+<string name="scan_button">Scan Barcode</string>
 </resources>
