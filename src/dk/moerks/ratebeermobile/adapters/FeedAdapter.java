@@ -78,6 +78,16 @@ public class FeedAdapter  extends ArrayAdapter<Feed>{
 
 				date.setText(feed.getDate() + " (" + feed.getActivityTime() + ")");
 			}
+
+			//Bio Update
+			if(feed.getType().equalsIgnoreCase(Feed.UPDATED_BIO_TYPE)){
+				icon.setImageResource(R.drawable.reviewed);
+
+				String textString = feed.getFriend() + " reviewed " + feed.getPlace() + " (" + feed.getScore() + ")"; 
+				text.setText(textString);
+
+				date.setText(feed.getDate() + " (" + feed.getActivityTime() + ")");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
