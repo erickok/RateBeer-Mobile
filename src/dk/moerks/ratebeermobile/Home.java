@@ -21,7 +21,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import dk.moerks.ratebeermobile.adapters.FeedAdapter;
@@ -223,9 +222,11 @@ public class Home extends ListActivity {
 			//Update Drinking Status
 			updateStatusGen.setText("You are currently drinking " + drink);
 
-			//Update Activity List
-			FeedAdapter adapter = new FeedAdapter(this, feeds);
-		    setListAdapter(adapter);
+			//Update Activity List if there is any
+			if(feeds != null && feeds.size() > 0){
+				FeedAdapter adapter = new FeedAdapter(this, feeds);
+				setListAdapter(adapter);
+			}
 
 			setProgressBarIndeterminateVisibility(false);
 		} else {

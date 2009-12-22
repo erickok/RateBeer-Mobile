@@ -304,6 +304,28 @@ public class RBParser {
 						feed.setScore(actions[j].substring(scoreStart, scoreEnd));
 					}
 					
+					//Update User Bio
+					if(actions[j].contains("action_check.gif")){
+						feed.setType(Feed.REVIEWED_PLACE_TYPE);
+
+						int friendStart = actions[j].indexOf("\"><b>")+5;
+						int friendEnd = actions[j].indexOf("</b></a>", friendStart);
+						feed.setFriend(actions[j].substring(friendStart, friendEnd));
+					}
+
+					//Attending
+					if(actions[j].contains("event.gif")){
+						feed.setType(Feed.ATTENDING_TYPE);
+
+						int friendStart = actions[j].indexOf("\"><b>")+5;
+						int friendEnd = actions[j].indexOf("</b></a>", friendStart);
+						feed.setFriend(actions[j].substring(friendStart, friendEnd));
+
+						int eventStart = actions[j].indexOf("\"><b>", friendEnd)+5;
+						int eventEnd = actions[j].indexOf("</b></a>", eventStart);
+						feed.setEvent(actions[j].substring(eventStart, eventEnd));
+					}
+					
 					result.add(feed);
 				}
 			}

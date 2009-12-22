@@ -7,6 +7,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -26,30 +27,39 @@ import dk.moerks.ratebeermobile.vo.SearchResult;
 
 public class Search extends ListActivity {
 	private static final String LOGTAG = "Search";
-	private List<SearchResult> results = null;
-	private ProgressDialog searchDialog = null;
+	private static final int SEARCH_DIALOG = 1;
+	
+	public static List<SearchResult> results = null;
+
+	public static Search ACTIVE_INSTANCE;
+	
+	ProgressDialog searchDialog = null;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        ACTIVE_INSTANCE = this;
+    	
+    	super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
-
+        
         Button searchButton = (Button) findViewById(R.id.searchButton);
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	searchDialog = ProgressDialog.show(Search.this, getText(R.string.search_searching), getText(R.string.search_searching_text));
+            	ACTIVE_INSTANCE.showDialog(SEARCH_DIALOG);
             	
-            	searchDialog.setOnDismissListener(new ProgressDialog.OnDismissListener(){
-            		public void onDismiss(DialogInterface dialog){
-            			if(results != null){
-            				refreshList(Search.this, results);
-            			} else {
-            				Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_network_error), Toast.LENGTH_LONG);
-		   					toast.show();
-            			}
-            		}
-            	});
+        		searchDialog.setOnDismissListener(new ProgressDialog.OnDismissListener(){
+        			public void onDismiss(DialogInterface dialog){
+        				if(results != null){
+            				Log.d(LOGTAG, "RESULT SIZE: " + results.size());
+        					refreshList(Search.this, results);
+        				} else {
+        					Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_network_error), Toast.LENGTH_LONG);
+        					toast.show();
+        				}
+        			}
+        		});
 
+            	
             	Thread searchThread = new Thread(){
             		public void run(){
 	            		EditText searchText = (EditText) findViewById(R.id.searchText);
@@ -65,18 +75,28 @@ public class Search extends ListActivity {
     	        				Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_parse_error), Toast.LENGTH_LONG);
     	       					toast.show();
 		    				}
-		    			} else {
-		    				results = null;
 		    			}
-		    			searchDialog.dismiss();
+		    			ACTIVE_INSTANCE.dismissDialog(SEARCH_DIALOG);
             		}
             	};
             	searchThread.start();
             }
         });
     }
-
     
+    @Override
+    protected Dialog onCreateDialog(int id) {
+    	switch(id){
+    	case SEARCH_DIALOG:
+    		searchDialog = new ProgressDialog(Search.this);
+    		searchDialog.setTitle(getText(R.string.search_searching));
+    		searchDialog.setMessage(getText(R.string.search_searching_text));
+    	
+        	return searchDialog;
+    	}
+    	
+    	return null;
+    }
     
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
