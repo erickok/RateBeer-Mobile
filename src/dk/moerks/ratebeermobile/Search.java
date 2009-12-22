@@ -12,6 +12,7 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -34,6 +35,8 @@ public class Search extends ListActivity {
 	private static final int SEARCH_DIALOG = 1;
 	private static final int BARCODE_ACTIVITY = 101;
 	
+	private String product = null;
+	
 	public static List<SearchResult> results = null;
 
 	public static Search ACTIVE_INSTANCE;
@@ -45,6 +48,15 @@ public class Search extends ListActivity {
 	// Create runnable for posting
     final Runnable processDone = new Runnable() {
         public void run() {
+			if(product != null && product.length() > 0){
+				Log.d(LOGTAG, "PRODUCT: " + product);
+				EditText searchBox = (EditText) findViewById(R.id.searchText);
+				searchBox.setText(product);
+			} else {
+					Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_search_barcode), Toast.LENGTH_LONG);
+					toast.show();
+			}
+        	
         	setProgressBarIndeterminateVisibility(false);
         }
     };
@@ -58,15 +70,23 @@ public class Search extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
         
-        EditText searchTextfield = (EditText) findViewById(R.id.searchText);
-        searchTextfield.setOnLongClickListener(new View.OnLongClickListener() {
-			public boolean onLongClick(View v) {
-                Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-                startActivityForResult(intent, BARCODE_ACTIVITY);
+        //If barcodescanner is available setup the searchfield
+        try {
+        	getPackageManager().getPackageInfo("com.google.zxing.client.android", PackageManager.GET_ACTIVITIES);
 
-                return true;
-			}
-        });
+            EditText searchTextfield = (EditText) findViewById(R.id.searchText);
+            searchTextfield.setHint(R.string.bcHint);
+            searchTextfield.setOnLongClickListener(new View.OnLongClickListener() {
+    			public boolean onLongClick(View v) {
+                    Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+                    startActivityForResult(intent, BARCODE_ACTIVITY);
+
+                    return true;
+    			}
+            });
+        } catch(PackageManager.NameNotFoundException e){
+        	Log.d(LOGTAG, "BarcodeScanner is not installed");
+        }
         
         Button searchButton = (Button) findViewById(R.id.searchButton);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -162,15 +182,7 @@ public class Search extends ListActivity {
 		    				String bcUrl = "http://en.barcodepedia.com/"+contents;
 		    				Log.d(LOGTAG, "BARCODE URL: " + bcUrl);
 		    				String responseString = NetBroker.doGet(getApplicationContext(), bcUrl);
-		    				String productName = BCPParser.parseBarcodeLookup(responseString);
-		    				if(productName != null && productName.length() > 0){
-		    					Log.d(LOGTAG, "PRODUCT: " + productName);
-		    					EditText searchBox = (EditText) findViewById(R.id.searchText);
-		    					searchBox.setText(productName);
-		    				} else {
-			   					Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_search_barcode), Toast.LENGTH_LONG);
-			   					toast.show();
-		    				}
+		    				product = BCPParser.parseBarcodeLookup(responseString);
 		    			}
             			
 		    			threadHandler.post(processDone);
@@ -186,7 +198,12 @@ public class Search extends ListActivity {
 
     
     private void refreshList(Activity context, List<SearchResult> results){
-    	SearchAdapter adapter = new SearchAdapter(context, results);
-    	setListAdapter(adapter);
+    	if(results != null && results.size() > 0){
+	    	SearchAdapter adapter = new SearchAdapter(context, results);
+	    	setListAdapter(adapter);
+    	} else {
+			Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_search_empty), Toast.LENGTH_LONG);
+			toast.show();
+    	}
     }
 }
