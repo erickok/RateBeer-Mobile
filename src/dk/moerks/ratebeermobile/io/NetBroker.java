@@ -34,9 +34,11 @@ public class NetBroker {
 	
 	public static String doGet(Context context, String url) {
 		DefaultHttpClient httpclient = init();
-		if(!signin(context, httpclient)){
-			Log.e(LOGTAG, "doGet - Ratebeer Login Failed");
-			return null;
+		if(url.contains("ratebeer.com")){
+			if(!signin(context, httpclient)){
+				Log.e(LOGTAG, "doGet - Ratebeer Login Failed");
+				return null;
+			}
 		}
 		
 		Log.d(LOGTAG, "URL: " + url);
@@ -64,10 +66,14 @@ public class NetBroker {
 	
 	public static String doPost(Context context, String url, List<NameValuePair> parameters){
 		DefaultHttpClient httpclient = init();
-		if(!signin(context, httpclient)){
-			Log.e(LOGTAG, "doPost - Ratebeer Login Failed");
-			return null;
+		
+		if(url.contains("ratebeer.com")){
+			if(!signin(context, httpclient)){
+				Log.e(LOGTAG, "doPost - Ratebeer Login Failed");
+				return null;
+			}
 		}
+		
 		HttpPost httppost = new HttpPost(url);  
 
 		try {  
