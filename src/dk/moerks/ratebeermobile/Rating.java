@@ -23,13 +23,13 @@ public class Rating extends Activity {
         setContentView(R.layout.rating);
 
         String beername = null;
-        final String beerUrl;
+        final String beerId;
         Bundle extras = getIntent().getExtras();
         if(extras !=null) {
         	beername = extras.getString("BEERNAME");
-        	beerUrl = extras.getString("BEERURL");
+        	beerId = extras.getString("BEERID");
         } else {
-        	beerUrl = null;
+        	beerId = null;
         }
         
         TextView beernameText = (TextView) findViewById(R.id.rating_label_beername);
@@ -58,8 +58,8 @@ public class Rating extends Activity {
 
     	Thread ratingThread = new Thread(){
     		public void run(){
-    			Log.d(LOGTAG, "URL: " + beerUrl);
-    			String responseString = NetBroker.doGet(getApplicationContext(), "http://www.ratebeer.com" + beerUrl);
+    			Log.d(LOGTAG, "ID: " + beerId);
+    			String responseString = NetBroker.doGet(getApplicationContext(), "http://www.ratebeer.com/beer/rate/" + beerId + "/");
     			try {
     				rating = RBParser.parseRating(responseString);
     			} catch(RBParserException e){

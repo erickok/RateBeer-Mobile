@@ -5,6 +5,8 @@ public class Feed {
 	public static final String RATED_BEER_TYPE = "RATED_BEER_TYPE";
 	public static final String MILESTONE_REACHED_TYPE = "MILESTONE_REACHED_TYPE";
 	public static final String REVIEWED_PLACE_TYPE = "REVIEWED_PLACE_TYPE";
+	public static final String UPDATED_BIO_TYPE = "UPDATED_BIO_TYPE";
+	public static final String ATTENDING_TYPE = "ATTENDING_TYPE";
 	
 	private String type;
 	private String friend;
@@ -13,6 +15,7 @@ public class Feed {
 	private String ratings;
 	private String activityTime;
 	private String place;
+	private String event;
 	
 	public String getScore() {
 		return score;
@@ -63,5 +66,11 @@ public class Feed {
 	}
 	public String getPlace() {
 		return place;
+	}
+	public void setEvent(String event) {
+		this.event = event;
+	}
+	public String getEvent() {
+		return event;
 	}
 }

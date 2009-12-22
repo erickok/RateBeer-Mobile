@@ -21,7 +21,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import dk.moerks.ratebeermobile.adapters.FeedAdapter;
@@ -67,7 +66,7 @@ public class Home extends ListActivity {
         Button updateButton = (Button) findViewById(R.id.drinkingUpdateButton);
         Button searchButton = (Button) findViewById(R.id.searchMenuButton);
         Button beermailButton = (Button) findViewById(R.id.beermailMenuButton);
- 
+        
         EditText updateTextGen = (EditText) findViewById(R.id.drinkingText);
         
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +83,14 @@ public class Home extends ListActivity {
             }
         });
         
+        /*
+        placesButton.setOnClickListener(new View.OnClickListener() {
+        	public void onClick(View v) {
+            	Intent placesIntent = new Intent(Home.this, Places.class);  
+            	startActivity(placesIntent);  
+            }
+        });
+        */
         updateButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				EditText updateText = (EditText) findViewById(R.id.drinkingText);
@@ -138,6 +145,7 @@ public class Home extends ListActivity {
 			}
 		});
         
+        updateButton.performClick();
         
         updateTextGen.setOnFocusChangeListener(new View.OnFocusChangeListener() {
         	EditText updateTextFocus = (EditText) findViewById(R.id.drinkingText);
@@ -214,9 +222,11 @@ public class Home extends ListActivity {
 			//Update Drinking Status
 			updateStatusGen.setText("You are currently drinking " + drink);
 
-			//Update Activity List
-			FeedAdapter adapter = new FeedAdapter(this, feeds);
-		    setListAdapter(adapter);
+			//Update Activity List if there is any
+			if(feeds != null && feeds.size() > 0){
+				FeedAdapter adapter = new FeedAdapter(this, feeds);
+				setListAdapter(adapter);
+			}
 
 			setProgressBarIndeterminateVisibility(false);
 		} else {
