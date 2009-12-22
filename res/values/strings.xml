@@ -46,4 +46,6 @@
 <string name="places_menu_button">Places</string>
 <string name="toast_parse_error">There was an error parsing the response from ratebeer.com.</string>
 <string name="scan_button">Scan Barcode</string>
+<string name="toast_search_barcode">Product could not be found</string>
+<string name="bcHint">Longpress to scan beer</string>
 </resources>

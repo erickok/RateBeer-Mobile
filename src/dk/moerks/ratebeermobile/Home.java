@@ -83,15 +83,7 @@ public class Home extends ListActivity {
             	startActivity(beermailIntent);  
             }
         });
-        
-        
-        placesButton.setOnClickListener(new View.OnClickListener() {
-        	public void onClick(View v) {
-            	Intent placesIntent = new Intent(Home.this, Scan.class);  
-            	startActivity(placesIntent);  
-            }
-        });
-        
+                
         updateButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				EditText updateText = (EditText) findViewById(R.id.drinkingText);
