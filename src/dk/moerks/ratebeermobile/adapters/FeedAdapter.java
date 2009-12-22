@@ -3,6 +3,7 @@ package dk.moerks.ratebeermobile.adapters;
 import java.util.List;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import dk.moerks.ratebeermobile.R;
 import dk.moerks.ratebeermobile.vo.Feed;
 
 public class FeedAdapter  extends ArrayAdapter<Feed>{
+	private static final String LOGTAG = "FeedAdapter";
 	Activity context;
 	List<Feed> feeds;
 
@@ -39,6 +41,8 @@ public class FeedAdapter  extends ArrayAdapter<Feed>{
 			TextView text = (TextView) row.findViewById(R.id.feed_row_text);
 			
 			Feed feed = feeds.get(position);
+			
+			Log.d(LOGTAG, "FEED TYPE: " + feed.getType());
 			
 			//Added Beer
 			if(feed.getType().equalsIgnoreCase(Feed.ADD_BEER_TYPE)){
@@ -81,9 +85,19 @@ public class FeedAdapter  extends ArrayAdapter<Feed>{
 
 			//Bio Update
 			if(feed.getType().equalsIgnoreCase(Feed.UPDATED_BIO_TYPE)){
-				icon.setImageResource(R.drawable.reviewed);
+				icon.setImageResource(R.drawable.action_check);
 
-				String textString = feed.getFriend() + " reviewed " + feed.getPlace() + " (" + feed.getScore() + ")"; 
+				String textString = feed.getFriend() + " updated his user bio"; 
+				text.setText(textString);
+
+				date.setText(feed.getDate() + " (" + feed.getActivityTime() + ")");
+			}
+
+			//Attending
+			if(feed.getType().equalsIgnoreCase(Feed.ATTENDING_TYPE)){
+				icon.setImageResource(R.drawable.event);
+
+				String textString = feed.getFriend() + " is attending " + feed.getEvent(); 
 				text.setText(textString);
 
 				date.setText(feed.getDate() + " (" + feed.getActivityTime() + ")");

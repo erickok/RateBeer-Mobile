@@ -305,7 +305,7 @@ public class RBParser {
 					}
 					
 					//Update User Bio
-					if(actions[j].contains("comments_green.gif")){
+					if(actions[j].contains("action_check.gif")){
 						feed.setType(Feed.REVIEWED_PLACE_TYPE);
 
 						int friendStart = actions[j].indexOf("\"><b>")+5;
@@ -314,7 +314,7 @@ public class RBParser {
 					}
 
 					//Attending
-					if(actions[j].contains("comments_green.gif")){
+					if(actions[j].contains("event.gif")){
 						feed.setType(Feed.ATTENDING_TYPE);
 
 						int friendStart = actions[j].indexOf("\"><b>")+5;
