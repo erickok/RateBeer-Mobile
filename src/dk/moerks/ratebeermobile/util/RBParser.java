@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.util.Log;
-
 import dk.moerks.ratebeermobile.exceptions.RBParserException;
 import dk.moerks.ratebeermobile.vo.Feed;
 import dk.moerks.ratebeermobile.vo.Message;
 import dk.moerks.ratebeermobile.vo.MessageHeader;
-import dk.moerks.ratebeermobile.vo.PlacesInfo;
 import dk.moerks.ratebeermobile.vo.RatingData;
 import dk.moerks.ratebeermobile.vo.SearchResult;
 
@@ -336,10 +334,6 @@ public class RBParser {
 		return result;
 	}
 
-	public static List<PlacesInfo> parsePlaces(String responseString) throws RBParserException {
-		return null;
-	}
-	
 	//Private Methods
 	private static String cleanValue(String value){
 		String result = null;

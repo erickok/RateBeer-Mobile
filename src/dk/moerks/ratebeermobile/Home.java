@@ -66,7 +66,6 @@ public class Home extends ListActivity {
         Button updateButton = (Button) findViewById(R.id.drinkingUpdateButton);
         Button searchButton = (Button) findViewById(R.id.searchMenuButton);
         Button beermailButton = (Button) findViewById(R.id.beermailMenuButton);
-        Button placesButton = (Button) findViewById(R.id.placesMenuButton);
         
         EditText updateTextGen = (EditText) findViewById(R.id.drinkingText);
         
@@ -146,6 +145,7 @@ public class Home extends ListActivity {
 			}
 		});
         
+        updateButton.performClick();
         
         updateTextGen.setOnFocusChangeListener(new View.OnFocusChangeListener() {
         	EditText updateTextFocus = (EditText) findViewById(R.id.drinkingText);
