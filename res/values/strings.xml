@@ -45,4 +45,8 @@
 <string name="settings_notification_interval_label">Beermail Notification Interval</string>
 <string name="places_menu_button">Places</string>
 <string name="toast_parse_error">There was an error parsing the response from ratebeer.com.</string>
+<string name="no_place_ratings">No ratings for this place</string>
+<string name="places_retrieving_text">Getting nearby places to current location</string>
+<string name="places_retrieving">Getting Nearby Places</string>
+<string name="place_avgrating">Average Rating: </string>
 </resources>

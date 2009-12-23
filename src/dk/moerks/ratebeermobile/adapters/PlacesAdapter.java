@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import dk.moerks.ratebeermobile.R;
-import dk.moerks.ratebeermobile.vo.MessageHeader;
 import dk.moerks.ratebeermobile.vo.PlacesInfo;
 
 public class PlacesAdapter extends ArrayAdapter<PlacesInfo> {
@@ -32,24 +31,48 @@ public class PlacesAdapter extends ArrayAdapter<PlacesInfo> {
 				LayoutInflater inflater = LayoutInflater.from(this.context);
 				row = inflater.inflate(R.layout.places_row, null);
 			}
-			/*
-			TextView subject = (TextView)row.findViewById(R.id.mail_row_subject);
-			subject.setText(headers.get(position).getSubject());
 			
-			TextView status = (TextView)row.findViewById(R.id.mail_row_status);
-			status.setText(headers.get(position).getStatus());
+			//Place Name
+			TextView name = (TextView)row.findViewById(R.id.place_name);
+			name.setText(places.get(position).getPlaceName());
+			
+			//Place Rating
+			TextView rating = (TextView)row.findViewById(R.id.place_rating);
+			String avgRating = places.get(position).getAvgRating();
+			if(avgRating != null && !avgRating.contains("null")){
+				rating.setText(context.getText(R.string.place_avgrating)+ " " + roundNumberString(avgRating));
+			} else {
+				rating.setText(R.string.no_place_ratings);
+			}
 
-			TextView date = (TextView)row.findViewById(R.id.mail_row_date);
-			date.setText(headers.get(position).getDate());
-
-			TextView sender = (TextView)row.findViewById(R.id.mail_row_sender);
-			sender.setText(headers.get(position).getSender());
-			*/
+			//Place Distance
+			TextView distance = (TextView)row.findViewById(R.id.place_distance);
+			distance.setText(roundNumberString(places.get(position).getDistance())+"mi");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return row;
 	}
+	
+	//Private Methods
+	private String roundNumberString(String number){
+		if(number.contains(".")){
+			int separator = number.indexOf(".");
+			String beforeSeparator = number.substring(0,separator);
+			String afterSeparator = number.substring(separator);
+			if(afterSeparator.length() > 2){
+				afterSeparator = afterSeparator.substring(0,2);
+			}
+			
+			return beforeSeparator + "" + afterSeparator;
+		} else {
+			return number;
+		}
+	}
 
+	private String convertMilesToKm(String number){
+		//1mi = 1.609km
+		return null;
+	}
 }

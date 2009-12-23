@@ -43,6 +43,7 @@ public class RBJSONParser {
 			place.setPhoneAC(json.getString("PhoneAC"));
 			place.setLatitude(json.getString("Latitude"));
 			place.setLongitude(json.getString("Longitude"));
+			place.setDistance(json.getString("Distance"));
 			
 			results.add(place);
 		}

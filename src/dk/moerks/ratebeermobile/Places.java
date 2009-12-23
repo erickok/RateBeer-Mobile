@@ -8,14 +8,19 @@ import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
+import dk.moerks.ratebeermobile.adapters.PlacesAdapter;
 import dk.moerks.ratebeermobile.io.LocationBroker;
 import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.util.RBJSONParser;
 import dk.moerks.ratebeermobile.vo.PlacesInfo;
+import dk.moerks.ratebeermobile.vo.SearchResult;
 
 public class Places extends ListActivity {
 	private static final String LOGTAG = "Places";
@@ -29,7 +34,7 @@ public class Places extends ListActivity {
         
         setContentView(R.layout.places);
         
-        locationDialog = ProgressDialog.show(Places.this, getText(R.string.beermail_retrieving), getText(R.string.beermail_retrieving_text));
+        locationDialog = ProgressDialog.show(Places.this, getText(R.string.places_retrieving), getText(R.string.places_retrieving_text));
 
     	locationDialog.setOnDismissListener(new ProgressDialog.OnDismissListener(){
     		public void onDismiss(DialogInterface dialog){
@@ -66,10 +71,34 @@ public class Places extends ListActivity {
     	};
     	placesThread.start();
     }
-	
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+    	super.onListItemClick(l, v, position, id);
+    	
+    	PlacesInfo item = (PlacesInfo) getListView().getItemAtPosition(position);
+    	Log.d(LOGTAG, "ITEM NAME: " + item.getPlaceName());
+       	Intent placeIntent = new Intent(Places.this, PlaceView.class);  
+       	placeIntent.putExtra("PLACEID", item.getPlaceID());
+       	placeIntent.putExtra("PLACENAME", item.getPlaceName());
+       	placeIntent.putExtra("PLACETYPE", item.getPlaceType());
+       	placeIntent.putExtra("PLACEADDRESS", item.getAddress());
+       	placeIntent.putExtra("PLACECITY", item.getCity());
+       	placeIntent.putExtra("PLACESTATEID", item.getStateID());
+       	placeIntent.putExtra("PLACECOUNTRYID", item.getCountryID());
+       	placeIntent.putExtra("PLACEPOSTALCODE", item.getPostalCode());
+       	placeIntent.putExtra("PLACEPHONENUMBER", item.getPhoneNumber());
+       	placeIntent.putExtra("PLACEAVGRATING", item.getAvgRating());
+       	placeIntent.putExtra("PLACEPHONEAC", item.getPhoneAC());
+       	placeIntent.putExtra("PLACELAT", item.getLatitude());
+       	placeIntent.putExtra("PLACELNG", item.getLongitude());
+       	placeIntent.putExtra("PLACEDISTANCE", item.getDistance());
+        startActivity(placeIntent);  
+    }
+
     private void refreshList(Activity context, List<PlacesInfo> results){
-    	//MessageAdapter adapter = new MessageAdapter(context, results);
-    	//setListAdapter(adapter);
+    	PlacesAdapter adapter = new PlacesAdapter(context, results);
+    	setListAdapter(adapter);
     }
 
 }
