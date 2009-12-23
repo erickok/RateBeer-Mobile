@@ -16,7 +16,7 @@ public class LocationBroker {
 			Double longPoint = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude();
 			Log.d(LOGTAG, "LATITUDE : " + latPoint);
 			Log.d(LOGTAG, "LONGITUDE: " + longPoint);
-			String result = "LAT: " + latPoint + ", LNG: " + longPoint;
+			String result = "la=" + latPoint + "&lo=" + longPoint;
 			Log.d(LOGTAG, "RESULT: " + result);
 			return result;
 		} else {
