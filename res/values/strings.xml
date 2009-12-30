@@ -49,4 +49,8 @@
 <string name="toast_search_barcode">Product could not be found</string>
 <string name="bcHint">Longpress to scan beer</string>
 <string name="toast_search_empty">No beers found in search</string>
+<string name="no_place_ratings">N/A - Not enough ratings!</string>
+<string name="places_retrieving_text">Getting nearby places to current location</string>
+<string name="places_retrieving">Getting Nearby Places</string>
+<string name="place_avgrating">Average Rating: </string>
 </resources>

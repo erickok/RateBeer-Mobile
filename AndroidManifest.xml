@@ -26,6 +26,9 @@
 
 <activity android:name="MailAction" android:noHistory="true"></activity>
 <activity android:noHistory="true" android:name="MailView"></activity>
+<activity android:name="Places"></activity>
+<activity android:name="PlaceView"></activity>
+
 <service android:name=".services.BeerMailService"></service>
 <receiver android:name=".receivers.BeerMailServiceReceiver">
 </receiver>
@@ -35,8 +38,7 @@
 	</intent-filter> 
 </receiver>
 
-
-
+<uses-library android:name="com.google.android.maps"></uses-library>
 </application>
 
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
