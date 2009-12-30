@@ -85,7 +85,7 @@ public class PlaceView extends MapActivity {
         placeCityText.setText(placeCity);
         
         TextView placePhoneText = (TextView) findViewById(R.id.place_view_phone);
-        if(placePhoneAC != null && !placePhoneAC.equalsIgnoreCase("Not Set!")){
+        if(placePhoneAC != null && !placePhoneAC.equalsIgnoreCase("Not Set!") && !placePhoneAC.equalsIgnoreCase("null")){
         	placePhoneText.setText("(" + placePhoneAC + ") " + placePhoneNumber);
         } else {
         	placePhoneText.setText(placePhoneNumber);
