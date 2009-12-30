@@ -50,6 +50,9 @@
 	    android:layout_height="fill_parent"
 	    android:enabled="true" 
 	    android:clickable="false" 
-	    android:apiKey="0tBxvvb6l2CQgxnqMn4fNWrRD98WENXr4OaZ5Ew" />
+	    android:apiKey="0tBxvvb6l2CSqbVuteDQI9T4t-3RFm16Msmr8lw" />
 </LinearLayout>
-	    <!-- android:apiKey="0tBxvvb6l2CSqbVuteDQI9T4t-3RFm16Msmr8lw" /> -->
+	    <!-- 
+	    DEBUG : android:apiKey="0tBxvvb6l2CQgxnqMn4fNWrRD98WENXr4OaZ5Ew" /> 
+	    PROD  : android:apiKey="0tBxvvb6l2CSqbVuteDQI9T4t-3RFm16Msmr8lw" /> 
+	    -->
