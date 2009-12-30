@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import dk.moerks.ratebeermobile.R;
+import dk.moerks.ratebeermobile.util.StringUtils;
 import dk.moerks.ratebeermobile.vo.PlacesInfo;
 
 public class PlacesAdapter extends ArrayAdapter<PlacesInfo> {
@@ -40,14 +41,14 @@ public class PlacesAdapter extends ArrayAdapter<PlacesInfo> {
 			TextView rating = (TextView)row.findViewById(R.id.place_rating);
 			String avgRating = places.get(position).getAvgRating();
 			if(avgRating != null && !avgRating.contains("null")){
-				rating.setText(context.getText(R.string.place_avgrating)+ " " + roundNumberString(avgRating));
+				rating.setText(context.getText(R.string.place_avgrating)+ " " + StringUtils.roundNumberString(avgRating));
 			} else {
 				rating.setText(R.string.no_place_ratings);
 			}
 
 			//Place Distance
 			TextView distance = (TextView)row.findViewById(R.id.place_distance);
-			distance.setText(roundNumberString(places.get(position).getDistance())+"mi");
+			distance.setText(StringUtils.roundNumberString(places.get(position).getDistance())+"mi");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -55,22 +56,6 @@ public class PlacesAdapter extends ArrayAdapter<PlacesInfo> {
 		return row;
 	}
 	
-	//Private Methods
-	private String roundNumberString(String number){
-		if(number.contains(".")){
-			int separator = number.indexOf(".");
-			String beforeSeparator = number.substring(0,separator);
-			String afterSeparator = number.substring(separator);
-			if(afterSeparator.length() > 2){
-				afterSeparator = afterSeparator.substring(0,2);
-			}
-			
-			return beforeSeparator + "" + afterSeparator;
-		} else {
-			return number;
-		}
-	}
-
 	private String convertMilesToKm(String number){
 		//1mi = 1.609km
 		return null;
