@@ -10,14 +10,31 @@ public class LocationBroker {
 	
 	public static String requestLocation(Context context){
 		LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 500.0f, new PlacesLocationListener());
 		if(locationManager != null){
-			Double latPoint = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude();
-			Double longPoint = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude();
+			PlacesLocationListener locListener = new PlacesLocationListener();
+			String result;
+			Double latPoint;
+			Double longPoint;
+			try {
+				Log.d(LOGTAG, "Trying GPS Provider...");
+				locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 500.0f, locListener);
+				latPoint = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude();
+				longPoint = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude();
+				locationManager.removeUpdates(locListener);
+			} catch(Exception e){
+				Log.d(LOGTAG, "Falling Back to Network Provider...");
+				locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 500.0f, locListener);
+				latPoint = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLatitude();
+				longPoint = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLongitude();
+				locationManager.removeUpdates(locListener);
+			}
+
 			Log.d(LOGTAG, "LATITUDE : " + latPoint);
 			Log.d(LOGTAG, "LONGITUDE: " + longPoint);
-			String result = "la=" + latPoint + "&lo=" + longPoint;
+			result = "la=" + latPoint + "&lo=" + longPoint;
+			
 			Log.d(LOGTAG, "RESULT: " + result);
+			
 			return result;
 		} else {
 			Log.e(LOGTAG, "LocationManager is null");
