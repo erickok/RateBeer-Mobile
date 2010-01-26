@@ -109,8 +109,10 @@ public class Search extends ListActivity {
             	Thread searchThread = new Thread(){
             		public void run(){
 	            		EditText searchText = (EditText) findViewById(R.id.searchText);
+		    			List<NameValuePair> parameters = new ArrayList<NameValuePair>();  
+		    			parameters.add(new BasicNameValuePair("BeerName", searchText.getText().toString()));  
 		
-		    			String responseString = NetBroker.doGet(getApplicationContext(), "http://ratebeer.com/json/bff.asp?bn=f" + searchText.getText().toString());
+		    			String responseString = NetBroker.doPost(getApplicationContext(), "http://www.ratebeer.com/findbeer.asp", parameters);
 		    			if(responseString != null){
 		    				try {
 		    					results = RBParser.parseSearch(responseString);
