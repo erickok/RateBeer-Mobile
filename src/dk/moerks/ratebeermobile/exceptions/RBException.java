@@ -1,9 +1,6 @@
 package dk.moerks.ratebeermobile.exceptions;
 
-import android.content.Context;
-import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
 
 public class RBException extends Exception {
 	private static final long serialVersionUID = -4771460057683617236L;
@@ -25,13 +22,6 @@ public class RBException extends Exception {
 		logException();
 	}
 	
-	public void alertUser(Context context, String message){
-		Looper.prepare();
-		Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
-		toast.show();
-		Looper.loop();
-	}
-	
 	private void logException(){
 		//Log Error Message
 		Log.e(parentClass, message);
@@ -42,5 +32,9 @@ public class RBException extends Exception {
 		} else {
 			Log.d(parentClass, "Originating Exception unknown!");
 		}
+	}
+	
+	public String getAlertMessage(){
+		return message;
 	}
 }

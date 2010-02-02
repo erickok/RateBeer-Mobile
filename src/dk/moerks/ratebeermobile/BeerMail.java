@@ -89,6 +89,7 @@ public class BeerMail extends RBActivity {
 				} catch(RBParserException e){
 				} catch(NetworkException e){
 				} catch(LoginException e){
+    				alertUser(e.getAlertMessage());
 				}
        		}
     	};

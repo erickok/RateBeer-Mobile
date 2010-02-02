@@ -41,6 +41,7 @@ public class Places extends RBActivity {
     			} catch(RBParserException e){
     			} catch(NetworkException e){
     			} catch(LoginException e){
+    				alertUser(e.getAlertMessage());
        			}
 
     			threadHandler.post(update);

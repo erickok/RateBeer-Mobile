@@ -155,18 +155,19 @@ public class NetBroker {
 						Log.d(LOGTAG, "Matching Cookie: " + cookie.getName());
 						if(cookie.getName().equalsIgnoreCase("SessionCode")){
 							result.getEntity().consumeContent();
+							return;
 						}
 					}
+					throw new LoginException(LOGTAG, "Login to ratebeer.com failed. Check your credentials");
 				} else {
-					throw new LoginException(context, LOGTAG, "Login to ratebeer.com failed. Check your credentials");
+					throw new LoginException(LOGTAG, "Login to ratebeer.com failed. Check your credentials");
 				}
 			} else {
-				throw new LoginException(context, LOGTAG, "Login to ratebeer.com failed. Check your credentials");
+				throw new LoginException(LOGTAG, "Login to ratebeer.com failed. Check your credentials");
 			}
 		} catch (ClientProtocolException e) { 
 		} catch (IOException e) {
-		} catch (Exception e){
-			throw new NetworkException(context, LOGTAG, "Login to ratebeer.com failed. Check your credentials", e);
+			throw new NetworkException(context, LOGTAG, "Network Error - Do you have a network connection?", e);
 		}
 	}
 	

@@ -1,9 +1,12 @@
 package dk.moerks.ratebeermobile.activity;
 
 import android.app.ListActivity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.Window;
+import android.widget.Toast;
 
 public class RBActivity extends ListActivity {
 	public final Handler threadHandler = new Handler();
@@ -29,6 +32,14 @@ public class RBActivity extends ListActivity {
 	public void indeterminateStop(){
 		setTitle("RateBeer Mobile");
 		setProgressBarIndeterminateVisibility(false);
+	}
+	
+	public void alertUser(String message){
+		Looper.prepare();
+       	Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
+   		toast.show();
+   		threadHandler.post(update);
+		Looper.loop();
 	}
 	
 	protected void update(){

@@ -11,7 +11,6 @@ public class NetworkException extends RBException {
 	
 	public NetworkException(Context context, String parentClass, String message, Exception exception){
 		super(parentClass, message, exception);
-		alertUser(context, message);
 	}
 
 }

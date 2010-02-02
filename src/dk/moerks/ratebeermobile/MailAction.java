@@ -119,6 +119,7 @@ public class MailAction extends RBActivity {
 			            	}
 			            } catch(NetworkException e){
 			            } catch(LoginException e){
+		    				alertUser(e.getAlertMessage());
 			            }
 
 			            if(responseString != null){

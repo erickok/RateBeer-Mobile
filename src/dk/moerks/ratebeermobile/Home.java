@@ -98,13 +98,14 @@ public class Home extends RBActivity {
 			    					threadHandler.post(update);
 			    				} catch(NetworkException e){
 			    				} catch(LoginException e){
+		    	    				indeterminateStop();
 			    				}
 			    			}
 	            		}
 	            	};
 	            	updateDrinkingThread.start();
         		} else {
-	                indeterminateStart("Updating Friend Feed...");
+	                indeterminateStart("Refreshing Friend Feed...");
 	    			Thread drinkThread = new Thread(){
 	    	    		public void run(){
 	            			try {
@@ -117,6 +118,7 @@ public class Home extends RBActivity {
 	    	    			} catch(RBParserException e){
 	    	    			} catch(NetworkException e){
 	    	    			} catch(LoginException e){
+	    	    				alertUser(e.getAlertMessage());
 	    	    			}
 	    	    		}
 	    	    	};
@@ -167,8 +169,10 @@ public class Home extends RBActivity {
 	
 	protected void update(){
 		//Update Drinking Status
-		TextView updateStatusGen = (TextView) findViewById(R.id.drinkingStatus);
-		updateStatusGen.setText("You are currently drinking " + drink);
+		if(drink != null && drink.length() > 0){
+			TextView updateStatusGen = (TextView) findViewById(R.id.drinkingStatus);
+			updateStatusGen.setText("You are currently drinking " + drink);
+		}
 
 		//Update Activity List if there is any
 		if(feeds != null && feeds.size() > 0){

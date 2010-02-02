@@ -90,6 +90,7 @@ public class Search extends RBActivity {
 		    			} catch(RBParserException e){
 		    			} catch(NetworkException e){
 		    			} catch(LoginException e){
+		    				alertUser(e.getAlertMessage());
 		    			}
 		    			
 		    			threadHandler.post(update);
