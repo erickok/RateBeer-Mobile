@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="dk.moerks.ratebeermobile"
-      android:versionCode="12" android:versionName="1.4.1">
+      android:versionName="1.4.2" android:versionCode="13">
     
     <uses-sdk android:minSdkVersion="3" />
 
