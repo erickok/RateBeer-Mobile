@@ -29,15 +29,16 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import dk.moerks.ratebeermobile.Settings;
 import dk.moerks.ratebeermobile.exceptions.LoginException;
+import dk.moerks.ratebeermobile.exceptions.NetworkException;
 
 public class NetBroker {
 	private static final String LOGTAG = "NetBroker";
 	
-	public static String doGet(Context context, String url){
+	public static String doGet(Context context, String url) throws NetworkException {
 		return doGet(context, null, url);
 	}
 	
-	public static String doGet(Context context, DefaultHttpClient httpclient, String url) {
+	public static String doGet(Context context, DefaultHttpClient httpclient, String url) throws NetworkException {
 		
 		if(httpclient == null){
 			httpclient = init();
@@ -54,33 +55,27 @@ public class NetBroker {
 			
 			return result; 
 		} catch (ClientProtocolException e) {
-			Log.e(LOGTAG, "doGet - ClientProtocolException");
 		} catch (IOException e) {
-			Log.e(LOGTAG, "doGet - IOException");
 		} catch (Exception e){
-			Log.e(LOGTAG, "doGet - Exception");
+			throw new NetworkException(context, LOGTAG, "Network Error - Do you have a network connection?", e);
 		}
 		
 		return null;
 	}
 
-	public static String doRBGet(Context context, String url) {
+	public static String doRBGet(Context context, String url) throws NetworkException, LoginException {
 		DefaultHttpClient httpclient = init();
 
-		try {
-			signin(context, httpclient);
-		} catch(LoginException e){
-			Log.e(LOGTAG, "doRBGet - signin failed");
-		}
+		signin(context, httpclient);
 		
 		return doGet(context, httpclient, url);
 	}
 
-	public static String doPost(Context context, String url, List<NameValuePair> parameters){
+	public static String doPost(Context context, String url, List<NameValuePair> parameters) throws NetworkException {
 		return doPost(context, null, url, parameters);
 	}
 	
-	public static String doPost(Context context, DefaultHttpClient httpclient, String url, List<NameValuePair> parameters){
+	public static String doPost(Context context, DefaultHttpClient httpclient, String url, List<NameValuePair> parameters) throws NetworkException {
 		if(httpclient == null){
 			httpclient = init();
 		}
@@ -102,28 +97,23 @@ public class NetBroker {
 			
 			return result;
 		} catch (ClientProtocolException e) {
-			Log.e(LOGTAG, "doPost - ClientProtocolException");
 		} catch (IOException e) {
-			Log.e(LOGTAG, "doPost - IOException");
+			throw new NetworkException(context, LOGTAG, "Network Error - Do you have a network connection?", e);
 		}
 		
 		httpclient.getConnectionManager().shutdown();
 		return null;
 	}
 	
-	public static String doRBPost(Context context, String url, List<NameValuePair> parameters){
+	public static String doRBPost(Context context, String url, List<NameValuePair> parameters) throws NetworkException, LoginException {
 		DefaultHttpClient httpclient = init();
 
-		try {
-			signin(context, httpclient);
-		} catch(LoginException e){
-			Log.e(LOGTAG, "doRBGet - signin failed");
-		}
+		signin(context, httpclient);
 
 		return doPost(context, httpclient, url, parameters);
 	}
 	
-	private static boolean signin(Context context, DefaultHttpClient httpclient) throws LoginException {
+	private static void signin(Context context, DefaultHttpClient httpclient) throws NetworkException, LoginException {
 		HttpPost httppost = new HttpPost("http://www.ratebeer.com/signin/");  
 		Log.d(LOGTAG, "Before Try");
 		try {  
@@ -145,7 +135,7 @@ public class NetBroker {
 				for (Iterator<Cookie> iterator = beforeCookies.iterator(); iterator.hasNext();) {
 					Cookie cookie = iterator.next();
 					if(cookie.getName().equalsIgnoreCase("SessionCode")){
-						return true;
+						return;
 					}
 				}
 	
@@ -165,23 +155,19 @@ public class NetBroker {
 						Log.d(LOGTAG, "Matching Cookie: " + cookie.getName());
 						if(cookie.getName().equalsIgnoreCase("SessionCode")){
 							result.getEntity().consumeContent();
-							return true;
 						}
 					}
 				} else {
-					Log.e(LOGTAG, "There was an error executing request. Statuscode was: " + statusCode);
+					throw new LoginException(context, LOGTAG, "Login to ratebeer.com failed. Check your credentials");
 				}
 			} else {
-				Log.e(LOGTAG, "Username or Password not available in Shared Preferences");
+				throw new LoginException(context, LOGTAG, "Login to ratebeer.com failed. Check your credentials");
 			}
 		} catch (ClientProtocolException e) { 
 		} catch (IOException e) {
 		} catch (Exception e){
-			throw new LoginException(context, LOGTAG, "Login to ratebeer.com failed. Check your credentials", e);
+			throw new NetworkException(context, LOGTAG, "Login to ratebeer.com failed. Check your credentials", e);
 		}
-		
-		Log.d(LOGTAG, "FALSE - Signin failed");
-		return false;
 	}
 	
 	private static String responseString(HttpResponse response){

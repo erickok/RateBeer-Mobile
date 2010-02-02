@@ -11,6 +11,8 @@ import android.os.IBinder;
 import android.util.Log;
 import dk.moerks.ratebeermobile.BeerMail;
 import dk.moerks.ratebeermobile.R;
+import dk.moerks.ratebeermobile.exceptions.LoginException;
+import dk.moerks.ratebeermobile.exceptions.NetworkException;
 import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.util.RBParser;
 
@@ -36,8 +38,9 @@ public class BeerMailService extends Service {
 	    		public void run(){
 					Log.d(LOGTAG, "Checking for messages");
 					
-					String responseString = NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/user/messages/");
-					if(responseString != null){
+					try {
+						String responseString = NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/user/messages/");
+						
 						boolean hasMessages = RBParser.parseNewMail(responseString);
 					
 						if(hasMessages){
@@ -48,8 +51,8 @@ public class BeerMailService extends Service {
 				        	notification.setLatestEventInfo(BeerMailService.this, "RateBeer Mobile","You have unread messages", PendingIntent.getActivity(getApplicationContext(), 0, beermailIntent, PendingIntent.FLAG_CANCEL_CURRENT));
 					        notificationManager.notify(0, notification);
 						}
-					} else {
-						Log.d(LOGTAG, "Response String was null");
+					} catch(NetworkException e){
+					} catch(LoginException e){
 					}
 	    		}
 			};

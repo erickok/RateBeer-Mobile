@@ -3,70 +3,32 @@ package dk.moerks.ratebeermobile;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
+import dk.moerks.ratebeermobile.activity.RBActivity;
 import dk.moerks.ratebeermobile.adapters.MessageAdapter;
+import dk.moerks.ratebeermobile.exceptions.LoginException;
+import dk.moerks.ratebeermobile.exceptions.NetworkException;
 import dk.moerks.ratebeermobile.exceptions.RBParserException;
 import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.util.RBParser;
 import dk.moerks.ratebeermobile.vo.MessageHeader;
 
-public class BeerMail extends ListActivity {
+public class BeerMail extends RBActivity {
 	private static final String LOGTAG = "BeerMail";
 	private List<MessageHeader> results = null;
-	private ProgressDialog beermailDialog = null;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-		// Request progress bar
         setContentView(R.layout.beermail);
         
-    	beermailDialog = ProgressDialog.show(BeerMail.this, getText(R.string.beermail_retrieving), getText(R.string.beermail_retrieving_text));
-    	
-    	beermailDialog.setOnDismissListener(new ProgressDialog.OnDismissListener(){
-    		public void onDismiss(DialogInterface dialog){
-    			if(results != null){
-    				refreshList(BeerMail.this, results);
-    			} else {
-    				Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_network_error), Toast.LENGTH_LONG);
-   					toast.show();
-    			}
-    		}
-    	});
-    	
-    	Thread beermailThread = new Thread(){
-    		public void run(){
-    			String responseString = NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/user/messages/");
-    			
-    			if(responseString != null){
-    				try {
-    					results = RBParser.parseBeermail(responseString);
-    				} catch(RBParserException e){
-    					Log.e(LOGTAG, "Error Parsing Beermail response");
-    					Looper.prepare();
-        				Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_parse_error), Toast.LENGTH_LONG);
-       					toast.show();
-    					Looper.loop();
-    				}
-    			} else {
-    				results = null;
-    			}
-    			
-    			beermailDialog.dismiss();
-       		}
-    	};
-    	beermailThread.start();
+    	indeterminateStart("Refreshing Beermails...");
+    	getBeerMails();
     	
         Button composeMailButton = (Button) findViewById(R.id.newMailButton);
         composeMailButton.setOnClickListener(new View.OnClickListener() {
@@ -99,34 +61,37 @@ public class BeerMail extends ListActivity {
     	super.onActivityResult(requestCode, resultCode, data);
     	
     	if(resultCode == RESULT_OK){
-        	beermailDialog = ProgressDialog.show(BeerMail.this, getText(R.string.beermail_retrieving), getText(R.string.beermail_retrieving_text));    		
-        	Thread beermailThread = new Thread(){
-        		public void run(){
-        			String responseString = NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/user/messages/");
-        			
-        			if(responseString != null){
-        				try {
-        					results = RBParser.parseBeermail(responseString);
-	    				} catch(RBParserException e){
-	    					Log.e(LOGTAG, "Error Parsing Beermail response");
-	    					Looper.prepare();
-	        				Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_parse_error), Toast.LENGTH_LONG);
-	       					toast.show();
-	    					Looper.loop();
-	    				}
-        			} else {
-        				results = null;
-        			}
-        			
-        			beermailDialog.dismiss();
-           		}
-        	};
-        	beermailThread.start();
+        	indeterminateStart("Refreshing Beermails...");
+        	getBeerMails();
     	}
+    }
+    
+    protected void update(){
+		if(results != null){
+			refreshList(BeerMail.this, results);
+		}
+		indeterminateStop();
     }
     
     private void refreshList(Activity context, List<MessageHeader> results){
     	MessageAdapter adapter = new MessageAdapter(context, results);
     	setListAdapter(adapter);
+    }
+    
+    private void getBeerMails(){
+    	Thread beermailThread = new Thread(){
+    		public void run(){
+    			try {
+    				String responseString = NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/user/messages/");
+    			
+    				results = RBParser.parseBeermail(responseString);
+    				threadHandler.post(update);
+				} catch(RBParserException e){
+				} catch(NetworkException e){
+				} catch(LoginException e){
+				}
+       		}
+    	};
+    	beermailThread.start();
     }
 }

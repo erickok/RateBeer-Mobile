@@ -37,7 +37,7 @@ public class RBException extends Exception {
 		Log.e(parentClass, message);
 		
 		//Log StackTrace if available
-		if(originalException != null){
+		if(originalException != null && originalException.getMessage() != null){
 			Log.d(parentClass, originalException.getMessage());
 		} else {
 			Log.d(parentClass, "Originating Exception unknown!");

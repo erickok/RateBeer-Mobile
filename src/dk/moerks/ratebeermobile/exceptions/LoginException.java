@@ -9,6 +9,11 @@ public class LoginException extends RBException {
 		super(parentClass, message, exception);
 	}
 	
+	public LoginException(Context context, String parentClass, String message){
+		super(parentClass, message, null);
+		alertUser(context, message);
+	}
+	
 	public LoginException(Context context, String parentClass, String message, Exception exception){
 		super(parentClass, message, exception);
 		alertUser(context, message);

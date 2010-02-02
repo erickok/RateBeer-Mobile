@@ -6,43 +6,32 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import dk.moerks.ratebeermobile.activity.RBActivity;
+import dk.moerks.ratebeermobile.exceptions.LoginException;
+import dk.moerks.ratebeermobile.exceptions.NetworkException;
 import dk.moerks.ratebeermobile.io.NetBroker;
 
-public class Rate extends Activity {
+public class Rate extends RBActivity {
 	@SuppressWarnings("unused")
 	private static final String LOGTAG = "Rate";
     String beerid =  null;
 	
     private TextView rateCharleftText = null;
     
-    final Handler threadHandler = new Handler();
-    // Create runnable for posting
-    final Runnable clearIndeterminateProgress = new Runnable() {
-        public void run() {
-        	clearIndeterminateProgress();
-        }
-    };
-
-    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.rate);
         
         String beername = null;
@@ -56,7 +45,6 @@ public class Rate extends Activity {
         rateCharleftText.setText(getText(R.string.rate_charleft) + " 75");
         EditText rateComment = (EditText) findViewById(R.id.rate_value_comments);
         rateComment.addTextChangedListener(new TextWatcher(){
-
 			public void afterTextChanged(Editable s) {
 			}
 
@@ -72,7 +60,6 @@ public class Rate extends Activity {
 					rateCharleftText.setText("");
 				}
 			}
-        	
         });
         
         
@@ -114,21 +101,21 @@ public class Rate extends Activity {
 		    			parameters.add(new BasicNameValuePair("Comments", commentString));
 		    			
 		    			if(commentString.length() > 74){
-		    				String response = NetBroker.doRBPost(getApplicationContext(), "http://www.ratebeer.com/saverating.asp", parameters);
-		   				
-			   				if(response != null){
-			   					threadHandler.post(clearIndeterminateProgress);
+		    				try {
+		    					NetBroker.doRBPost(getApplicationContext(), "http://www.ratebeer.com/saverating.asp", parameters);
+			    				threadHandler.post(update);
 			   					Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_rate_success), Toast.LENGTH_SHORT);
 			   					toast.show();
 			   	            	Intent homeIntent = new Intent(Rate.this, Home.class);  
 			   	            	startActivity(homeIntent);  
-			   				} else {
-			   					threadHandler.post(clearIndeterminateProgress);
+		    				} catch(NetworkException e){
+		    				} catch(LoginException e){
+			   					threadHandler.post(update);
 			   					Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_rate_failure), Toast.LENGTH_LONG);
 			   					toast.show();
-			   				}
+		    				}
 		    			} else {
-		    				threadHandler.post(clearIndeterminateProgress);
+		    				threadHandler.post(update);
 		   					Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_rate_shortcomment), Toast.LENGTH_LONG);
 		   					toast.show();
 		    			}
@@ -163,8 +150,4 @@ public class Rate extends Activity {
 		beernameText.requestFocus();
 
     }
-
-    private void clearIndeterminateProgress() {
-		setProgressBarIndeterminateVisibility(false);
-	}
 }

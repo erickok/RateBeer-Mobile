@@ -2,72 +2,50 @@ package dk.moerks.ratebeermobile;
 
 import java.util.List;
 
-import org.json.JSONException;
-
 import android.app.Activity;
-import android.app.ListActivity;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
+import dk.moerks.ratebeermobile.activity.RBActivity;
 import dk.moerks.ratebeermobile.adapters.PlacesAdapter;
+import dk.moerks.ratebeermobile.exceptions.LoginException;
+import dk.moerks.ratebeermobile.exceptions.NetworkException;
+import dk.moerks.ratebeermobile.exceptions.RBParserException;
 import dk.moerks.ratebeermobile.io.LocationBroker;
 import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.util.RBJSONParser;
 import dk.moerks.ratebeermobile.vo.PlacesInfo;
-import dk.moerks.ratebeermobile.vo.SearchResult;
 
-public class Places extends ListActivity {
+public class Places extends RBActivity {
 	private static final String LOGTAG = "Places";
 	private List<PlacesInfo> results = null;
-	private ProgressDialog locationDialog = null;
     private Thread placesThread = null;
     
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
         setContentView(R.layout.places);
-        
-        locationDialog = ProgressDialog.show(Places.this, getText(R.string.places_retrieving), getText(R.string.places_retrieving_text));
 
-    	locationDialog.setOnDismissListener(new ProgressDialog.OnDismissListener(){
-    		public void onDismiss(DialogInterface dialog){
-    				refreshList(Places.this, results);
-    		}
-    	});
-
+        indeterminateStart("Retrieving Places...");
     	placesThread = new Thread(){
     		public void run(){
-    			Looper.prepare();
-    			//Get Location
-    			String locationString = LocationBroker.requestLocation(getApplicationContext());
-    			
-    			String responseString = NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/json/beerme.asp?mi=15&"+locationString);
-    			Log.d(LOGTAG, responseString);
-    			
-    			if(responseString != null){
-    				try {
-    					results = RBJSONParser.parsePlaces(responseString);
-    				} catch(JSONException e){
-    					Log.e(LOGTAG, "Error Parsing Places JSON response");
-    					Looper.prepare();
-        				Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_parse_error), Toast.LENGTH_LONG);
-       					toast.show();
-    					Looper.loop();
-    				}
-    			} else {
-    				results = null;
-    			}
-    			
-    			locationDialog.dismiss();
+				Looper.prepare();
+    			try {
+    				String locationString = LocationBroker.requestLocation(getApplicationContext());
+    				String responseString = NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/json/beerme.asp?mi=15&"+locationString);
+
+        			results = RBJSONParser.parsePlaces(responseString);
+    			} catch(RBParserException e){
+    			} catch(NetworkException e){
+    			} catch(LoginException e){
+       			}
+
+    			threadHandler.post(update);
     			Looper.loop();
-       		}
+    		}
     	};
     	placesThread.start();
     }
@@ -96,9 +74,13 @@ public class Places extends ListActivity {
         startActivity(placeIntent);  
     }
 
+    protected void update(){
+    	refreshList(Places.this, results);
+    	indeterminateStop();
+    }
+    
     private void refreshList(Activity context, List<PlacesInfo> results){
     	PlacesAdapter adapter = new PlacesAdapter(context, results);
     	setListAdapter(adapter);
     }
-
 }

@@ -11,35 +11,29 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import dk.moerks.ratebeermobile.activity.RBActivity;
+import dk.moerks.ratebeermobile.exceptions.LoginException;
+import dk.moerks.ratebeermobile.exceptions.NetworkException;
 import dk.moerks.ratebeermobile.exceptions.RBParserException;
 import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.util.RBParser;
 import dk.moerks.ratebeermobile.vo.Message;
 
-public class MailView extends Activity {
+public class MailView extends RBActivity {
 	private static final String LOGTAG = "MailView";
-	
-	final Handler threadHandler = new Handler();
-    // Create runnable for posting
-    final Runnable clearIndeterminateProgress = new Runnable() {
-        public void run() {
-        	clearIndeterminateProgress();
-        }
-    };
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.mailview);
+
         final String messageId;
         final String from;
         final String senderId;
         final String subject;
         Message message = null;
         
-		// Request progress bar
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        setContentView(R.layout.mailview);
-        setProgressBarIndeterminateVisibility(true);
+        indeterminateStart("Retrieving message...");
         
         Bundle extras = getIntent().getExtras();
         if(extras !=null) {
@@ -55,13 +49,12 @@ public class MailView extends Activity {
         }
 
         if(messageId != null){
-        	String responseString = NetBroker.doGet(getApplicationContext(), "http://ratebeer.com/showmessage/"+messageId+"/");
         	try {
+            	String responseString = NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/showmessage/"+messageId+"/");
         		message = RBParser.parseMessage(responseString);
         	} catch(RBParserException e){
-				Log.e(LOGTAG, "There was an error parsing message data");
-				Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_parse_error), Toast.LENGTH_LONG);
-				toast.show();
+        	} catch(NetworkException e){
+        	} catch(LoginException e){
         	}
         	
 	        TextView fromText = (TextView) findViewById(R.id.mail_reply_from);
@@ -73,7 +66,7 @@ public class MailView extends Activity {
 	        timeText.setText(message.getTime());
 	        subjectText.setText(subject);
 	        messageText.setText(message.getMessage());
-	        setProgressBarIndeterminateVisibility(false);
+	        indeterminateStop();
         } else {
         	message = null;
         }
@@ -100,27 +93,22 @@ public class MailView extends Activity {
             	Thread deleteThread = new Thread(){
             		public void run(){
             			Looper.prepare();
-            			String responseString = NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/DeleteMessage.asp?MessageID=" + messageId);
+            			try {
+            				NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/DeleteMessage.asp?MessageID=" + messageId);
             	
-		    			if(responseString != null){
-		   					Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_mail_deleted), Toast.LENGTH_LONG);
-		   					toast.show();
-			    			setResult(RESULT_OK);
-			    			finish();
-		    			} else {
-		   					Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_mail_deleted_failed), Toast.LENGTH_LONG);
-		   					toast.show();
-		    			}
+        					Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_mail_deleted), Toast.LENGTH_LONG);
+        					toast.show();
+        					setResult(RESULT_OK);
+        					finish();
+		    			} catch(NetworkException e){
+		    			} catch(LoginException e){
+		    			} 
 		    			Looper.loop();
-	   		        	threadHandler.post(clearIndeterminateProgress);
+	   		        	threadHandler.post(update);
             		}
                	};
               	deleteThread.start();
             }
         });
-	}
-
-	private void clearIndeterminateProgress() {
-		setProgressBarIndeterminateVisibility(false);
 	}
 }
