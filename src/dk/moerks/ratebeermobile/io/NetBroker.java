@@ -28,17 +28,19 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import dk.moerks.ratebeermobile.Settings;
+import dk.moerks.ratebeermobile.exceptions.LoginException;
 
 public class NetBroker {
 	private static final String LOGTAG = "NetBroker";
 	
-	public static String doGet(Context context, String url) {
-		DefaultHttpClient httpclient = init();
-		if(url.contains("ratebeer.com")){
-			if(!signin(context, httpclient)){
-				Log.e(LOGTAG, "doGet - Ratebeer Login Failed");
-				return null;
-			}
+	public static String doGet(Context context, String url){
+		return doGet(context, null, url);
+	}
+	
+	public static String doGet(Context context, DefaultHttpClient httpclient, String url) {
+		
+		if(httpclient == null){
+			httpclient = init();
 		}
 		
 		Log.d(LOGTAG, "URL: " + url);
@@ -47,9 +49,7 @@ public class NetBroker {
 		try {  
 			// Execute HTTP Post Request  
 			HttpResponse response = httpclient.execute(httpget);  
-
 			String result = responseString(response);
-			
 			response.getEntity().consumeContent();
 			
 			return result; 
@@ -63,15 +63,26 @@ public class NetBroker {
 		
 		return null;
 	}
-	
-	public static String doPost(Context context, String url, List<NameValuePair> parameters){
+
+	public static String doRBGet(Context context, String url) {
 		DefaultHttpClient httpclient = init();
+
+		try {
+			signin(context, httpclient);
+		} catch(LoginException e){
+			Log.e(LOGTAG, "doRBGet - signin failed");
+		}
 		
-		if(url.contains("ratebeer.com")){
-			if(!signin(context, httpclient)){
-				Log.e(LOGTAG, "doPost - Ratebeer Login Failed");
-				return null;
-			}
+		return doGet(context, httpclient, url);
+	}
+
+	public static String doPost(Context context, String url, List<NameValuePair> parameters){
+		return doPost(context, null, url, parameters);
+	}
+	
+	public static String doPost(Context context, DefaultHttpClient httpclient, String url, List<NameValuePair> parameters){
+		if(httpclient == null){
+			httpclient = init();
 		}
 		
 		HttpPost httppost = new HttpPost(url);  
@@ -82,9 +93,7 @@ public class NetBroker {
 			
 			// Execute HTTP Post Request  
 			HttpResponse response = httpclient.execute(httppost);
-			
 			String result = responseString(response);
-			
 			response.getEntity().consumeContent();
 			
 			if(response.getStatusLine().getStatusCode() != 200){
@@ -102,7 +111,19 @@ public class NetBroker {
 		return null;
 	}
 	
-	private static boolean signin(Context context, DefaultHttpClient httpclient){
+	public static String doRBPost(Context context, String url, List<NameValuePair> parameters){
+		DefaultHttpClient httpclient = init();
+
+		try {
+			signin(context, httpclient);
+		} catch(LoginException e){
+			Log.e(LOGTAG, "doRBGet - signin failed");
+		}
+
+		return doPost(context, httpclient, url, parameters);
+	}
+	
+	private static boolean signin(Context context, DefaultHttpClient httpclient) throws LoginException {
 		HttpPost httppost = new HttpPost("http://www.ratebeer.com/signin/");  
 		Log.d(LOGTAG, "Before Try");
 		try {  
@@ -154,11 +175,9 @@ public class NetBroker {
 				Log.e(LOGTAG, "Username or Password not available in Shared Preferences");
 			}
 		} catch (ClientProtocolException e) { 
-			Log.e(LOGTAG, "signin - ClientProtocolException");
 		} catch (IOException e) {
-			Log.e(LOGTAG, "signin - IOException");
 		} catch (Exception e){
-			Log.e(LOGTAG, "signin - Exception");
+			throw new LoginException(context, LOGTAG, "Login to ratebeer.com failed. Check your credentials", e);
 		}
 		
 		Log.d(LOGTAG, "FALSE - Signin failed");

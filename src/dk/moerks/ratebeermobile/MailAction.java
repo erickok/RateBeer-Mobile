@@ -65,7 +65,7 @@ public class MailAction extends Activity {
 	            subjectText.setText(subject);
 	            messageText.setText("\n\n......................................................\n" + message);
         	} else {
-        		String responseString = NetBroker.doGet(getApplicationContext(), "http://ratebeer.com/user/messages/");
+        		String responseString = NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/user/messages/");
         		try {
         			extras.putString("CURRENT_USER_ID", RBParser.parseUserId(responseString));
         		} catch(RBParserException e){

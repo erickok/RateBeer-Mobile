@@ -112,7 +112,7 @@ public class Search extends ListActivity {
 		    			List<NameValuePair> parameters = new ArrayList<NameValuePair>();  
 		    			parameters.add(new BasicNameValuePair("BeerName", searchText.getText().toString()));  
 		
-		    			String responseString = NetBroker.doPost(getApplicationContext(), "http://www.ratebeer.com/findbeer.asp", parameters);
+		    			String responseString = NetBroker.doRBPost(getApplicationContext(), "http://www.ratebeer.com/findbeer.asp", parameters);
 		    			if(responseString != null){
 		    				try {
 		    					results = RBParser.parseSearch(responseString);

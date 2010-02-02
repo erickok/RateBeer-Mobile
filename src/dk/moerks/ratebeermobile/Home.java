@@ -107,7 +107,7 @@ public class Home extends ListActivity {
 			    			parameters.add(new BasicNameValuePair("MyStatus", updateTextString));  
 			
 			    			if(updateTextString.length() > 0){
-			    				NetBroker.doPost(getApplicationContext(), "http://www.ratebeer.com/userstatus-process.asp", parameters);
+			    				NetBroker.doRBPost(getApplicationContext(), "http://www.ratebeer.com/userstatus-process.asp", parameters);
 			    				threadHandler.post(updateDrink);
 			    			} else {
 			   					Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_drink_empty), Toast.LENGTH_SHORT);
@@ -122,7 +122,7 @@ public class Home extends ListActivity {
 	    			Thread drinkThread = new Thread(){
 	    	    		public void run(){
 	            			Looper.prepare();
-	    	    			String responseString = NetBroker.doGet(getApplicationContext(), "http://www.ratebeer.com/activity");
+	    	    			String responseString = NetBroker.doRBGet(getApplicationContext(), "http://www.ratebeer.com/activity");
 	    	    			if(responseString != null){
 	    	    				try {
 	    	    					drink = RBParser.parseDrink(responseString);

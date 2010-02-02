@@ -36,7 +36,7 @@ public class BeerMailService extends Service {
 	    		public void run(){
 					Log.d(LOGTAG, "Checking for messages");
 					
-					String responseString = NetBroker.doGet(getApplicationContext(), "http://ratebeer.com/user/messages/");
+					String responseString = NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/user/messages/");
 					if(responseString != null){
 						boolean hasMessages = RBParser.parseNewMail(responseString);
 					

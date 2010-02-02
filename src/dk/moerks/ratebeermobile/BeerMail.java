@@ -47,7 +47,7 @@ public class BeerMail extends ListActivity {
     	
     	Thread beermailThread = new Thread(){
     		public void run(){
-    			String responseString = NetBroker.doGet(getApplicationContext(), "http://ratebeer.com/user/messages/");
+    			String responseString = NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/user/messages/");
     			
     			if(responseString != null){
     				try {
@@ -102,7 +102,7 @@ public class BeerMail extends ListActivity {
         	beermailDialog = ProgressDialog.show(BeerMail.this, getText(R.string.beermail_retrieving), getText(R.string.beermail_retrieving_text));    		
         	Thread beermailThread = new Thread(){
         		public void run(){
-        			String responseString = NetBroker.doGet(getApplicationContext(), "http://ratebeer.com/user/messages/");
+        			String responseString = NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/user/messages/");
         			
         			if(responseString != null){
         				try {

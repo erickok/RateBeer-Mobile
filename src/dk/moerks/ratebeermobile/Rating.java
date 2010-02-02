@@ -59,7 +59,7 @@ public class Rating extends Activity {
     	Thread ratingThread = new Thread(){
     		public void run(){
     			Log.d(LOGTAG, "ID: " + beerId);
-    			String responseString = NetBroker.doGet(getApplicationContext(), "http://www.ratebeer.com/beer/rate/" + beerId + "/");
+    			String responseString = NetBroker.doRBGet(getApplicationContext(), "http://www.ratebeer.com/beer/rate/" + beerId + "/");
     			try {
     				rating = RBParser.parseRating(responseString);
     			} catch(RBParserException e){

@@ -48,7 +48,7 @@ public class Places extends ListActivity {
     			//Get Location
     			String locationString = LocationBroker.requestLocation(getApplicationContext());
     			
-    			String responseString = NetBroker.doGet(getApplicationContext(), "http://ratebeer.com/json/beerme.asp?mi=15&"+locationString);
+    			String responseString = NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/json/beerme.asp?mi=15&"+locationString);
     			Log.d(LOGTAG, responseString);
     			
     			if(responseString != null){

@@ -114,7 +114,7 @@ public class Rate extends Activity {
 		    			parameters.add(new BasicNameValuePair("Comments", commentString));
 		    			
 		    			if(commentString.length() > 74){
-		    				String response = NetBroker.doPost(getApplicationContext(), "http://www.ratebeer.com/saverating.asp", parameters);
+		    				String response = NetBroker.doRBPost(getApplicationContext(), "http://www.ratebeer.com/saverating.asp", parameters);
 		   				
 			   				if(response != null){
 			   					threadHandler.post(clearIndeterminateProgress);

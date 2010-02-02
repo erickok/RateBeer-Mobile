@@ -47,7 +47,7 @@ public class RBParser {
 				result.add(searchResult);
 			}
 		} catch(Exception e){
-			throw new RBParserException();
+			throw new RBParserException(LOGTAG, "Unable to parse search", e);
 		}
 		return result;
 	}
@@ -64,7 +64,7 @@ public class RBParser {
 				return null;
 			}
 		} catch(Exception e){
-			throw new RBParserException();
+			throw new RBParserException(LOGTAG, "Unable to parse drink", e);
 		}
 	}
 	
@@ -118,8 +118,7 @@ public class RBParser {
 			Log.d(LOGTAG, "COMMENT: " + comment);
 			rating.setComment(comment);
 		} catch(Exception e){
-			Log.e(LOGTAG, e.getMessage());
-			throw new RBParserException();
+			throw new RBParserException(LOGTAG, "Unable to parse rating", e);
 		}		
 		return rating;
 	}
@@ -165,7 +164,7 @@ public class RBParser {
 				result.add(header);
 			}
 		} catch(Exception e){
-			throw new RBParserException();
+			throw new RBParserException(LOGTAG, "Unable to parse beermail", e);
 		}
 		return result;
 	}
@@ -187,7 +186,7 @@ public class RBParser {
 			int timeEnd = content.indexOf("</div>", timeBegin);
 			message.setTime(cleanHtml(content.substring(timeBegin, timeEnd)));
 		} catch(Exception e){
-			throw new RBParserException();
+			throw new RBParserException(LOGTAG, "Unable to parse message", e);
 		}		
 		return message;
 	}
@@ -199,7 +198,7 @@ public class RBParser {
 			int userIdEnd = responseString.indexOf("/\">profile</a><br>");
 			userId = responseString.substring(userIdBegin, userIdEnd);
 		} catch(Exception e){
-			throw new RBParserException();
+			throw new RBParserException(LOGTAG, "Unable to parse userid", e);
 		}
 		return userId;
 	}
@@ -329,8 +328,7 @@ public class RBParser {
 				}
 			}
 		} catch(Exception e){
-			e.printStackTrace();
-			throw new RBParserException();
+			throw new RBParserException(LOGTAG, "Unable to parse feed", e);
 		}		
 		return result;
 	}

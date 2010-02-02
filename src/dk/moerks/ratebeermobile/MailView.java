@@ -100,7 +100,7 @@ public class MailView extends Activity {
             	Thread deleteThread = new Thread(){
             		public void run(){
             			Looper.prepare();
-            			String responseString = NetBroker.doGet(getApplicationContext(), "http://ratebeer.com/DeleteMessage.asp?MessageID=" + messageId);
+            			String responseString = NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/DeleteMessage.asp?MessageID=" + messageId);
             	
 		    			if(responseString != null){
 		   					Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_mail_deleted), Toast.LENGTH_LONG);
