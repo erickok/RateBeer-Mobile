@@ -4,6 +4,8 @@ public class SearchResult {
 	private String beerName;
 	private String beerUrl;
 	private String beerId;
+	private String beerPercentile;
+	private String beerRatings;
 	private boolean rated;
 	
 	public String getBeerName() {
@@ -23,6 +25,18 @@ public class SearchResult {
 	}
 	public void setBeerId(String beerId) {
 		this.beerId = beerId;
+	}
+	public void setBeerPercentile(String beerPercentile) {
+		this.beerPercentile = beerPercentile;
+	}
+	public String getBeerPercentile() {
+		return beerPercentile;
+	}
+	public void setBeerRatings(String beerRatings) {
+		this.beerRatings = beerRatings;
+	}
+	public String getBeerRatings() {
+		return beerRatings;
 	}
 	public boolean isRated() {
 		return rated;

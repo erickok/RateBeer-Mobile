@@ -42,6 +42,17 @@ public class SearchAdapter extends ArrayAdapter<SearchResult> {
 			
 			TextView name = (TextView)row.findViewById(R.id.search_row_name);
 			name.setText(results.get(position).getBeerName());
+			
+			TextView percentile = (TextView)row.findViewById(R.id.search_row_percentile);
+			if(results.get(position).getBeerPercentile().equalsIgnoreCase("")){
+				percentile.setText("Score\nN/A");
+			} else {
+				percentile.setText("Score\n" + results.get(position).getBeerPercentile());
+			}
+			
+			TextView ratings = (TextView)row.findViewById(R.id.search_row_ratings);
+			ratings.setText("Ratings\n" + results.get(position).getBeerRatings());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

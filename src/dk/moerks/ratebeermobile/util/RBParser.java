@@ -44,6 +44,16 @@ public class RBParser {
 				searchResult.setBeerName(cleanHtml(beers[i].substring(nameBegin, nameEnd)));
 				Log.d(LOGTAG, "NAME: " + searchResult.getBeerName());
 				
+				int percentileBegin = beers[i].indexOf("</TD><TD align=\"right\">", nameEnd)+23;
+				int percentileEnd = beers[i].indexOf("</TD>", percentileBegin);
+				searchResult.setBeerPercentile(beers[i].substring(percentileBegin, percentileEnd).replaceAll("&nbsp;", ""));
+				Log.d(LOGTAG, "PERCENTILE: " + searchResult.getBeerPercentile());
+				
+				int ratingsBegin = beers[i].indexOf("<TD align=\"right\">", percentileEnd)+18;
+				int ratingsEnd = beers[i].indexOf("</TD>", ratingsBegin);
+				searchResult.setBeerRatings(beers[i].substring(ratingsBegin, ratingsEnd));
+				Log.d(LOGTAG, "RATINGS: " + searchResult.getBeerRatings());
+				
 				result.add(searchResult);
 			}
 		} catch(Exception e){

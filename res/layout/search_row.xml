@@ -8,9 +8,46 @@
         android:id="@+id/search_row_icon"
   		android:layout_width="20px"
   		android:layout_height="fill_parent"/>
-	<TextView android:id="@+id/search_row_name"
-        android:layout_width="fill_parent"
+  	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  		android:id="@+id/search_info_row"
+  		android:layout_width="fill_parent"
+  		android:layout_height="wrap_content"
+  		android:orientation="vertical"
         android:gravity="center_vertical"
-        android:layout_height="fill_parent"
-        android:textSize="20px"/>
+  		>
+		<TextView android:id="@+id/search_row_name"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:textSize="20px"/>
+	    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  			android:id="@+id/search_info_cols"
+  			android:layout_width="fill_parent"
+  			android:layout_height="wrap_content"
+  			android:orientation="horizontal"
+  			>
+	  		<TextView android:id="@+id/search_row_percentile"
+		        android:layout_width="wrap_content"
+		        android:layout_height="fill_parent"
+		        android:textSize="13px"
+				android:textColor="#222222"
+		        android:background="#66A212"
+		        android:paddingLeft="5px"
+		        android:paddingRight="5px"
+		        android:layout_marginBottom="3px"
+		        android:gravity="center_horizontal"
+		        />
+			<TextView android:id="@+id/search_row_ratings"
+		        android:layout_width="wrap_content"
+		        android:layout_height="fill_parent"
+		        android:textSize="13px"
+				android:textColor="#222222"
+		        android:background="#FF9F00"
+		        android:paddingLeft="5px"
+		        android:paddingRight="5px"
+		        android:layout_marginBottom="3px"
+		        android:layout_marginLeft="5px"
+		        android:gravity="center_horizontal"
+		        />
+	        </LinearLayout>
+        </LinearLayout>
 </LinearLayout>
