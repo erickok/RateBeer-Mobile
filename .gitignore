@@ -1,4 +1,5 @@
 assets/**/*
 gen/**/*
 dist/**/*
-bin/**/*
+bin/**/*/gen
+/assets

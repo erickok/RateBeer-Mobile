@@ -1,5 +1,6 @@
 package dk.moerks.ratebeermobile.io;
 
+import dk.moerks.ratebeermobile.exceptions.LocationException;
 import dk.moerks.ratebeermobile.handlers.PlacesLocationListener;
 import android.content.Context;
 import android.location.LocationManager;
@@ -8,7 +9,7 @@ import android.util.Log;
 public class LocationBroker {
 	private static final String LOGTAG = "LocationBroker";
 	
-	public static String requestLocation(Context context){
+	public static String requestLocation(Context context) throws LocationException {
 		LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		if(locationManager != null){
 			PlacesLocationListener locListener = new PlacesLocationListener();
@@ -22,11 +23,15 @@ public class LocationBroker {
 				longPoint = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude();
 				locationManager.removeUpdates(locListener);
 			} catch(Exception e){
-				Log.d(LOGTAG, "Falling Back to Network Provider...");
-				locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 500.0f, locListener);
-				latPoint = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLatitude();
-				longPoint = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLongitude();
-				locationManager.removeUpdates(locListener);
+				try {
+					Log.d(LOGTAG, "Falling Back to Network Provider...");
+					locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 500.0f, locListener);
+					latPoint = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLatitude();
+					longPoint = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLongitude();
+					locationManager.removeUpdates(locListener);
+				} catch(NullPointerException npe){
+					throw new LocationException(LOGTAG, "Unable to obtain location!", npe);
+				}
 			}
 
 			Log.d(LOGTAG, "LATITUDE : " + latPoint);

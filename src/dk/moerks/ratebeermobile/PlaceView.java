@@ -76,8 +76,11 @@ public class PlaceView extends MapActivity {
         placeTypeText.setText(placeTypeToString(placeType));
 
         TextView placeRatingText = (TextView) findViewById(R.id.place_view_rating);
-        placeRatingText.setText(getText(R.string.place_avgrating) + " " + StringUtils.roundNumberString(placeAvgRating));
-
+        if(!placeAvgRating.equalsIgnoreCase("null")){
+        	placeRatingText.setText(getText(R.string.place_avgrating) + " " + StringUtils.roundNumberString(placeAvgRating));
+        } else {
+        	placeRatingText.setText(getText(R.string.place_avgrating) + " N/A - Not enough ratings!");
+        }
         TextView placeAddressText = (TextView) findViewById(R.id.place_view_address);
         placeAddressText.setText(placeAddress);
 

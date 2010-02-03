@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ListView;
 import dk.moerks.ratebeermobile.activity.RBActivity;
 import dk.moerks.ratebeermobile.adapters.PlacesAdapter;
+import dk.moerks.ratebeermobile.exceptions.LocationException;
 import dk.moerks.ratebeermobile.exceptions.LoginException;
 import dk.moerks.ratebeermobile.exceptions.NetworkException;
 import dk.moerks.ratebeermobile.exceptions.RBParserException;
@@ -39,6 +40,7 @@ public class Places extends RBActivity {
 
         			results = RBJSONParser.parsePlaces(responseString);
     			} catch(RBParserException e){
+    			} catch(LocationException e){
     			} catch(NetworkException e){
     			} catch(LoginException e){
     				alertUser(e.getAlertMessage());

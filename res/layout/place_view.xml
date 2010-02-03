@@ -50,7 +50,7 @@
 	    android:layout_height="fill_parent"
 	    android:enabled="true" 
 	    android:clickable="false" 
-	    android:apiKey="0tBxvvb6l2CSqbVuteDQI9T4t-3RFm16Msmr8lw" />
+	    android:apiKey="0tBxvvb6l2CQgxnqMn4fNWrRD98WENXr4OaZ5Ew" />
 </LinearLayout>
 	    <!-- 
 	    DEBUG : android:apiKey="0tBxvvb6l2CQgxnqMn4fNWrRD98WENXr4OaZ5Ew" /> 
