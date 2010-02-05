@@ -1,6 +1,8 @@
 assets/**/*
 gen/**/*
 dist/**/*
-bin/**/*/gen
+bin/**/*
+/gen
 /assets
 /dist
+/bin
