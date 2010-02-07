@@ -9,12 +9,14 @@ import org.apache.http.message.BasicNameValuePair;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import dk.moerks.ratebeermobile.activity.RBActivity;
 import dk.moerks.ratebeermobile.adapters.SearchAdapter;
@@ -151,6 +153,22 @@ public class Search extends RBActivity {
                 Log.d(LOGTAG, "ACTIVTIY RESULT WAS CANCELLED");
             }
         }
+    }
+    
+    @Override
+    protected void onResume() {
+    	super.onResume();
+    	
+    	EditText searchText = (EditText) findViewById(R.id.searchText);
+    	
+    	if(searchText.getText().length() > 0){
+    		Log.d(LOGTAG, "Resuming! (Searching)");
+    		Log.d(LOGTAG, "Performing Click!");
+            Button searchButton = (Button) findViewById(R.id.searchButton);
+            searchButton.performClick();
+    	} else {
+    		Log.d(LOGTAG, "Resuming! (Search Field empty)");
+    	}
     }
     
     private void refreshList(Activity context, List<SearchResult> results){
