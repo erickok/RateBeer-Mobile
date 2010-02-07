@@ -48,6 +48,18 @@
 		        android:layout_marginLeft="5px"
 		        android:gravity="center_horizontal"
 		        />
+			<TextView android:id="@+id/search_row_additional"
+		        android:layout_width="wrap_content"
+		        android:layout_height="fill_parent"
+		        android:textSize="13px"
+				android:textColor="#dddddd"
+		        android:background="#666666"
+		        android:paddingLeft="5px"
+		        android:paddingRight="5px"
+		        android:layout_marginBottom="3px"
+		        android:layout_marginLeft="5px"
+		        android:gravity="center_horizontal"
+		        />
 	        </LinearLayout>
         </LinearLayout>
 </LinearLayout>

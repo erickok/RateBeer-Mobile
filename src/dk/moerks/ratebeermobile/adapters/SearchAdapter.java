@@ -53,6 +53,19 @@ public class SearchAdapter extends ArrayAdapter<SearchResult> {
 			TextView ratings = (TextView)row.findViewById(R.id.search_row_ratings);
 			ratings.setText("Ratings\n" + results.get(position).getBeerRatings());
 			
+			TextView additional = (TextView)row.findViewById(R.id.search_row_additional);
+			if(results.get(position).isAlias() && results.get(position).isRetired()){
+				additional.setText("Information\nRet. & Alias");
+			}
+			if(results.get(position).isAlias() && !results.get(position).isRetired()){
+				additional.setText("Information\nAlias");
+			}
+			if(!results.get(position).isAlias() && results.get(position).isRetired()){
+				additional.setText("Information\nRetired");
+			}
+			if(!results.get(position).isAlias() && !results.get(position).isRetired()){
+				additional.setVisibility(TextView.INVISIBLE);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -7,6 +7,8 @@ public class SearchResult {
 	private String beerPercentile;
 	private String beerRatings;
 	private boolean rated;
+	private boolean alias;
+	private boolean retired;
 	
 	public String getBeerName() {
 		return beerName;
@@ -43,5 +45,17 @@ public class SearchResult {
 	}
 	public void setRated(boolean rated) {
 		this.rated = rated;
+	}
+	public void setAlias(boolean alias) {
+		this.alias = alias;
+	}
+	public boolean isAlias() {
+		return alias;
+	}
+	public void setRetired(boolean retired) {
+		this.retired = retired;
+	}
+	public boolean isRetired() {
+		return retired;
 	}
 }

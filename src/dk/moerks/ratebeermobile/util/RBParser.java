@@ -54,6 +54,18 @@ public class RBParser {
 				searchResult.setBeerRatings(beers[i].substring(ratingsBegin, ratingsEnd));
 				Log.d(LOGTAG, "RATINGS: " + searchResult.getBeerRatings());
 				
+				if(beers[i].contains("&nbsp;A&nbsp;")){
+					searchResult.setAlias(true);
+				} else {
+					searchResult.setAlias(false);
+				}
+				
+				if(beers[i].contains("&nbsp;R&nbsp;")){
+					searchResult.setRetired(true);
+				} else {
+					searchResult.setRetired(false);
+				}
+				
 				result.add(searchResult);
 			}
 		} catch(Exception e){
