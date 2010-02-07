@@ -11,6 +11,7 @@ import android.util.Log;
 
 import dk.moerks.ratebeermobile.exceptions.RBParserException;
 import dk.moerks.ratebeermobile.vo.PlacesInfo;
+import dk.moerks.ratebeermobile.vo.SearchResult;
 
 public class RBJSONParser {
 	private static final String LOGTAG = "RBJSONParser";
@@ -54,5 +55,37 @@ public class RBJSONParser {
 		} catch(JSONException e){
 			throw new RBParserException(LOGTAG, "Unable to parse places", e);
 		}
-	} 
+	}
+	
+	public static List<SearchResult> parseSearch(String responseString) throws RBParserException {
+		ArrayList<SearchResult> results = new ArrayList<SearchResult>();
+		
+		try {
+			Log.d(LOGTAG, "Creating JSON Object");
+			JSONArray jsonObjects = new JSONArray(responseString);
+			
+			Log.d(LOGTAG, "ARRAY LENGTH: " + jsonObjects.length());
+			for (int i = 0; i < jsonObjects.length(); i++) {
+				SearchResult searchResult = new SearchResult();
+				
+				//"BeerID":106264,"BeerName":"Skands 5 \u00C5r","BrewerID":4147,"OverallPctl":52,"RateCount":17,"IsAlias":false,"Retired":false,"State":" ","Country":"Denmark ","IsRated":0
+				Log.d(LOGTAG, "JSONObject("+i+"): " + jsonObjects.get(i));
+				JSONObject json = new JSONObject(jsonObjects.getString(i));
+				
+				searchResult.setBeerId(json.getString("BeerID"));
+				searchResult.setBeerName(json.getString("BeerName"));
+				searchResult.setBeerPercentile(json.getString("OverallPctl"));
+				searchResult.setBeerRatings(json.getString("RateCount"));
+				searchResult.setRated(json.getString("IsRated").equals("1"));
+				searchResult.setAlias(json.getBoolean("IsAlias"));
+				searchResult.setRetired(json.getBoolean("Retired"));
+				
+				results.add(searchResult);
+			}
+		} catch(JSONException e){
+			throw new RBParserException(LOGTAG, "Unable to parse search", e);
+		}
+		
+		return results;
+	}
 }

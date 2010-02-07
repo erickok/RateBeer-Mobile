@@ -13,7 +13,9 @@ public class RBActivity extends ListActivity {
 	private static final String LOGTAG = "RBActivity";
 	
 	private static boolean inProgress = false;
-
+	private static String userId = "";
+	
+	
 	public final Handler threadHandler = new Handler();
     public final Runnable update = new Runnable() {
         public void run() {
@@ -66,5 +68,13 @@ public class RBActivity extends ListActivity {
 
 	public static boolean isInProgress() {
 		return inProgress;
+	}
+
+	public static void setUserId(String userId) {
+		RBActivity.userId = userId;
+	}
+
+	public static String getUserId() {
+		return userId;
 	}
 }

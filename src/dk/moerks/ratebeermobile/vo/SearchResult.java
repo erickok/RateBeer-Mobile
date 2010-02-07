@@ -2,7 +2,7 @@ package dk.moerks.ratebeermobile.vo;
 
 public class SearchResult {
 	private String beerName;
-	private String beerUrl;
+	//private String beerUrl;
 	private String beerId;
 	private String beerPercentile;
 	private String beerRatings;
@@ -16,12 +16,14 @@ public class SearchResult {
 	public void setBeerName(String beerName) {
 		this.beerName = beerName;
 	}
+	/*
 	public String getBeerUrl() {
 		return beerUrl;
 	}
 	public void setBeerUrl(String beerUrl) {
 		this.beerUrl = beerUrl;
 	}
+	*/
 	public String getBeerId() {
 		return beerId;
 	}

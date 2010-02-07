@@ -25,6 +25,7 @@ import dk.moerks.ratebeermobile.exceptions.NetworkException;
 import dk.moerks.ratebeermobile.exceptions.RBParserException;
 import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.util.BCPParser;
+import dk.moerks.ratebeermobile.util.RBJSONParser;
 import dk.moerks.ratebeermobile.util.RBParser;
 import dk.moerks.ratebeermobile.vo.SearchResult;
 
@@ -87,8 +88,8 @@ public class Search extends RBActivity {
 		    			parameters.add(new BasicNameValuePair("BeerName", searchText.getText().toString()));  
 		
 		    			try {
-		    				String responseString = NetBroker.doRBPost(getApplicationContext(), "http://www.ratebeer.com/findbeer.asp", parameters);
-		    				results = RBParser.parseSearch(responseString);
+		    				String responseString = NetBroker.doRBGet(getApplicationContext(), "http://www.ratebeer.com/json/s.asp?b="+searchText.getText().toString()+"&u="+getUserId());
+		    				results = RBJSONParser.parseSearch(responseString);
 		    			} catch(RBParserException e){
 		    			} catch(NetworkException e){
 		    			} catch(LoginException e){

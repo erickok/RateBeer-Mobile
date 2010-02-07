@@ -34,6 +34,7 @@ public class RBParser {
 				searchResult.setBeerId(beers[i].substring(idBegin, idEnd));
 				Log.d(LOGTAG, "ID: " + searchResult.getBeerId());
 				
+				/*
 				int urlBegin = beers[i].indexOf("<A HREF=\"/beer/")+9;
 				int urlEnd = beers[i].indexOf("\">", urlBegin);
 				searchResult.setBeerUrl(beers[i].substring(urlBegin, urlEnd));
@@ -65,7 +66,7 @@ public class RBParser {
 				} else {
 					searchResult.setRetired(false);
 				}
-				
+				*/
 				result.add(searchResult);
 			}
 		} catch(Exception e){

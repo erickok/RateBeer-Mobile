@@ -113,6 +113,7 @@ public class Home extends RBActivity {
 
 	            				drink = RBParser.parseDrink(responseString);
     	    					feeds = RBParser.parseFeed(responseString);
+    	    					setUserId(RBParser.parseUserId(responseString));
     	    					
     	    					threadHandler.post(update);
 	    	    			} catch(RBParserException e){

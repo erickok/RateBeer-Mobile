@@ -8,6 +8,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,13 +55,9 @@ public class MailAction extends RBActivity {
 	            subjectText.setText(subject);
 	            messageText.setText("\n\n......................................................\n" + message);
         	} else {
-        		try {
-            		String responseString = NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/user/messages/");
-        			extras.putString("CURRENT_USER_ID", RBParser.parseUserId(responseString));
-        		} catch(RBParserException e){
-        		} catch(NetworkException e){
-        		} catch(LoginException e){
-        		}
+        		//String responseString = NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/user/messages/");
+        		Log.d(LOGTAG, "CURRENT USER ID: "+ getUserId());
+        		extras.putString("CURRENT_USER_ID", getUserId());
         		messageId = null;
         		from = null;
         		senderId = null;
