@@ -225,7 +225,11 @@ public class RBParser {
 			String content = responseString.substring(contentBegin, contentEnd);
 			
 			String[] feedChunks = content.split("<span class=\"userheader\">");
-			
+			if(feedChunks.length == 0){
+				//There is no friend feed available
+				return null;
+			}
+			Log.d(LOGTAG, "FEED CHUNKS: " + feedChunks.length);
 			for (int i = 1; i < feedChunks.length; i++) {
 				int timeEnd = feedChunks[i].indexOf("</span></div>");
 				String time = feedChunks[i].substring(0, timeEnd);
@@ -236,7 +240,7 @@ public class RBParser {
 				}
 				
 				String[] actions = feedChunks[i].split("<div class=\"friendsStatus\">");
-				
+				Log.d(LOGTAG, "FEED ACTIONS: " + actions.length);
 				for (int j = 1; j < actions.length; j++) {
 					Feed feed = new Feed();
 					feed.setDate(time);

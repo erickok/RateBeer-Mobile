@@ -1,5 +1,6 @@
 package dk.moerks.ratebeermobile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -9,6 +10,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import dk.moerks.ratebeermobile.activity.RBActivity;
 import dk.moerks.ratebeermobile.adapters.PlacesAdapter;
 import dk.moerks.ratebeermobile.exceptions.LocationException;
@@ -40,8 +42,11 @@ public class Places extends RBActivity {
 
         			results = RBJSONParser.parsePlaces(responseString);
     			} catch(RBParserException e){
+    				alertUser(e.getAlertMessage());
     			} catch(LocationException e){
+    				alertUser(e.getAlertMessage());
     			} catch(NetworkException e){
+    				alertUser(e.getAlertMessage());
     			} catch(LoginException e){
     				alertUser(e.getAlertMessage());
        			}
@@ -83,7 +88,17 @@ public class Places extends RBActivity {
     }
     
     private void refreshList(Activity context, List<PlacesInfo> results){
-    	PlacesAdapter adapter = new PlacesAdapter(context, results);
-    	setListAdapter(adapter);
+    	if (results == null) {
+    		// If an error occurred, just show an empty list for now
+    		results = new ArrayList<PlacesInfo>();
+    	}
+    	TextView emptyText = (TextView)findViewById(android.R.id.empty);
+    	if (results.size() == 0) {
+    		// If no places were found, show this in a text message
+    		emptyText.setText(R.string.noplaces);
+    	} else {
+    		setListAdapter(new PlacesAdapter(context, results));
+    		emptyText.setText("");
+    	}
     }
 }

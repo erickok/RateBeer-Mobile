@@ -9,6 +9,8 @@ import org.apache.http.message.BasicNameValuePair;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +33,7 @@ public class Home extends RBActivity {
 	private String drink;
 	private List<Feed> feeds;
 	private boolean firstRun;
-	private boolean buttonFocus;
+	private boolean hasNewDrinkText;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,12 +51,12 @@ public class Home extends RBActivity {
 			firstRun = true;
 		}
                 
-        Button updateButton = (Button) findViewById(R.id.drinkingUpdateButton);
+        final Button updateButton = (Button) findViewById(R.id.drinkingUpdateButton);
         Button searchButton = (Button) findViewById(R.id.searchMenuButton);
         Button beermailButton = (Button) findViewById(R.id.beermailMenuButton);
         Button placesButton = (Button) findViewById(R.id.placesMenuButton);
         
-        EditText updateTextGen = (EditText) findViewById(R.id.drinkingText);
+        final EditText updateTextGen = (EditText) findViewById(R.id.drinkingText);
         updateTextGen.setHint(getText(R.string.drinking));
                 
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -78,13 +80,27 @@ public class Home extends RBActivity {
             }
         });
         
+        updateTextGen.addTextChangedListener(new TextWatcher() {
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}			
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+			public void afterTextChanged(Editable s) {
+				hasNewDrinkText = (s != null && s.length() > 0);
+				if (hasNewDrinkText) {
+					updateButton.setText(R.string.update);
+				} else {
+					updateButton.setText(R.string.refresh);
+				}
+			}
+		});
+        
         updateButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				EditText updateText = (EditText) findViewById(R.id.drinkingText);
-        		final String updateTextString = updateText.getText().toString();
+        		final String updateTextString = updateTextGen.getText().toString();
         		drink = updateTextString;
 
-        		if(buttonFocus){
+        		if(hasNewDrinkText){
         			indeterminateStart("Update Drinking Status...");
 	            	Thread updateDrinkingThread = new Thread(){
 	            		public void run(){
@@ -172,6 +188,9 @@ public class Home extends RBActivity {
 		if(drink != null && drink.length() > 0){
 			TextView updateStatusGen = (TextView) findViewById(R.id.drinkingStatus);
 			updateStatusGen.setText("You are currently drinking " + drink);
+			// Updated, so clear the text box
+	        EditText updateTextGen = (EditText) findViewById(R.id.drinkingText);
+	        updateTextGen.setText("");
 		}
 
 		//Update Activity List if there is any
