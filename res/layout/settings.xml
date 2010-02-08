@@ -12,7 +12,7 @@
 		<TableRow>
 	        <TextView android:id="@+id/settings_label_username"
                 android:text="@string/settings_username"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="10px"
                 android:textSize="15sp" />
@@ -25,7 +25,7 @@
 		<TableRow>
 	        <TextView android:id="@+id/settings_label_password"
                 android:text="@string/settings_password"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="10px"
                 android:textSize="15sp" />
@@ -51,6 +51,7 @@
 		        android:text="@string/settings_notification_interval_label"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
+                android:paddingRight="10px"
 	            android:textSize="15sp" 
 	            />
 			<Spinner
