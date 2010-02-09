@@ -6,9 +6,7 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -17,12 +15,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import dk.moerks.ratebeermobile.activity.RBActivity;
-import dk.moerks.ratebeermobile.exceptions.LoginException;
-import dk.moerks.ratebeermobile.exceptions.NetworkException;
-import dk.moerks.ratebeermobile.io.NetBroker;
+import dk.moerks.ratebeermobile.activity.BetterRBDefaultActivity;
+import dk.moerks.ratebeermobile.task.SaveRatingTask;
 
-public class Rate extends RBActivity {
+public class Rate extends BetterRBDefaultActivity {
 	@SuppressWarnings("unused")
 	private static final String LOGTAG = "Rate";
     String beerid =  null;
@@ -62,67 +58,41 @@ public class Rate extends RBActivity {
 			}
         });
         
-        
-        
         TextView beernameText = (TextView) findViewById(R.id.rate_label_beername);
         beernameText.setText(beername);
         
         Button rateButton = (Button) findViewById(R.id.rate_button);
         rateButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
-                setProgressBarIndeterminateVisibility(true);
-
-            	Spinner aromaText = (Spinner) findViewById(R.id.rate_value_aroma);
-            	Spinner appearanceText = (Spinner) findViewById(R.id.rate_value_appearance);
-            	Spinner flavorText = (Spinner) findViewById(R.id.rate_value_flavor);
-            	Spinner palateText = (Spinner) findViewById(R.id.rate_value_palate);
-            	Spinner overallText = (Spinner) findViewById(R.id.rate_value_overall);
+                
             	EditText comment = (EditText) findViewById(R.id.rate_value_comments);
-            	
-            	final String aromaString = (String)aromaText.getSelectedItem();
-            	final String appearanceString = (String)appearanceText.getSelectedItem();
-            	final String flavorString = (String)flavorText.getSelectedItem();
-            	final String palateString = (String)palateText.getSelectedItem();
-            	final String overallString = (String)overallText.getSelectedItem();
             	final String commentString = comment.getText().toString();
                 
-            	Thread sendThread = new Thread(){
-            		public void run(){
-            			Looper.prepare();
-		            	
-		    			List<NameValuePair> parameters = new ArrayList<NameValuePair>();  
-		    			parameters.add(new BasicNameValuePair("BeerID", beerid));  
-		    			parameters.add(new BasicNameValuePair("aroma", aromaString));  
-		    			parameters.add(new BasicNameValuePair("appearance", appearanceString));  
-		    			parameters.add(new BasicNameValuePair("flavor", flavorString));  
-		    			parameters.add(new BasicNameValuePair("palate", palateString));  
-		    			parameters.add(new BasicNameValuePair("overall", overallString));
-		    			parameters.add(new BasicNameValuePair("totalscore", calculateTotalScore(aromaString, appearanceString, flavorString, palateString, overallString)));
-		    			parameters.add(new BasicNameValuePair("Comments", commentString));
-		    			
-		    			if(commentString.length() > 74){
-		    				try {
-		    					NetBroker.doRBPost(getApplicationContext(), "http://www.ratebeer.com/saverating.asp", parameters);
-			    				threadHandler.post(update);
-			   					Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_rate_success), Toast.LENGTH_SHORT);
-			   					toast.show();
-			   	            	Intent homeIntent = new Intent(Rate.this, Home.class);  
-			   	            	startActivity(homeIntent);  
-		    				} catch(NetworkException e){
-		    				} catch(LoginException e){
-			   					threadHandler.post(update);
-			   					Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_rate_failure), Toast.LENGTH_LONG);
-			   					toast.show();
-		    				}
-		    			} else {
-		    				threadHandler.post(update);
-		   					Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_rate_shortcomment), Toast.LENGTH_LONG);
-		   					toast.show();
-		    			}
-		    			Looper.loop();
-            		}
-            	};
-                sendThread.start();
+    			if(commentString.length() > 74){
+
+                	Spinner aromaText = (Spinner) findViewById(R.id.rate_value_aroma);
+                	Spinner appearanceText = (Spinner) findViewById(R.id.rate_value_appearance);
+                	Spinner flavorText = (Spinner) findViewById(R.id.rate_value_flavor);
+                	Spinner palateText = (Spinner) findViewById(R.id.rate_value_palate);
+                	Spinner overallText = (Spinner) findViewById(R.id.rate_value_overall);
+                	
+                	final String aromaString = (String)aromaText.getSelectedItem();
+                	final String appearanceString = (String)appearanceText.getSelectedItem();
+                	final String flavorString = (String)flavorText.getSelectedItem();
+                	final String palateString = (String)palateText.getSelectedItem();
+                	final String overallString = (String)overallText.getSelectedItem();
+                	
+	    			List<NameValuePair> parameters = new ArrayList<NameValuePair>();  
+	    			parameters.add(new BasicNameValuePair("BeerID", beerid));  
+	    			parameters.add(new BasicNameValuePair("aroma", aromaString));  
+	    			parameters.add(new BasicNameValuePair("appearance", appearanceString));  
+	    			parameters.add(new BasicNameValuePair("flavor", flavorString));  
+	    			parameters.add(new BasicNameValuePair("palate", palateString));  
+	    			parameters.add(new BasicNameValuePair("overall", overallString));
+	    			parameters.add(new BasicNameValuePair("totalscore", calculateTotalScore(aromaString, appearanceString, flavorString, palateString, overallString)));
+	    			parameters.add(new BasicNameValuePair("Comments", commentString));
+	    			new SaveRatingTask(Rate.this).execute(parameters.toArray(new NameValuePair[] {}));
+    			}
             }
 
 			private String calculateTotalScore(String aromaString, String appearanceString, String flavorString, String palateString, String overallString) {
@@ -150,4 +120,9 @@ public class Rate extends RBActivity {
 		beernameText.requestFocus();
 
     }
+
+	public void onRatingSaved() {
+		Toast.makeText(getApplicationContext(), getText(R.string.toast_rate_success), Toast.LENGTH_SHORT).show();
+	}
+	
 }

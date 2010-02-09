@@ -1,12 +1,7 @@
 package dk.moerks.ratebeermobile;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -15,48 +10,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
-import dk.moerks.ratebeermobile.activity.RBActivity;
+import dk.moerks.ratebeermobile.activity.BetterRBListActivity;
 import dk.moerks.ratebeermobile.adapters.SearchAdapter;
-import dk.moerks.ratebeermobile.exceptions.LoginException;
-import dk.moerks.ratebeermobile.exceptions.NetworkException;
-import dk.moerks.ratebeermobile.exceptions.RBParserException;
-import dk.moerks.ratebeermobile.io.NetBroker;
-import dk.moerks.ratebeermobile.util.BCPParser;
-import dk.moerks.ratebeermobile.util.RBParser;
+import dk.moerks.ratebeermobile.task.BarcodeLookupTask;
+import dk.moerks.ratebeermobile.task.SearchTask;
 import dk.moerks.ratebeermobile.vo.SearchResult;
 
-public class Search extends RBActivity {
+public class Search extends BetterRBListActivity {
 	private static final String LOGTAG = "Search";
 	private static final int BARCODE_ACTIVITY = 101;
-	
-	private String product = null;
-	
-	public static List<SearchResult> results = null;
 
-	// Create runnable for posting
-    final Runnable processDone = new Runnable() {
-        public void run() {
-			if(product != null && product.length() > 0){
-				Log.d(LOGTAG, "PRODUCT: " + product);
-				EditText searchBox = (EditText) findViewById(R.id.searchText);
-				searchBox.setText(product);
-			} else {
-				Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_search_barcode), Toast.LENGTH_LONG);
-				toast.show();
-			}
-        	
-        	indeterminateStop();
-        }
-    };
-
-	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
         
-        //If barcodescanner is available setup the searchfield
+        // If barcode scanner is available setup the search field
         try {
         	getPackageManager().getPackageInfo("com.google.zxing.client.android", PackageManager.GET_ACTIVITIES);
 
@@ -77,26 +48,8 @@ public class Search extends RBActivity {
         Button searchButton = (Button) findViewById(R.id.searchButton);
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-        		indeterminateStart("Searching...");
-            	Thread searchThread = new Thread(){
-            		public void run(){
-	            		EditText searchText = (EditText) findViewById(R.id.searchText);
-		    			List<NameValuePair> parameters = new ArrayList<NameValuePair>();  
-		    			parameters.add(new BasicNameValuePair("BeerName", searchText.getText().toString()));  
-		
-		    			try {
-		    				String responseString = NetBroker.doRBPost(getApplicationContext(), "http://www.ratebeer.com/findbeer.asp", parameters);
-		    				results = RBParser.parseSearch(responseString);
-		    			} catch(RBParserException e){
-		    			} catch(NetworkException e){
-		    			} catch(LoginException e){
-		    				alertUser(e.getAlertMessage());
-		    			}
-		    			
-		    			threadHandler.post(update);
-            		}
-            	};
-            	searchThread.start();
+	            EditText searchText = (EditText) findViewById(R.id.searchText);
+	            new SearchTask(Search.this).execute(searchText.getText().toString());
             }
         });
     }
@@ -124,48 +77,46 @@ public class Search extends RBActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == BARCODE_ACTIVITY) {
             if (resultCode == RESULT_OK) {
+            	
+            	// A barcode was scanned
                 final String contents = intent.getStringExtra("SCAN_RESULT");
                 final String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
                 Log.d(LOGTAG, "BC CONTENTS: " + contents);
                 Log.d(LOGTAG, "BC FORMAT:   " + format);
                 
-    			indeterminateStart("Identifying Barcode...");
-            	Thread bcThread = new Thread(){
-            		public void run(){
-            			//Do the network IO and parsing
-		    			if(contents != null && contents.length() > 0){
-		    				String bcUrl = "http://en.barcodepedia.com/"+contents;
-		    				Log.d(LOGTAG, "BARCODE URL: " + bcUrl);
-		    				try {
-		    					String responseString = NetBroker.doGet(getApplicationContext(), bcUrl);
-		    					product = BCPParser.parseBarcodeLookup(responseString);
-		    				} catch(NetworkException e){
-		    				}
-		    			}
-            			
-		    			threadHandler.post(processDone);
-            		}
-            	};
-            	bcThread.start();
+                // Loop up the barcode to match some product
+                new BarcodeLookupTask(this).execute(contents);
+                
             } else if (resultCode == RESULT_CANCELED) {
                 Log.d(LOGTAG, "ACTIVTIY RESULT WAS CANCELLED");
             }
         }
     }
     
-    private void refreshList(Activity context, List<SearchResult> results){
-    	if(results != null && results.size() > 0){
-	    	SearchAdapter adapter = new SearchAdapter(context, results);
-	    	setListAdapter(adapter);
-    	} else {
-			Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_search_empty), Toast.LENGTH_LONG);
-			toast.show();
+	public void onResultsRetrieved(List<SearchResult> results) {
+    	if (results != null) {
+    		setListAdapter(new SearchAdapter(this, results));
+			if (results.size() <= 0) {
+	    		// If no beers were found, show this in a text message
+				((TextView)findViewById(android.R.id.empty)).setText(R.string.toast_search_empty);
+	    	}
     	}
-    }
-    
-    protected void update(){
-    	Log.d(LOGTAG, "RESULT SIZE: " + results.size());
-    	refreshList(Search.this, results);
-    	indeterminateStop();
-    }
+	}
+
+	public void onBarcodeProductRetrieved(String result) {
+		if(result != null && result.length() > 0){
+			
+			// Show the text of the found product in the search box
+			Log.d(LOGTAG, "PRODUCT: " + result);
+			EditText searchBox = (EditText) findViewById(R.id.searchText);
+			searchBox.setText(result);
+
+			// Start a search for the found product
+			new SearchTask(this).execute(result);
+			
+		} else {
+			Toast.makeText(getApplicationContext(), getText(R.string.toast_search_barcode), Toast.LENGTH_LONG).show();
+		}
+	}
+	
 }

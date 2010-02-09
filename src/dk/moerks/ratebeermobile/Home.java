@@ -1,37 +1,27 @@
 package dk.moerks.ratebeermobile;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnKeyListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import dk.moerks.ratebeermobile.activity.RBActivity;
+import dk.moerks.ratebeermobile.activity.BetterRBListActivity;
 import dk.moerks.ratebeermobile.adapters.FeedAdapter;
-import dk.moerks.ratebeermobile.exceptions.LoginException;
-import dk.moerks.ratebeermobile.exceptions.NetworkException;
-import dk.moerks.ratebeermobile.exceptions.RBParserException;
-import dk.moerks.ratebeermobile.io.NetBroker;
-import dk.moerks.ratebeermobile.util.RBParser;
-import dk.moerks.ratebeermobile.vo.Feed;
+import dk.moerks.ratebeermobile.task.SetDrinkingStatusTask;
+import dk.moerks.ratebeermobile.task.RefreshFriendFeedTask;
+import dk.moerks.ratebeermobile.task.RefreshFriendFeedTask.FriendFeedTaskResult;
 
-public class Home extends RBActivity {
-	private static final String LOGTAG = "Home";
-	private String drink;
-	private List<Feed> feeds;
+public class Home extends BetterRBListActivity {
+	//private static final String LOGTAG = "Home";
 	private boolean firstRun;
 	private boolean hasNewDrinkText;
     
@@ -95,55 +85,33 @@ public class Home extends RBActivity {
 			}
 		});
         
+        updateTextGen.setOnKeyListener(new OnKeyListener() {
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+					// Set the 'now drinking' status when the 'enter' key is used
+            		String updateTextString = updateTextGen.getText().toString();
+        			new SetDrinkingStatusTask(Home.this).execute(updateTextString);
+					return true;
+				}
+				return false;
+			}
+		});
+        
         updateButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-        		final String updateTextString = updateTextGen.getText().toString();
-        		drink = updateTextString;
-
         		if(hasNewDrinkText){
-        			indeterminateStart("Update Drinking Status...");
-	            	Thread updateDrinkingThread = new Thread(){
-	            		public void run(){
-	            			Log.d(LOGTAG, "Update Drink Status");
-			    			List<NameValuePair> parameters = new ArrayList<NameValuePair>();  
-			    			parameters.add(new BasicNameValuePair("MyStatus", updateTextString));  
-			
-			    			if(updateTextString.length() > 0){
-			    				try {
-			    					NetBroker.doRBPost(getApplicationContext(), "http://www.ratebeer.com/userstatus-process.asp", parameters);
-			    					threadHandler.post(update);
-			    				} catch(NetworkException e){
-			    				} catch(LoginException e){
-		    	    				indeterminateStop();
-			    				}
-			    			}
-	            		}
-	            	};
-	            	updateDrinkingThread.start();
+            		String updateTextString = updateTextGen.getText().toString();
+        			new SetDrinkingStatusTask(Home.this).execute(updateTextString);
         		} else {
-	                indeterminateStart("Refreshing Friend Feed...");
-	    			Thread drinkThread = new Thread(){
-	    	    		public void run(){
-	            			try {
-	            				String responseString = NetBroker.doRBGet(getApplicationContext(), "http://www.ratebeer.com/activity");
-
-	            				drink = RBParser.parseDrink(responseString);
-    	    					feeds = RBParser.parseFeed(responseString);
-    	    					
-    	    					threadHandler.post(update);
-	    	    			} catch(RBParserException e){
-	    	    			} catch(NetworkException e){
-	    	    			} catch(LoginException e){
-	    	    				alertUser(e.getAlertMessage());
-	    	    			}
-	    	    		}
-	    	    	};
-	    	    	drinkThread.start();
+        			new RefreshFriendFeedTask(Home.this).execute();
         		}
 			}
 		});
         
-        updateButton.performClick();
+        // Force an update of the friend feed on startup
+        if (!firstRun) {
+        	new RefreshFriendFeedTask(this).execute();
+        }
     }
 
 	@Override
@@ -183,22 +151,33 @@ public class Home extends RBActivity {
 		return false;
 	}
 	
-	protected void update(){
-		//Update Drinking Status
-		if(drink != null && drink.length() > 0){
-			TextView updateStatusGen = (TextView) findViewById(R.id.drinkingStatus);
-			updateStatusGen.setText("You are currently drinking " + drink);
-			// Updated, so clear the text box
-	        EditText updateTextGen = (EditText) findViewById(R.id.drinkingText);
-	        updateTextGen.setText("");
+	public void onFriendFeedRefreshed(FriendFeedTaskResult result){
+		
+		// Update Drinking Status
+		if(result.drink != null && result.drink.length() > 0){
+			onDrinkingStatusUpdated(result.drink);
 		}
 
-		//Update Activity List if there is any
-		if(feeds != null && feeds.size() > 0){
-			FeedAdapter adapter = new FeedAdapter(this, feeds);
-			setListAdapter(adapter);
+		// Update Activity List if there is any
+		if(result.feeds != null){
+			setListAdapter(new FeedAdapter(this, result.feeds));
+			if (result.feeds.size() <= 0) {
+				((TextView)findViewById(android.R.id.empty)).setText("");
+			}
 		}
 
-		indeterminateStop();
 	}
+
+	public void onDrinkingStatusUpdated(String result) {
+
+		// Update Drinking Status
+		TextView updateStatusGen = (TextView) findViewById(R.id.drinkingStatus);
+		updateStatusGen.setText("You are currently drinking " + result);
+
+		// Updated, so clear the text box
+        EditText updateTextGen = (EditText) findViewById(R.id.drinkingText);
+        updateTextGen.setText("");
+        
+	}
+	
 }

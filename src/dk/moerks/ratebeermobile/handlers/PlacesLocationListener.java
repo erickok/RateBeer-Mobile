@@ -5,7 +5,7 @@ import android.location.LocationListener;
 import android.os.Bundle;
 
 public class PlacesLocationListener implements LocationListener {
-	private static final String LOGTAG = "PlacesLocationListener";
+	//private static final String LOGTAG = "PlacesLocationListener";
 	
 	public void onLocationChanged(Location location) {}
 

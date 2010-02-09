@@ -18,20 +18,20 @@ import dk.moerks.ratebeermobile.overlays.PinOverlayItem;
 import dk.moerks.ratebeermobile.util.StringUtils;
 
 public class PlaceView extends MapActivity {
-	private String placeId = null;
+	//private String placeId = null;
 	private String placeName = null;
 	private String placeType = null;
 	private String placeAddress = null;
 	private String placeCity = null;
-	private String placeStateId = null;
-	private String placeCountryId = null;
-	private String placePostalCode = null;
+	//private String placeStateId = null;
+	//private String placeCountryId = null;
+	//private String placePostalCode = null;
 	private String placePhoneNumber = null;
 	private String placeAvgRating = null;
 	private String placePhoneAC = null;
 	private String placeLatitude = null;
 	private String placeLongitude = null;
-	private String placeDistance = null;
+	//private String placeDistance = null;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,33 +40,33 @@ public class PlaceView extends MapActivity {
 
         Bundle extras = getIntent().getExtras();
         if(extras !=null) {
-        	placeId = extras.getString("PLACEID");
+        	//placeId = extras.getString("PLACEID");
         	placeName = extras.getString("PLACENAME");
         	placeType = extras.getString("PLACETYPE");
         	placeAddress = extras.getString("PLACEADDRESS");
         	placeCity = extras.getString("PLACECITY");
-        	placeStateId = extras.getString("PLACESTATEID");
-        	placeCountryId = extras.getString("PLACECOUNTRYID");
+        	//placeStateId = extras.getString("PLACESTATEID");
+        	//placeCountryId = extras.getString("PLACECOUNTRYID");
         	placePhoneNumber = extras.getString("PLACEPHONENUMBER");
         	placeAvgRating = extras.getString("PLACEAVGRATING");
         	placePhoneAC = extras.getString("PLACEPHONEAC");
         	placeLatitude = extras.getString("PLACELAT");
         	placeLongitude = extras.getString("PLACELNG");
-        	placeDistance = extras.getString("PLACEDISTANCE");
+        	//placeDistance = extras.getString("PLACEDISTANCE");
         } else {
-        	placeId = "Not Set!";
+        	//placeId = "Not Set!";
         	placeName = "Not Set!";
         	placeType = "Not Set!";
         	placeAddress = "Not Set!";
         	placeCity = "Not Set!";
-        	placeStateId = "Not Set!";
-        	placeCountryId = "Not Set!";
+        	//placeStateId = "Not Set!";
+        	//placeCountryId = "Not Set!";
         	placePhoneNumber = "Not Set!";
         	placeAvgRating = "Not Set!";
         	placePhoneAC = "Not Set!";
         	placeLatitude = "Not Set!";
         	placeLongitude = "Not Set!";
-        	placeDistance = "Not Set!";
+        	//placeDistance = "Not Set!";
         }
 
         TextView placeNameText = (TextView) findViewById(R.id.place_view_name);

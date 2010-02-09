@@ -22,7 +22,7 @@
 <string name="toast_rate_failure">There was an error submitting the rating. Please try Again!</string>
 <string name="toast_drink_empty">Please enter the name of the drink!</string>
 <string name="toast_network_error">There was a connection error. Please check your connection and ratebeer.com credentials!</string>
-<string name="toast_settings_saved">You settings was saved</string>
+<string name="toast_settings_saved">Your settings were saved</string>
 <string name="rate_charleft">Min Characters Remaining: </string>
 <string name="toast_rate_shortcomment">You must enter at least 75 characters in your rating</string>
 <string name="rate_totalscore">Total</string>
@@ -32,6 +32,7 @@
 <string name="beermail_menu_button">Beermail</string>
 <string name="beermail_retrieving">Refreshing beermails</string>
 <string name="beermail_retrieving_text">Updating mail list and retrieving new mails</string>
+<string name="beermail_nomail">You do not yet have any Beermail</string>
 <string name="reply_mail_button">Reply</string>
 <string name="delete_mail_button">Delete</string>
 <string name="mail_action_to_label">To:</string>
@@ -54,5 +55,5 @@
 <string name="places_retrieving_text">Getting nearby places to current location</string>
 <string name="places_retrieving">Getting Nearby Places</string>
 <string name="place_avgrating">Average Rating: </string>
-<string name="noplaces">No nearby places found</string>
+<string name="place_noplaces">No nearby places found</string>
 </resources>

@@ -14,7 +14,8 @@
 			android:layout_width="0dip"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:singleLine="true"
+			android:inputType="textShortMessage"
+			android:imeOptions="actionGo"
 		/>
 		<Button
 			android:id="@+id/drinkingUpdateButton"
@@ -44,6 +45,13 @@
 		android:drawSelectorOnTop="false"
 		android:choiceMode="none"
 		android:listSelector="@android:color/transparent"
+		/>
+	<TextView
+		android:id="@android:id/empty"
+		android:layout_width="fill_parent"
+		android:layout_height="0dip"
+		android:layout_weight="1"
+		android:gravity="center"
 		/>
   	<TableLayout
 		android:layout_height="wrap_content"

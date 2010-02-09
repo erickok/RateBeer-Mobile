@@ -1,61 +1,37 @@
 package dk.moerks.ratebeermobile;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-import dk.moerks.ratebeermobile.activity.RBActivity;
+import dk.moerks.ratebeermobile.activity.BetterRBListActivity;
 import dk.moerks.ratebeermobile.adapters.PlacesAdapter;
 import dk.moerks.ratebeermobile.exceptions.LocationException;
-import dk.moerks.ratebeermobile.exceptions.LoginException;
-import dk.moerks.ratebeermobile.exceptions.NetworkException;
-import dk.moerks.ratebeermobile.exceptions.RBParserException;
 import dk.moerks.ratebeermobile.io.LocationBroker;
-import dk.moerks.ratebeermobile.io.NetBroker;
-import dk.moerks.ratebeermobile.util.RBJSONParser;
+import dk.moerks.ratebeermobile.task.RetrievePlacesTask;
 import dk.moerks.ratebeermobile.vo.PlacesInfo;
 
-public class Places extends RBActivity {
+public class Places extends BetterRBListActivity {
 	private static final String LOGTAG = "Places";
-	private List<PlacesInfo> results = null;
-    private Thread placesThread = null;
     
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.places);
 
-        indeterminateStart("Retrieving Places...");
-    	placesThread = new Thread(){
-    		public void run(){
-				Looper.prepare();
-    			try {
-    				String locationString = LocationBroker.requestLocation(getApplicationContext());
-    				String responseString = NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/json/beerme.asp?mi=15&"+locationString);
-
-        			results = RBJSONParser.parsePlaces(responseString);
-    			} catch(RBParserException e){
-    				alertUser(e.getAlertMessage());
-    			} catch(LocationException e){
-    				alertUser(e.getAlertMessage());
-    			} catch(NetworkException e){
-    				alertUser(e.getAlertMessage());
-    			} catch(LoginException e){
-    				alertUser(e.getAlertMessage());
-       			}
-
-    			threadHandler.post(update);
-    			Looper.loop();
-    		}
-    	};
-    	placesThread.start();
+        // Retrieve a list of nearby places
+        try {
+        	// Note that the location needs to be requested in the UI thread
+        	String location = LocationBroker.requestLocation(this);
+            new RetrievePlacesTask(this).execute(location);
+		} catch (LocationException e) {
+			reportError(e);
+		}
+        
     }
 
     @Override
@@ -82,23 +58,14 @@ public class Places extends RBActivity {
         startActivity(placeIntent);  
     }
 
-    protected void update(){
-    	refreshList(Places.this, results);
-    	indeterminateStop();
+    public void onPlacesRetrieved(List<PlacesInfo> results){
+    	if (results != null) {
+    		setListAdapter(new PlacesAdapter(this, results));
+			if (results.size() <= 0) {
+	    		// If no places were found, show this in a text message
+				((TextView)findViewById(android.R.id.empty)).setText(R.string.place_noplaces);
+	    	}
+    	}
     }
     
-    private void refreshList(Activity context, List<PlacesInfo> results){
-    	if (results == null) {
-    		// If an error occurred, just show an empty list for now
-    		results = new ArrayList<PlacesInfo>();
-    	}
-    	TextView emptyText = (TextView)findViewById(android.R.id.empty);
-    	if (results.size() == 0) {
-    		// If no places were found, show this in a text message
-    		emptyText.setText(R.string.noplaces);
-    	} else {
-    		setListAdapter(new PlacesAdapter(context, results));
-    		emptyText.setText("");
-    	}
-    }
 }
