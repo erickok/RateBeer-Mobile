@@ -3,33 +3,25 @@ package dk.moerks.ratebeermobile;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import dk.moerks.ratebeermobile.activity.RBActivity;
+import android.widget.TextView;
+import dk.moerks.ratebeermobile.activity.BetterRBListActivity;
 import dk.moerks.ratebeermobile.adapters.MessageAdapter;
-import dk.moerks.ratebeermobile.exceptions.LoginException;
-import dk.moerks.ratebeermobile.exceptions.NetworkException;
-import dk.moerks.ratebeermobile.exceptions.RBParserException;
-import dk.moerks.ratebeermobile.io.NetBroker;
-import dk.moerks.ratebeermobile.util.RBParser;
+import dk.moerks.ratebeermobile.task.RetrieveBeermailsTask;
 import dk.moerks.ratebeermobile.vo.MessageHeader;
 
-public class BeerMail extends RBActivity {
-	private static final String LOGTAG = "BeerMail";
-	private List<MessageHeader> results = null;
+public class BeerMail extends BetterRBListActivity {
+	//private static final String LOGTAG = "BeerMail";
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.beermail);
-        
-    	indeterminateStart("Refreshing Beermails...");
-    	getBeerMails();
-    	
+
         Button composeMailButton = (Button) findViewById(R.id.newMailButton);
         composeMailButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -41,6 +33,8 @@ public class BeerMail extends RBActivity {
             }
         });
 
+        // Retrieve BeerMails
+        new RetrieveBeermailsTask(this).execute();
 	}
 	
     @Override
@@ -61,38 +55,18 @@ public class BeerMail extends RBActivity {
     	super.onActivityResult(requestCode, resultCode, data);
     	
     	if(resultCode == RESULT_OK){
-        	indeterminateStart("Refreshing Beermails...");
-        	getBeerMails();
+    		new RetrieveBeermailsTask(this).execute();
     	}
     }
     
-    protected void update(){
-		if(results != null){
-			refreshList(BeerMail.this, results);
-		}
-		indeterminateStop();
+    public void onBeermailsRetrieved(List<MessageHeader> results){
+    	if (results != null) {
+    		setListAdapter(new MessageAdapter(this, results));
+			if (results.size() <= 0) {
+	    		// If no mails were found, show this in a text message
+				((TextView)findViewById(android.R.id.empty)).setText(R.string.beermail_nomail);
+	    	}
+    	}
     }
     
-    private void refreshList(Activity context, List<MessageHeader> results){
-    	MessageAdapter adapter = new MessageAdapter(context, results);
-    	setListAdapter(adapter);
-    }
-    
-    private void getBeerMails(){
-    	Thread beermailThread = new Thread(){
-    		public void run(){
-    			try {
-    				String responseString = NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/user/messages/");
-    			
-    				results = RBParser.parseBeermail(responseString);
-    				threadHandler.post(update);
-				} catch(RBParserException e){
-				} catch(NetworkException e){
-				} catch(LoginException e){
-    				alertUser(e.getAlertMessage());
-				}
-       		}
-    	};
-    	beermailThread.start();
-    }
 }

@@ -10,71 +10,10 @@ import dk.moerks.ratebeermobile.vo.Message;
 import dk.moerks.ratebeermobile.vo.MessageHeader;
 import dk.moerks.ratebeermobile.vo.PlacesInfo;
 import dk.moerks.ratebeermobile.vo.RatingData;
-import dk.moerks.ratebeermobile.vo.SearchResult;
 
 public class RBParser {
 	private static final String LOGTAG = "RBParser";
 	
-	public static List<SearchResult> parseSearch(String responseString) throws RBParserException {
-		List<SearchResult> result = new ArrayList<SearchResult>();
-		try {
-			int contentBegin = responseString.indexOf("<!-- Content begins -->")+23;
-			int contentEnd = responseString.indexOf("<!-- Content ends -->");
-			String content = responseString.substring(contentBegin, contentEnd);
-			
-			String[] beers = content.split("<TD class=\"beer\" width=\"330\" align=left>");
-			
-			for (int i = 1; i < beers.length; i++) {
-				SearchResult searchResult = new SearchResult();
-				searchResult.setRated(beers[i].contains("checkbox2.gif"));
-				Log.d(LOGTAG, "RATED: " + searchResult.isRated());
-				
-				int idBegin = beers[i].indexOf("<a href=\"/beer/distribution/")+28;
-				int idEnd = beers[i].indexOf("/", idBegin);
-				searchResult.setBeerId(beers[i].substring(idBegin, idEnd));
-				Log.d(LOGTAG, "ID: " + searchResult.getBeerId());
-				
-				/*
-				int urlBegin = beers[i].indexOf("<A HREF=\"/beer/")+9;
-				int urlEnd = beers[i].indexOf("\">", urlBegin);
-				searchResult.setBeerUrl(beers[i].substring(urlBegin, urlEnd));
-				Log.d(LOGTAG, "URL: " + searchResult.getBeerUrl());
-				
-				int nameBegin = urlEnd+2;
-				int nameEnd = beers[i].indexOf("</A>&nbsp;", nameBegin);
-				searchResult.setBeerName(cleanHtml(beers[i].substring(nameBegin, nameEnd)));
-				Log.d(LOGTAG, "NAME: " + searchResult.getBeerName());
-				
-				int percentileBegin = beers[i].indexOf("</TD><TD align=\"right\">", nameEnd)+23;
-				int percentileEnd = beers[i].indexOf("</TD>", percentileBegin);
-				searchResult.setBeerPercentile(beers[i].substring(percentileBegin, percentileEnd).replaceAll("&nbsp;", ""));
-				Log.d(LOGTAG, "PERCENTILE: " + searchResult.getBeerPercentile());
-				
-				int ratingsBegin = beers[i].indexOf("<TD align=\"right\">", percentileEnd)+18;
-				int ratingsEnd = beers[i].indexOf("</TD>", ratingsBegin);
-				searchResult.setBeerRatings(beers[i].substring(ratingsBegin, ratingsEnd));
-				Log.d(LOGTAG, "RATINGS: " + searchResult.getBeerRatings());
-				
-				if(beers[i].contains("&nbsp;A&nbsp;")){
-					searchResult.setAlias(true);
-				} else {
-					searchResult.setAlias(false);
-				}
-				
-				if(beers[i].contains("&nbsp;R&nbsp;")){
-					searchResult.setRetired(true);
-				} else {
-					searchResult.setRetired(false);
-				}
-				*/
-				result.add(searchResult);
-			}
-		} catch(Exception e){
-			throw new RBParserException(LOGTAG, "Unable to parse search", e);
-		}
-		return result;
-	}
-
 	public static String parseDrink(String responseString) throws RBParserException {
 		try {
 			int drinkBegin = responseString.indexOf("is drinking ")+12;
@@ -358,10 +297,6 @@ public class RBParser {
 			throw new RBParserException(LOGTAG, "Unable to parse feed", e);
 		}		
 		return result;
-	}
-
-	public static List<PlacesInfo> parsePlaces(String responseString) throws RBParserException {
-		return null;
 	}
 
 	//Private Methods

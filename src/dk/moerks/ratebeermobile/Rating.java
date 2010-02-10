@@ -1,19 +1,13 @@
 package dk.moerks.ratebeermobile;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
-import dk.moerks.ratebeermobile.activity.RBActivity;
-import dk.moerks.ratebeermobile.exceptions.LoginException;
-import dk.moerks.ratebeermobile.exceptions.NetworkException;
-import dk.moerks.ratebeermobile.exceptions.RBParserException;
-import dk.moerks.ratebeermobile.io.NetBroker;
-import dk.moerks.ratebeermobile.util.RBParser;
+import dk.moerks.ratebeermobile.activity.BetterRBDefaultActivity;
+import dk.moerks.ratebeermobile.task.RetrieveRatingTask;
 import dk.moerks.ratebeermobile.vo.RatingData;
 
-public class Rating extends RBActivity {
-	private static final String LOGTAG = "Rating";
-	private RatingData rating = null;
+public class Rating extends BetterRBDefaultActivity {
+	//private static final String LOGTAG = "Rating";
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,25 +27,10 @@ public class Rating extends RBActivity {
         TextView beernameText = (TextView) findViewById(R.id.rating_label_beername);
         beernameText.setText(beername);
         
-        indeterminateStart("Retrieving Rating...");    	
-    	Thread ratingThread = new Thread(){
-    		public void run(){
-    			Log.d(LOGTAG, "ID: " + beerId);
-    			try {
-        			String responseString = NetBroker.doRBGet(getApplicationContext(), "http://www.ratebeer.com/beer/rate/" + beerId + "/");
-    				rating = RBParser.parseRating(responseString);
-    			} catch(RBParserException e){
-    			} catch(NetworkException e){
-    			} catch(LoginException e){
-    				alertUser(e.getAlertMessage());
-    			}
-    			threadHandler.post(update);
-    		}
-    	};
-    	ratingThread.start();
+        new RetrieveRatingTask(this).execute(beerId);
 	}
 	
-	protected void update(){
+	public void onRatingRetrieved(RatingData rating) {
         TextView aromaText = (TextView) findViewById(R.id.rating_value_aroma);
         TextView appearanceText = (TextView) findViewById(R.id.rating_value_appearance);
         TextView flavorText = (TextView) findViewById(R.id.rating_value_flavor);
@@ -67,6 +46,5 @@ public class Rating extends RBActivity {
         overallText.setText(rating.getOverall());
         totalscoreText.setText(rating.getTotalscore());
         commentText.setText(rating.getComment());
-        indeterminateStop();
 	}
 }

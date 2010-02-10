@@ -7,20 +7,20 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import dk.moerks.ratebeermobile.activity.RBActivity;
+import dk.moerks.ratebeermobile.activity.BetterRBDefaultActivity;
 import dk.moerks.ratebeermobile.exceptions.LoginException;
 import dk.moerks.ratebeermobile.exceptions.NetworkException;
 import dk.moerks.ratebeermobile.exceptions.RBParserException;
 import dk.moerks.ratebeermobile.io.NetBroker;
+import dk.moerks.ratebeermobile.task.SendBeermailTask;
 import dk.moerks.ratebeermobile.util.RBParser;
 
-public class MailAction extends RBActivity {
+public class MailAction extends BetterRBDefaultActivity {
 	private static final String LOGTAG = "MailAction";
 
 	@Override
@@ -36,7 +36,7 @@ public class MailAction extends RBActivity {
 		final String message;
         Bundle extras = getIntent().getExtras();
 
-        if(extras !=null) {
+        if(extras != null) {
         	replyMode = extras.getBoolean("ISREPLY");
         	if(replyMode){
 	        	messageId = extras.getString("MESSAGEID");
@@ -76,61 +76,45 @@ public class MailAction extends RBActivity {
         Button sendMailButton = (Button) findViewById(R.id.sendMailButton);
         sendMailButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
-                indeterminateStart("Sending message...");
-            	Thread sendThread = new Thread(){
-            		public void run(){
-            			Looper.prepare();
-			        	EditText fromText = (EditText) findViewById(R.id.mail_action_to);
-			            EditText subjectText = (EditText) findViewById(R.id.mail_action_subject);
-			            EditText messageText = (EditText) findViewById(R.id.mail_action_message);
-		
-			            String responseString = null;
-			            try {
-				            if(replyMode){	
-			        			List<NameValuePair> parameters = new ArrayList<NameValuePair>();  
-			        			parameters.add(new BasicNameValuePair("UserID", senderId));
-			        			parameters.add(new BasicNameValuePair("MessID", messageId));
-			        			parameters.add(new BasicNameValuePair("Referrer", "http://ratebeer.com/showmessage/" + messageId + "/"));
-			        			parameters.add(new BasicNameValuePair("text2", from));
-			        			parameters.add(new BasicNameValuePair("Subject", subject));
-			        			parameters.add(new BasicNameValuePair("Body", messageText.getText().toString()));
-			        			parameters.add(new BasicNameValuePair("nAllowEmail", "0"));
-			        			parameters.add(new BasicNameValuePair("nCc", ""));
-			        			parameters.add(new BasicNameValuePair("nCcEmail", ""));
-			        			parameters.add(new BasicNameValuePair("nCcEmail2", ""));
-			        			responseString = NetBroker.doRBPost(getApplicationContext(), "http://ratebeer.com/SaveMessage.asp", parameters);
-			            	} else {
-			        			List<NameValuePair> parameters = new ArrayList<NameValuePair>(); 
-			        	        Bundle extrasT = getIntent().getExtras();
-		        				parameters.add(new BasicNameValuePair("nSource", extrasT.getString("CURRENT_USER_ID"))); //MY User Id
-			        			parameters.add(new BasicNameValuePair("UserID", "0"));
-			        			parameters.add(new BasicNameValuePair("Referrer", "http://ratebeer.com/user/messages/"));
-			        			parameters.add(new BasicNameValuePair("RecipientName", fromText.getText().toString()));
-			        			parameters.add(new BasicNameValuePair("Subject", subjectText.getText().toString()));
-			        			parameters.add(new BasicNameValuePair("Body", messageText.getText().toString()));
-			        			parameters.add(new BasicNameValuePair("nAllowEmail", "0"));
-			        			parameters.add(new BasicNameValuePair("nCc", ""));
-			        			parameters.add(new BasicNameValuePair("nCcEmail", ""));
-			        			parameters.add(new BasicNameValuePair("nCcEmail2", ""));
-			        			responseString = NetBroker.doRBPost(getApplicationContext(), "http://ratebeer.com/savemessage/", parameters);
-			            	}
-			            } catch(NetworkException e){
-			            } catch(LoginException e){
-		    				alertUser(e.getAlertMessage());
-			            }
 
-			            if(responseString != null){
-		   					Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_mail_sent), Toast.LENGTH_LONG);
-		   					toast.show();
-		   					setResult(RESULT_OK);
-		   					finish();
-		   		        	threadHandler.post(update);
-		    			}
-		    			Looper.loop();
-            		}
-            	};
-                sendThread.start();
-            }
+	        	EditText fromText = (EditText) findViewById(R.id.mail_action_to);
+	            EditText subjectText = (EditText) findViewById(R.id.mail_action_subject);
+	            EditText messageText = (EditText) findViewById(R.id.mail_action_message);
+	            
+        		// Prepare the 'send' action
+    			List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+        		if(replyMode){  
+        			parameters.add(new BasicNameValuePair("UserID", senderId));
+        			parameters.add(new BasicNameValuePair("MessID", messageId));
+        			parameters.add(new BasicNameValuePair("Referrer", "http://ratebeer.com/showmessage/" + messageId + "/"));
+        			parameters.add(new BasicNameValuePair("text2", from));
+        			parameters.add(new BasicNameValuePair("Subject", subject));
+        			parameters.add(new BasicNameValuePair("Body", messageText.getText().toString()));
+        			parameters.add(new BasicNameValuePair("nAllowEmail", "0"));
+        			parameters.add(new BasicNameValuePair("nCc", ""));
+        			parameters.add(new BasicNameValuePair("nCcEmail", ""));
+        			parameters.add(new BasicNameValuePair("nCcEmail2", ""));
+            	} else { 
+        	        Bundle extrasT = getIntent().getExtras();
+    				parameters.add(new BasicNameValuePair("nSource", extrasT.getString("CURRENT_USER_ID"))); //MY User Id
+        			parameters.add(new BasicNameValuePair("UserID", "0"));
+        			parameters.add(new BasicNameValuePair("Referrer", "http://ratebeer.com/user/messages/"));
+        			parameters.add(new BasicNameValuePair("RecipientName", fromText.getText().toString()));
+        			parameters.add(new BasicNameValuePair("Subject", subjectText.getText().toString()));
+        			parameters.add(new BasicNameValuePair("Body", messageText.getText().toString()));
+        			parameters.add(new BasicNameValuePair("nAllowEmail", "0"));
+        			parameters.add(new BasicNameValuePair("nCc", ""));
+        			parameters.add(new BasicNameValuePair("nCcEmail", ""));
+        			parameters.add(new BasicNameValuePair("nCcEmail2", ""));
+            	}
+        		
+        		new SendBeermailTask(MailAction.this, replyMode).execute(parameters.toArray(new NameValuePair[] {}));
+        	}
         });
 	}
+	
+	public void onBeermailSend() {
+		Toast.makeText(getApplicationContext(), getText(R.string.toast_mail_sent), Toast.LENGTH_LONG).show();
+	}
+	
 }

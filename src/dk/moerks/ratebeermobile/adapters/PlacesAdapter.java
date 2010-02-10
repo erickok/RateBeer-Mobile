@@ -56,8 +56,4 @@ public class PlacesAdapter extends ArrayAdapter<PlacesInfo> {
 		return row;
 	}
 	
-	private String convertMilesToKm(String number){
-		//1mi = 1.609km
-		return null;
-	}
 }
