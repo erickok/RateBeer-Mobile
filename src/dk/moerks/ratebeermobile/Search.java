@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -48,7 +47,6 @@ public class Search extends BetterRBListActivity {
         
         Button searchButton = (Button) findViewById(R.id.searchButton);
         searchButton.setOnClickListener(new View.OnClickListener() {
-            
         	public void onClick(View v) {
 	            EditText searchText = (EditText) findViewById(R.id.searchText);
 	            new SearchTask(Search.this).execute(searchText.getText().toString());
@@ -95,31 +93,6 @@ public class Search extends BetterRBListActivity {
         }
     }
     
-<<<<<<< HEAD:src/dk/moerks/ratebeermobile/Search.java
-    @Override
-    protected void onResume() {
-    	super.onResume();
-    	
-    	EditText searchText = (EditText) findViewById(R.id.searchText);
-    	
-    	if(searchText.getText().length() > 0){
-    		Log.d(LOGTAG, "Resuming! (Searching)");
-    		Log.d(LOGTAG, "Performing Click!");
-            Button searchButton = (Button) findViewById(R.id.searchButton);
-            searchButton.performClick();
-    	} else {
-    		Log.d(LOGTAG, "Resuming! (Search Field empty)");
-    	}
-    }
-    
-    private void refreshList(Activity context, List<SearchResult> results){
-    	if(results != null && results.size() > 0){
-	    	SearchAdapter adapter = new SearchAdapter(context, results);
-	    	setListAdapter(adapter);
-    	} else {
-			Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_search_empty), Toast.LENGTH_LONG);
-			toast.show();
-=======
 	public void onResultsRetrieved(List<SearchResult> results) {
     	if (results != null) {
     		setListAdapter(new SearchAdapter(this, results));
@@ -127,7 +100,6 @@ public class Search extends BetterRBListActivity {
 	    		// If no beers were found, show this in a text message
 				((TextView)findViewById(android.R.id.empty)).setText(R.string.toast_search_empty);
 	    	}
->>>>>>> f3bddfd3bf71997429a9c6886c87454e883e0251:src/dk/moerks/ratebeermobile/Search.java
     	}
 	}
 
