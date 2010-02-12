@@ -26,4 +26,16 @@ public interface BetterRBActivity extends BetterActivity {
 	 */
 	public abstract void setTitle(String message);
 	
+	/**
+	 * Sets the userid for static retrieval from other activities
+	 * @param userid
+	 */
+	public abstract void setUserId(String userid);
+	
+	/**
+	 * Gets the userid
+	 * @return
+	 */
+	public abstract String getUserId();
+	
 }

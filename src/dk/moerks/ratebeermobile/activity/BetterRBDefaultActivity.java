@@ -10,7 +10,8 @@ import com.github.droidfu.activities.BetterDefaultActivity;
 import dk.moerks.ratebeermobile.exceptions.RBException;
 
 public class BetterRBDefaultActivity extends BetterDefaultActivity implements BetterRBActivity {
-
+	private static String userId;
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +33,14 @@ public class BetterRBDefaultActivity extends BetterDefaultActivity implements Be
 	
 	public void setTitle(String message) {
 		super.setTitle(message);
+	}
+
+	public void setUserId(String userId) {
+		BetterRBDefaultActivity.userId = userId;
+	}
+
+	public String getUserId() {
+		return userId;
 	}
 
 }

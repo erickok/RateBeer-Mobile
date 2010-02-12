@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import dk.moerks.ratebeermobile.activity.BetterRBListActivity;
 import dk.moerks.ratebeermobile.adapters.FeedAdapter;
+import dk.moerks.ratebeermobile.task.RetrieveUserIdTask;
 import dk.moerks.ratebeermobile.task.SetDrinkingStatusTask;
 import dk.moerks.ratebeermobile.task.RefreshFriendFeedTask;
 import dk.moerks.ratebeermobile.task.RefreshFriendFeedTask.FriendFeedTaskResult;
@@ -108,9 +109,10 @@ public class Home extends BetterRBListActivity {
 			}
 		});
         
-        // Force an update of the friend feed on startup
+        // Force an update of the friend feed on startup and retrieve userids
         if (!firstRun) {
         	new RefreshFriendFeedTask(this).execute();
+        	new RetrieveUserIdTask(this).execute();
         }
     }
 

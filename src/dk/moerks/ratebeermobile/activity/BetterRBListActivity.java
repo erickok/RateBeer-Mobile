@@ -12,7 +12,8 @@ import com.github.droidfu.activities.BetterListActivity;
 import dk.moerks.ratebeermobile.exceptions.RBException;
 
 public class BetterRBListActivity extends BetterListActivity implements BetterRBActivity {
-
+	private static String userId;
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,5 +41,12 @@ public class BetterRBListActivity extends BetterListActivity implements BetterRB
 	public void setTitle(String message) {
 		super.setTitle(message);
 	}
-	
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userid) {
+		BetterRBListActivity.userId = userid;
+	}
 }

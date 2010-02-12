@@ -9,7 +9,7 @@ import dk.moerks.ratebeermobile.activity.BetterRBActivity;
 import dk.moerks.ratebeermobile.exceptions.RBException;
 
 public abstract class BetterRBTask<ParameterT, ReturnT> extends BetterAsyncTask<ParameterT, Void, ReturnT> {
-
+	
 	private BetterRBActivity activity;
 	private String progressMessage;
 	
@@ -37,13 +37,12 @@ public abstract class BetterRBTask<ParameterT, ReturnT> extends BetterAsyncTask<
 		activity.setTitle(context.getText(R.string.app_name).toString());
 		afterTask(activity, result);
 	}
-
+	
 	/**
 	 * Should implement the actual showing of the task results, such as showing the 
 	 * returned/parsed list of search results. 
 	 * @param activity The original RB activity that started the tast
 	 * @param result The task results
 	 */
-	protected abstract void afterTask(BetterRBActivity activity, ReturnT result);
-	
+	protected abstract void afterTask(BetterRBActivity activity, ReturnT result);	
 }

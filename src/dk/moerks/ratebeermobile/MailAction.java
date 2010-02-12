@@ -13,12 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import dk.moerks.ratebeermobile.activity.BetterRBDefaultActivity;
-import dk.moerks.ratebeermobile.exceptions.LoginException;
-import dk.moerks.ratebeermobile.exceptions.NetworkException;
-import dk.moerks.ratebeermobile.exceptions.RBParserException;
-import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.task.SendBeermailTask;
-import dk.moerks.ratebeermobile.util.RBParser;
 
 public class MailAction extends BetterRBDefaultActivity {
 	private static final String LOGTAG = "MailAction";
