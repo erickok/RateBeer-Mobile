@@ -28,10 +28,8 @@ public class SearchTask extends BetterRBTask<String, List<SearchResult>> {
 	protected List<SearchResult> doCheckedInBackground(Context context, String... params) throws Exception {
 
 		// Search RB using a query string
-		Log.d("SearchTask", "Search for '" + params[0] + "'");
-		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		parameters.add(new BasicNameValuePair("BeerName", params[0]));
-		String responseString = NetBroker.doRBPost(context, "http://www.ratebeer.com/findbeer.asp", parameters);
+		Log.d("SearchTask", "Search for '" + params[0] + "' for user '"+params[1]+"'");
+		String responseString = NetBroker.doRBGet(context, "http://www.ratebeer.com/json/s.asp?b="+params[0]+"&u="+params[1]);
 		return RBJSONParser.parseSearch(responseString);
 		
 	}

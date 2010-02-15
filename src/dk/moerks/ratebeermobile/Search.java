@@ -49,7 +49,7 @@ public class Search extends BetterRBListActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
 	            EditText searchText = (EditText) findViewById(R.id.searchText);
-	            new SearchTask(Search.this).execute(searchText.getText().toString());
+	            new SearchTask(Search.this).execute(searchText.getText().toString(), getUserId());
             }
         });
     }
