@@ -12,12 +12,8 @@ import dk.moerks.ratebeermobile.vo.MessageHeader;
 
 public class RetrieveBeermailsTask extends BetterRBTask<String, List<MessageHeader>> {
 
-	// Used for the result callback
-	private BeerMail beerMail;
-	
 	public RetrieveBeermailsTask(BeerMail activity) {
 		super(activity, "Retrieving beermails...");
-		this.beerMail = activity;
 	}
 
 	@Override
@@ -32,7 +28,7 @@ public class RetrieveBeermailsTask extends BetterRBTask<String, List<MessageHead
 	
 	@Override
 	protected void afterTask(BetterRBActivity activity, List<MessageHeader> result) {
-		beerMail.onBeermailsRetrieved(result);
+		((BeerMail)activity).onBeermailsRetrieved(result);
 	}
 	
 }

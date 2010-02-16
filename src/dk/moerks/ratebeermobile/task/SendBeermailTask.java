@@ -13,12 +13,10 @@ import dk.moerks.ratebeermobile.io.NetBroker;
 
 public class SendBeermailTask extends BetterRBTask<NameValuePair, Void> {
 
-	private MailAction mailAction;
 	private boolean isReply;
 
 	public SendBeermailTask(MailAction activity, boolean isReply) {
 		super(activity, "Sending beermail...");
-		this.mailAction = activity;
 		this.isReply = isReply;
 	}
 
@@ -40,7 +38,7 @@ public class SendBeermailTask extends BetterRBTask<NameValuePair, Void> {
 	@Override
 	protected void afterTask(BetterRBActivity activity, Void result) {
 		// Report that the mail was send
-		mailAction.onBeermailSend();
+		((MailAction)activity).onBeermailSend();
 	}
 
 }

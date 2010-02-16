@@ -14,11 +14,8 @@ import dk.moerks.ratebeermobile.io.NetBroker;
 
 public class SetDrinkingStatusTask extends BetterRBTask<String, String> {
 	
-	private Home home;
-	
 	public SetDrinkingStatusTask(Home activity) {
 		super(activity, "Updating drink status...");
-		this.home = activity;
 	}
 
 	@Override
@@ -36,7 +33,7 @@ public class SetDrinkingStatusTask extends BetterRBTask<String, String> {
 	@Override
 	protected void afterTask(BetterRBActivity activity, String result) {
 		// Set the updated drinking status text
-		home.onDrinkingStatusUpdated(result);
+		((Home)activity).onDrinkingStatusUpdated(result);
 	}
 
 }

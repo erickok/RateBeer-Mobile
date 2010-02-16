@@ -13,11 +13,8 @@ import dk.moerks.ratebeermobile.io.NetBroker;
 
 public class SaveRatingTask extends BetterRBTask<NameValuePair, Void> {
 	
-	private Rate rate;
-	
 	public SaveRatingTask(Rate activity) {
 		super(activity, "Saving new rating...");
-		this.rate = activity;
 	}
 
 	@Override
@@ -34,7 +31,7 @@ public class SaveRatingTask extends BetterRBTask<NameValuePair, Void> {
 	@Override
 	protected void afterTask(BetterRBActivity activity, Void result) {
 		// Show that the rating was succesfully updated
-		rate.onRatingSaved();
+		((Rate)activity).onRatingSaved();
 	}
 
 }

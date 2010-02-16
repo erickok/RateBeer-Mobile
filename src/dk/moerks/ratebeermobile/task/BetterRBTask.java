@@ -10,32 +10,36 @@ import dk.moerks.ratebeermobile.exceptions.RBException;
 
 public abstract class BetterRBTask<ParameterT, ReturnT> extends BetterAsyncTask<ParameterT, Void, ReturnT> {
 	
-	private BetterRBActivity activity;
 	private String progressMessage;
 	
 	public BetterRBTask(BetterRBActivity activity, String progressMessage) {
 		super(activity.getContext());
-		this.activity = activity;
 		this.progressMessage = progressMessage;
 	}
 
+	private BetterRBActivity getActivity(Context context) {
+		return (BetterRBActivity) context;
+	}
+	
 	@Override
 	protected final void before(Context context) {
 		// Show a progress indicator text in the application title bar
-		activity.setTitle(progressMessage);
+		getActivity(context).setTitle(progressMessage);
+		getActivity(context).hasRunningTask(true);
 	}
 	
 	@Override
 	protected final void handleError(Context context, Exception error) {
 		// Always let the activity report any errors
-		activity.reportError((RBException) error);
+		getActivity(context).reportError((RBException) error);
 	}
 
 	@Override
 	protected final void after(Context context, ReturnT result) {
 		// Show a progress indicator text in the application title bar
-		activity.setTitle(context.getText(R.string.app_name).toString());
-		afterTask(activity, result);
+		getActivity(context).setTitle(context.getText(R.string.app_name).toString());
+		getActivity(context).hasRunningTask(false);
+		afterTask(getActivity(context), result);
 	}
 	
 	/**
@@ -44,5 +48,6 @@ public abstract class BetterRBTask<ParameterT, ReturnT> extends BetterAsyncTask<
 	 * @param activity The original RB activity that started the tast
 	 * @param result The task results
 	 */
-	protected abstract void afterTask(BetterRBActivity activity, ReturnT result);	
+	protected abstract void afterTask(BetterRBActivity activity, ReturnT result);
+	
 }

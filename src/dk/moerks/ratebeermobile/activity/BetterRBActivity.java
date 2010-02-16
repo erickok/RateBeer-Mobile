@@ -34,8 +34,20 @@ public interface BetterRBActivity extends BetterActivity {
 	
 	/**
 	 * Gets the userid
-	 * @return
+	 * @return The RateBeer userid
 	 */
 	public abstract String getUserId();
+
+	/**
+	 * Sets whether the activity has a task running
+	 * @param hasTask Whether the activity has a task running
+	 */
+	public abstract void hasRunningTask(boolean hasTask);
+
+	/**
+	 * Indicates whether the activity has a task running at the moment
+	 * @return True is a task is running; false otherwise
+	 */
+	public abstract boolean hasRunningTask();
 	
 }

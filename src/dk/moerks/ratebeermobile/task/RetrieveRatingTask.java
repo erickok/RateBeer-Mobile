@@ -10,12 +10,8 @@ import dk.moerks.ratebeermobile.vo.RatingData;
 
 public class RetrieveRatingTask extends BetterRBTask<String, RatingData> {
 
-	// Used for the result callback
-	private Rating rating;
-	
 	public RetrieveRatingTask(Rating activity) {
 		super(activity, "Loading beermail...");
-		this.rating = activity;
 	}
 
 	@Override
@@ -30,7 +26,7 @@ public class RetrieveRatingTask extends BetterRBTask<String, RatingData> {
 	
 	@Override
 	protected void afterTask(BetterRBActivity activity, RatingData result) {
-		rating.onRatingRetrieved(result);
+		((Rating)activity).onRatingRetrieved(result);
 	}
 	
 }

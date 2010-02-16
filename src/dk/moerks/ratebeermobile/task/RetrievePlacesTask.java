@@ -12,12 +12,8 @@ import dk.moerks.ratebeermobile.vo.PlacesInfo;
 
 public class RetrievePlacesTask extends BetterRBTask<String, List<PlacesInfo>> {
 
-	// Used for the result callback
-	private Places places;
-	
 	public RetrievePlacesTask(Places activity) {
 		super(activity, "Retrieving nearby places...");
-		this.places = activity;
 	}
 
 	@Override
@@ -34,7 +30,7 @@ public class RetrievePlacesTask extends BetterRBTask<String, List<PlacesInfo>> {
 	
 	@Override
 	protected void afterTask(BetterRBActivity activity, List<PlacesInfo> result) {
-		places.onPlacesRetrieved(result);
+		((Places)activity).onPlacesRetrieved(result);
 	}
 	
 }

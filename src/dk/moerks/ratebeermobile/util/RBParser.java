@@ -8,7 +8,6 @@ import dk.moerks.ratebeermobile.exceptions.RBParserException;
 import dk.moerks.ratebeermobile.vo.Feed;
 import dk.moerks.ratebeermobile.vo.Message;
 import dk.moerks.ratebeermobile.vo.MessageHeader;
-import dk.moerks.ratebeermobile.vo.PlacesInfo;
 import dk.moerks.ratebeermobile.vo.RatingData;
 
 public class RBParser {

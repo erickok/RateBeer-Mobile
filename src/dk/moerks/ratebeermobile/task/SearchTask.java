@@ -1,10 +1,6 @@
 package dk.moerks.ratebeermobile.task;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
 import android.util.Log;
@@ -16,12 +12,8 @@ import dk.moerks.ratebeermobile.vo.SearchResult;
 
 public class SearchTask extends BetterRBTask<String, List<SearchResult>> {
 
-	// Used for the result callback
-	private Search search;
-	
 	public SearchTask(Search activity) {
 		super(activity, "Searching...");
-		this.search = activity;
 	}
 
 	@Override
@@ -36,7 +28,7 @@ public class SearchTask extends BetterRBTask<String, List<SearchResult>> {
 	
 	@Override
 	protected void afterTask(BetterRBActivity activity, List<SearchResult> result) {
-		search.onResultsRetrieved(result);
+		((Search)activity).onResultsRetrieved(result);
 	}
 	
 }

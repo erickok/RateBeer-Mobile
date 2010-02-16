@@ -8,12 +8,8 @@ import dk.moerks.ratebeermobile.io.NetBroker;
 
 public class DeleteBeermailTask extends BetterRBTask<String, String> {
 
-	// Used for the result callback
-	private MailView mailView;
-	
 	public DeleteBeermailTask(MailView activity) {
 		super(activity, "Deleting beermail...");
-		this.mailView = activity;
 	}
 
 	@Override
@@ -28,7 +24,7 @@ public class DeleteBeermailTask extends BetterRBTask<String, String> {
 	
 	@Override
 	protected void afterTask(BetterRBActivity activity, String result) {
-		mailView.onBeermailDeleted(result);
+		((MailView)activity).onBeermailDeleted(result);
 	}
 	
 }

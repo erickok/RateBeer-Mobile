@@ -9,12 +9,8 @@ import dk.moerks.ratebeermobile.util.BCPParser;
 
 public class BarcodeLookupTask extends BetterRBTask<String, String> {
 
-	// Used for the result callback
-	private Search search;
-	
 	public BarcodeLookupTask(Search activity) {
 		super(activity, "Identifying barcode...");
-		this.search = activity;
 	}
 
 	@Override
@@ -29,7 +25,7 @@ public class BarcodeLookupTask extends BetterRBTask<String, String> {
 	
 	@Override
 	protected void afterTask(BetterRBActivity activity, String result) {
-		search.onBarcodeProductRetrieved(result);
+		((Search)activity).onBarcodeProductRetrieved(result);
 	}
 	
 }

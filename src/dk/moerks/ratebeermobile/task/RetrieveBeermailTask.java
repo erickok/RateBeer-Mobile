@@ -10,12 +10,8 @@ import dk.moerks.ratebeermobile.vo.Message;
 
 public class RetrieveBeermailTask extends BetterRBTask<String, Message> {
 
-	// Used for the result callback
-	private MailView mailView;
-	
 	public RetrieveBeermailTask(MailView activity) {
 		super(activity, "Loading beermail...");
-		this.mailView = activity;
 	}
 
 	@Override
@@ -30,7 +26,7 @@ public class RetrieveBeermailTask extends BetterRBTask<String, Message> {
 	
 	@Override
 	protected void afterTask(BetterRBActivity activity, Message result) {
-		mailView.onBeermailRetrieved(result);
+		((MailView)activity).onBeermailRetrieved(result);
 	}
 	
 }

@@ -10,7 +10,10 @@ import com.github.droidfu.activities.BetterDefaultActivity;
 import dk.moerks.ratebeermobile.exceptions.RBException;
 
 public class BetterRBDefaultActivity extends BetterDefaultActivity implements BetterRBActivity {
+
+	private static final String EXTRA_HAS_TASK = "has_running_task";
 	private static String userId;
+	private boolean hasTask;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -19,7 +22,20 @@ public class BetterRBDefaultActivity extends BetterDefaultActivity implements Be
 		// Request progress bar
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 	}
-	
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(EXTRA_HAS_TASK, hasRunningTask());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        hasRunningTask(savedInstanceState.getBoolean(EXTRA_HAS_TASK));
+        this.setProgressBarIndeterminateVisibility(hasRunningTask());
+    }
+
 	public void reportError(RBException e) {
 
 		// Show the error as Toast popup
@@ -43,4 +59,12 @@ public class BetterRBDefaultActivity extends BetterDefaultActivity implements Be
 		return userId;
 	}
 
+	public void hasRunningTask(boolean hasTask) {
+		this.hasTask = hasTask;
+	}
+
+	public boolean hasRunningTask() {
+		return this.hasTask;
+	}
+	
 }

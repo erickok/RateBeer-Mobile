@@ -12,12 +12,8 @@ import dk.moerks.ratebeermobile.vo.Feed;
 
 public class RefreshFriendFeedTask extends BetterRBTask<Void, RefreshFriendFeedTask.FriendFeedTaskResult> {
 
-	// Used for the result callback
-	private Home home;
-	
 	public RefreshFriendFeedTask(Home activity) {
 		super(activity, "Refreshing friend feed...");
-		this.home = activity;
 	}
 
 	@Override
@@ -35,7 +31,7 @@ public class RefreshFriendFeedTask extends BetterRBTask<Void, RefreshFriendFeedT
 	
 	@Override
 	protected void afterTask(BetterRBActivity activity, FriendFeedTaskResult result) {
-		home.onFriendFeedRefreshed(result);
+		((Home)activity).onFriendFeedRefreshed(result);
 	}
 
 	public class FriendFeedTaskResult {
