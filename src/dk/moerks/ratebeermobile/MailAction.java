@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import dk.moerks.ratebeermobile.activity.BetterRBDefaultActivity;
+import dk.moerks.ratebeermobile.task.RetrieveUserIdTask;
 import dk.moerks.ratebeermobile.task.SendBeermailTask;
 
 public class MailAction extends BetterRBDefaultActivity {
@@ -22,6 +23,8 @@ public class MailAction extends BetterRBDefaultActivity {
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mailaction);
+		
+		new RetrieveUserIdTask(this).execute();
 
 		final boolean replyMode;
 		final String messageId;
@@ -50,9 +53,6 @@ public class MailAction extends BetterRBDefaultActivity {
 	            subjectText.setText(subject);
 	            messageText.setText("\n\n......................................................\n" + message);
         	} else {
-        		//String responseString = NetBroker.doRBGet(getApplicationContext(), "http://ratebeer.com/user/messages/");
-        		Log.d(LOGTAG, "CURRENT USER ID: "+ getUserId());
-        		extras.putString("CURRENT_USER_ID", getUserId());
         		messageId = null;
         		from = null;
         		senderId = null;
@@ -89,11 +89,11 @@ public class MailAction extends BetterRBDefaultActivity {
         			parameters.add(new BasicNameValuePair("nCc", ""));
         			parameters.add(new BasicNameValuePair("nCcEmail", ""));
         			parameters.add(new BasicNameValuePair("nCcEmail2", ""));
-            	} else { 
-        	        Bundle extrasT = getIntent().getExtras();
-    				parameters.add(new BasicNameValuePair("nSource", extrasT.getString("CURRENT_USER_ID"))); //MY User Id
+            	} else {
+            		Log.d(LOGTAG, "USERID: " + getUserId());
+        	        parameters.add(new BasicNameValuePair("nSource", getUserId())); //MY User Id
         			parameters.add(new BasicNameValuePair("UserID", "0"));
-        			parameters.add(new BasicNameValuePair("Referrer", "http://ratebeer.com/user/messages/"));
+        			parameters.add(new BasicNameValuePair("Referrer", "http://ratebeer.com/user/messages/0/"));
         			parameters.add(new BasicNameValuePair("RecipientName", fromText.getText().toString()));
         			parameters.add(new BasicNameValuePair("Subject", subjectText.getText().toString()));
         			parameters.add(new BasicNameValuePair("Body", messageText.getText().toString()));

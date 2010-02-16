@@ -82,13 +82,23 @@ public class NetBroker {
 		
 		HttpPost httppost = new HttpPost(url);  
 
+		for (Iterator<NameValuePair> iterator = parameters.iterator(); iterator.hasNext();) {
+			NameValuePair nameValuePair = iterator.next();
+			Log.d(LOGTAG, nameValuePair.getName() + " :: " + nameValuePair.getValue());
+		}
+		
 		try {  
 			// Add your data  
 			httppost.setEntity(new UrlEncodedFormEntity(parameters));  
 			
-			// Execute HTTP Post Request  
+			// Execute HTTP Post Request
+			Log.d(LOGTAG, "Executing Post");
 			HttpResponse response = httpclient.execute(httppost);
+			Log.d(LOGTAG, "Post Executed");
+			Log.d(LOGTAG, "Post Response Code: " + response.getStatusLine().getStatusCode());
 			String result = responseString(response);
+			Log.d(LOGTAG, "Response String length: " + result.length());
+			Log.d(LOGTAG, result);
 			response.getEntity().consumeContent();
 			
 			if(response.getStatusLine().getStatusCode() != 200){
@@ -97,19 +107,22 @@ public class NetBroker {
 			
 			return result;
 		} catch (ClientProtocolException e) {
+			throw new NetworkException(context, LOGTAG, "Network Error - Do you have a network connection?", e);
 		} catch (IOException e) {
 			throw new NetworkException(context, LOGTAG, "Network Error - Do you have a network connection?", e);
+		} catch (Exception e){
+			throw new NetworkException(context, LOGTAG, "Network Error - Do you have a network connection?", e);
+		} finally {
+			httpclient.getConnectionManager().shutdown();
 		}
-		
-		httpclient.getConnectionManager().shutdown();
-		return null;
 	}
 	
 	public static String doRBPost(Context context, String url, List<NameValuePair> parameters) throws NetworkException, LoginException {
 		DefaultHttpClient httpclient = init();
 
+		Log.d(LOGTAG, "RBPost - Signin");
 		signin(context, httpclient);
-
+		
 		return doPost(context, httpclient, url, parameters);
 	}
 	

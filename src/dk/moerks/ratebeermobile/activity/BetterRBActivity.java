@@ -27,17 +27,16 @@ public interface BetterRBActivity extends BetterActivity {
 	public abstract void setTitle(String message);
 	
 	/**
-	 * Sets the userid for static retrieval from other activities
-	 * @param userid
-	 */
-	public abstract void setUserId(String userid);
-	
-	/**
 	 * Gets the userid
 	 * @return The RateBeer userid
 	 */
 	public abstract String getUserId();
 
+	/**
+	 * Sets the userid
+	 */
+	public abstract void setUserId(String userId);
+	
 	/**
 	 * Sets whether the activity has a task running
 	 * @param hasTask Whether the activity has a task running

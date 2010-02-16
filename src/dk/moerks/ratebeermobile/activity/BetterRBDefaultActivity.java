@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.github.droidfu.activities.BetterDefaultActivity;
 
 import dk.moerks.ratebeermobile.exceptions.RBException;
+import dk.moerks.ratebeermobile.task.RetrieveUserIdTask;
 
 public class BetterRBDefaultActivity extends BetterDefaultActivity implements BetterRBActivity {
 
@@ -51,10 +52,10 @@ public class BetterRBDefaultActivity extends BetterDefaultActivity implements Be
 		super.setTitle(message);
 	}
 
-	public void setUserId(String userId) {
-		BetterRBDefaultActivity.userId = userId;
+	public void setUserId(String userId){
+		BetterRBDefaultActivity.userId = userId; 
 	}
-
+	
 	public String getUserId() {
 		return userId;
 	}

@@ -112,7 +112,6 @@ public class Home extends BetterRBListActivity {
         // Force an update of the friend feed on startup and retrieve userids
         if (!firstRun) {
         	new RefreshFriendFeedTask(this).execute();
-        	new RetrieveUserIdTask(this).execute();
         }
     }
 
