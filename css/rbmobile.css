@@ -1,0 +1,18 @@
+.navigation {
+    width: 200px;
+    background: #aaaaee;
+    border: solid 1px black;
+    -moz-border-radius: 10px;
+}
+.navigation-header {
+    background: #aaaaee;
+    font-size: 14px;
+}
+.navigation-item {
+    background: #aaaaee;
+}
+
+.page {
+    width: 400px;
+    border: solid 1px black;
+}

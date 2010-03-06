@@ -3,19 +3,61 @@
 <head>
   <meta charset="utf-8" />
   <title>RateBeer Mobile for Android - Home</title>
-  <link rel="stylesheet" href="../css/rbmobile.css" type="text/css" />
-  <script type="text/javascript" src="script/jquery.js"></script>
+  <link rel="stylesheet" href="css/rbmobile.css" type="text/css" />
+  <script type="text/javascript" src="scripts/jquery.min.js"></script>
+  <script type="text/javascript" src="scripts/jquery-ui.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      $(".navigation").accordion();
+
+      $("#home").click(function() {
+        $("#page").load("home.html");
+      });
+      $("#news").click(function() {
+        $("#page").load("news.html");
+      });
+      $("#download").click(function() {
+        $("#page").load("download.html");
+      });
+      $("#issues").click(function() {
+        $("#page").load("issues.html");
+      });
+      $("#contributing").click(function() {
+        $("#page").load("contributing.html");
+      });
+      $("#repositories").click(function() {
+        $("#page").load("repositories.html");
+      });
+
+    });
+  </script>
 </head>
 <body>
-  <div class="navigation">
-    <div class="navigation-item-selected"><a href="index.html">Home</a></div>
-    <div class="navigation-item"><a href="download.html">Download</a></div>
-    <div class="navigation-item"><a href="issues.html">Issues</a></div>
-    <div class="navigation-item"><a href="contributing.html">Contributing</a></div>
-    <div class="navigation-item"><a href="repositories.html">Repositories</a></div>
+  <div class="header">
+    <div class="header-icon">
+    </div>
+    <div class="header-title">
+      RateBeer Mobile for Android
+    </div>
   </div>
-  <div class="page">
-
+  <div class="navigation">
+    <h3 class="navigation-header"><a href="#">Project</a></h3>
+    <div>
+      <div class="navigation-item" id="home">Home</div>
+      <div class="navigation-item" id="news">News</div>
+    </div>
+    <h3 class="navigation-header"><a href="#">Files</a></h3>
+    <div>
+      <div class="navigation-item" id="download">Download</div>
+    </div>
+    <h3 class="navigation-header"><a href="#">Contributing</a></h3>
+    <div>
+      <div class="navigation-item" id="issues">Issues</div>
+      <div class="navigation-item" id="repositories">Repositories</div>
+    </div>
+  </div>
+  <div class="page" id="page">
+    
   </div>
 </body>
 <!-- Google Analytics Script -->
