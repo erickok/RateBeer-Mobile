@@ -86,21 +86,21 @@ public class MailAction extends BetterRBDefaultActivity {
         			parameters.add(new BasicNameValuePair("Subject", subject));
         			parameters.add(new BasicNameValuePair("Body", messageText.getText().toString()));
         			parameters.add(new BasicNameValuePair("nAllowEmail", "0"));
-        			parameters.add(new BasicNameValuePair("nCc", ""));
-        			parameters.add(new BasicNameValuePair("nCcEmail", ""));
-        			parameters.add(new BasicNameValuePair("nCcEmail2", ""));
+        			parameters.add(new BasicNameValuePair("nCc", "0"));
+        			parameters.add(new BasicNameValuePair("nCcEmail", "android@moerks.dk"));
+        			parameters.add(new BasicNameValuePair("nCcEmail2", "android@moerks.dk"));
             	} else {
             		Log.d(LOGTAG, "USERID: " + getUserId());
         	        parameters.add(new BasicNameValuePair("nSource", getUserId())); //MY User Id
+        			parameters.add(new BasicNameValuePair("Referrer", "http://ratebeer.com/inbox"));
         			parameters.add(new BasicNameValuePair("UserID", "0"));
-        			parameters.add(new BasicNameValuePair("Referrer", "http://ratebeer.com/user/messages/0/"));
         			parameters.add(new BasicNameValuePair("RecipientName", fromText.getText().toString()));
         			parameters.add(new BasicNameValuePair("Subject", subjectText.getText().toString()));
         			parameters.add(new BasicNameValuePair("Body", messageText.getText().toString()));
-        			parameters.add(new BasicNameValuePair("nAllowEmail", "0"));
-        			parameters.add(new BasicNameValuePair("nCc", ""));
-        			parameters.add(new BasicNameValuePair("nCcEmail", ""));
-        			parameters.add(new BasicNameValuePair("nCcEmail2", ""));
+        			parameters.add(new BasicNameValuePair("nAllowEmail", "1"));
+        			parameters.add(new BasicNameValuePair("nCc", "0"));
+        			parameters.add(new BasicNameValuePair("nCcEmail", "android@moerks.dk"));
+        			parameters.add(new BasicNameValuePair("nCcEmail2", "android@moerks.dk"));
             	}
         		
         		new SendBeermailTask(MailAction.this, replyMode).execute(parameters.toArray(new NameValuePair[] {}));

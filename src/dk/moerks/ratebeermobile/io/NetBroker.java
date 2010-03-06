@@ -80,8 +80,9 @@ public class NetBroker {
 			httpclient = init();
 		}
 		
-		HttpPost httppost = new HttpPost(url);  
-
+		HttpPost httppost = new HttpPost(url);
+		//httppost.setHeader("User-Agent", "Mozilla/5.0 (compatible; MSIE 7.0; Windows 2000)");
+ 
 		for (Iterator<NameValuePair> iterator = parameters.iterator(); iterator.hasNext();) {
 			NameValuePair nameValuePair = iterator.next();
 			Log.d(LOGTAG, nameValuePair.getName() + " :: " + nameValuePair.getValue());
@@ -98,7 +99,7 @@ public class NetBroker {
 			Log.d(LOGTAG, "Post Response Code: " + response.getStatusLine().getStatusCode());
 			String result = responseString(response);
 			Log.d(LOGTAG, "Response String length: " + result.length());
-			Log.d(LOGTAG, result);
+			//Log.d(LOGTAG, result);
 			response.getEntity().consumeContent();
 			
 			if(response.getStatusLine().getStatusCode() != 200){

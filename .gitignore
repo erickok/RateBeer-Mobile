@@ -6,3 +6,5 @@ bin/**/*
 /assets
 /dist
 /bin
+JAVA-FILEHEADER.txt
+XML-FILEHEADER.txt
