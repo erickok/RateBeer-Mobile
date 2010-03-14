@@ -39,7 +39,7 @@ public class SearchTask extends BetterRBTask<String, List<SearchResult>> {
 
 		// Search RB using a query string
 		Log.d("SearchTask", "Search for '" + params[0] + "' for user '"+params[1]+"'");
-		String responseString = NetBroker.doRBGet(context, "http://www.ratebeer.com/json/s.asp?b="+params[0]+"&u="+params[1]);
+		String responseString = NetBroker.doRBGet(context, "http://www.ratebeer.com/json/s.asp?k=tTmwRTWT-W7tpBhtL&b="+params[0]+"&u="+params[1]);
 		return RBJSONParser.parseSearch(responseString);
 		
 	}

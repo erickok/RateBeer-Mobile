@@ -29,7 +29,7 @@ import dk.moerks.ratebeermobile.vo.RatingData;
 public class RetrieveRatingTask extends BetterRBTask<String, RatingData> {
 
 	public RetrieveRatingTask(Rating activity) {
-		super(activity, "Loading beermail...");
+		super(activity, "Retrieving Rating...");
 	}
 
 	@Override

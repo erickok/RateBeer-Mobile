@@ -130,6 +130,10 @@ public class Home extends BetterRBListActivity {
         // Force an update of the friend feed on startup and retrieve userids
         if (!firstRun) {
         	new RefreshFriendFeedTask(this).execute();
+        	
+        	if(getUserId() == null || getUserId().length() <= 0){
+        		new RetrieveUserIdTask(this).execute();
+        	}
         }
     }
 
@@ -139,7 +143,7 @@ public class Home extends BetterRBListActivity {
 
 		if(firstRun){
         	Intent settingsIntent = new Intent(Home.this, Settings.class);  
-        	startActivity(settingsIntent);  
+        	startActivity(settingsIntent);
 		}
 	}
 	
@@ -196,7 +200,12 @@ public class Home extends BetterRBListActivity {
 		// Updated, so clear the text box
         EditText updateTextGen = (EditText) findViewById(R.id.drinkingText);
         updateTextGen.setText("");
-        
 	}
-	
+
+	public void onUserIdRetrieved(String result){
+		SharedPreferences settings = getApplicationContext().getSharedPreferences(Settings.PREFERENCETAG, 0);
+    	SharedPreferences.Editor editor = settings.edit();
+    	editor.putString("rb_userid", result);
+    	editor.commit();
+	}
 }

@@ -31,7 +31,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import dk.moerks.ratebeermobile.activity.BetterRBDefaultActivity;
-import dk.moerks.ratebeermobile.task.RetrieveUserIdTask;
 import dk.moerks.ratebeermobile.task.SendBeermailTask;
 
 public class MailAction extends BetterRBDefaultActivity {
@@ -42,8 +41,6 @@ public class MailAction extends BetterRBDefaultActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mailaction);
 		
-		new RetrieveUserIdTask(this).execute();
-
 		final boolean replyMode;
 		final String messageId;
 		final String from;

@@ -51,11 +51,6 @@ public interface BetterRBActivity extends BetterActivity {
 	public abstract String getUserId();
 
 	/**
-	 * Sets the userid
-	 */
-	public abstract void setUserId(String userId);
-	
-	/**
 	 * Sets whether the activity has a task running
 	 * @param hasTask Whether the activity has a task running
 	 */

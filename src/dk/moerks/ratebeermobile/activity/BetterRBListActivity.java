@@ -20,6 +20,7 @@ package dk.moerks.ratebeermobile.activity;
 
 import android.R;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Window;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 
 import com.github.droidfu.activities.BetterListActivity;
 
+import dk.moerks.ratebeermobile.Settings;
 import dk.moerks.ratebeermobile.exceptions.RBException;
 
 public class BetterRBListActivity extends BetterListActivity implements BetterRBActivity {
@@ -77,11 +79,8 @@ public class BetterRBListActivity extends BetterListActivity implements BetterRB
 	}
 
 	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userid) {
-		BetterRBListActivity.userId = userid;
+		SharedPreferences settings = getApplicationContext().getSharedPreferences(Settings.PREFERENCETAG, 0);
+		return settings.getString("rb_userid", "");
 	}
 
 	public void hasRunningTask(boolean hasTask) {
@@ -91,5 +90,4 @@ public class BetterRBListActivity extends BetterListActivity implements BetterRB
 	public boolean hasRunningTask() {
 		return this.hasTask;
 	}
-	
 }

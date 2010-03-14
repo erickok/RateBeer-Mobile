@@ -19,7 +19,11 @@
 package dk.moerks.ratebeermobile.task;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
+import dk.moerks.ratebeermobile.Home;
+import dk.moerks.ratebeermobile.Search;
+import dk.moerks.ratebeermobile.Settings;
 import dk.moerks.ratebeermobile.activity.BetterRBActivity;
 import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.util.RBParser;
@@ -42,7 +46,7 @@ public class RetrieveUserIdTask extends BetterRBTask<String, String> {
 	
 	@Override
 	protected void afterTask(BetterRBActivity activity, String result) {
-		activity.setUserId(result);
+		((Home)activity).onUserIdRetrieved(result);
 	}
 
 }
