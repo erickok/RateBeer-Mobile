@@ -110,6 +110,8 @@ public class Rate extends BetterRBDefaultActivity {
 	    			parameters.add(new BasicNameValuePair("totalscore", calculateTotalScore(aromaString, appearanceString, flavorString, palateString, overallString)));
 	    			parameters.add(new BasicNameValuePair("Comments", commentString));
 	    			new SaveRatingTask(Rate.this).execute(parameters.toArray(new NameValuePair[] {}));
+    			} else {
+    				Toast.makeText(Rate.this, R.string.toast_minimum_length, Toast.LENGTH_LONG).show();
     			}
             }
 

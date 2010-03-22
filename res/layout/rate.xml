@@ -139,6 +139,7 @@
 	       	android:layout_height="0dip"
 	       	android:layout_weight="1"
 	       	android:gravity="top"
+	       	android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"
 	       	android:lines="5"
 	       	/>
 	    <Button

@@ -26,7 +26,6 @@ import android.widget.Toast;
 import com.github.droidfu.activities.BetterDefaultActivity;
 
 import dk.moerks.ratebeermobile.exceptions.RBException;
-import dk.moerks.ratebeermobile.task.RetrieveUserIdTask;
 
 public class BetterRBDefaultActivity extends BetterDefaultActivity implements BetterRBActivity {
 

@@ -34,7 +34,6 @@ import dk.moerks.ratebeermobile.exceptions.RBException;
 public class BetterRBListActivity extends BetterListActivity implements BetterRBActivity {
 	
 	private static final String EXTRA_HAS_TASK = "has_running_task";
-	private static String userId;
 	private boolean hasTask;
 	
 	@Override

@@ -19,7 +19,6 @@
 package dk.moerks.ratebeermobile.task;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.http.NameValuePair;

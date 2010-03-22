@@ -18,11 +18,14 @@
  */
 package dk.moerks.ratebeermobile;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,15 +35,19 @@ import android.view.View.OnKeyListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import dk.moerks.ratebeermobile.activity.BetterRBListActivity;
 import dk.moerks.ratebeermobile.adapters.FeedAdapter;
+import dk.moerks.ratebeermobile.task.BarcodeLookupTask;
+import dk.moerks.ratebeermobile.task.RefreshFriendFeedTask;
 import dk.moerks.ratebeermobile.task.RetrieveUserIdTask;
 import dk.moerks.ratebeermobile.task.SetDrinkingStatusTask;
-import dk.moerks.ratebeermobile.task.RefreshFriendFeedTask;
 import dk.moerks.ratebeermobile.task.RefreshFriendFeedTask.FriendFeedTaskResult;
 
 public class Home extends BetterRBListActivity {
-	//private static final String LOGTAG = "Home";
+	private static final String LOGTAG = "Home";
+	private static final int BARCODE_ACTIVITY = 101;
+	
 	private boolean firstRun;
 	private boolean hasNewDrinkText;
     
@@ -62,6 +69,7 @@ public class Home extends BetterRBListActivity {
                 
         final Button updateButton = (Button) findViewById(R.id.drinkingUpdateButton);
         Button searchButton = (Button) findViewById(R.id.searchMenuButton);
+        Button barcodeMenuButton = (Button) findViewById(R.id.barcodeMenuButton);
         Button beermailButton = (Button) findViewById(R.id.beermailMenuButton);
         Button placesButton = (Button) findViewById(R.id.placesMenuButton);
         
@@ -70,10 +78,25 @@ public class Home extends BetterRBListActivity {
                 
         searchButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
-            	Intent searchIntent = new Intent(Home.this, Search.class);  
-            	startActivity(searchIntent);  
+        		onSearchRequested();
             }
         });
+
+    	// If barcode scanner is available, allow the scanner to be started
+        try {
+        	getPackageManager().getPackageInfo("com.google.zxing.client.android", PackageManager.GET_ACTIVITIES);
+
+        	barcodeMenuButton.setEnabled(true);
+        	barcodeMenuButton.setOnClickListener(new View.OnClickListener() {
+    			public void onClick(View v) {
+                    Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+                    startActivityForResult(intent, BARCODE_ACTIVITY);
+    			}
+            });
+        } catch(PackageManager.NameNotFoundException e){
+        	Log.d(LOGTAG, "BarcodeScanner is not installed");
+        	barcodeMenuButton.setEnabled(false);
+        }
         
         beermailButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
@@ -173,7 +196,27 @@ public class Home extends BetterRBListActivity {
 		
 		return false;
 	}
-	
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == BARCODE_ACTIVITY) {
+            if (resultCode == RESULT_OK) {
+            	
+            	// A barcode was scanned
+                final String contents = intent.getStringExtra("SCAN_RESULT");
+                final String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+                Log.d(LOGTAG, "BC CONTENTS: " + contents);
+                Log.d(LOGTAG, "BC FORMAT:   " + format);
+                
+                // Loop up the barcode to match some product
+                new BarcodeLookupTask(this).execute(contents);
+                
+            } else if (resultCode == RESULT_CANCELED) {
+                Log.d(LOGTAG, "ACTIVTIY RESULT WAS CANCELLED");
+            }
+        }
+    }
+    
 	public void onFriendFeedRefreshed(FriendFeedTaskResult result){
 		
 		// Update Drinking Status
@@ -202,10 +245,25 @@ public class Home extends BetterRBListActivity {
         updateTextGen.setText("");
 	}
 
+	public void onBarcodeProductRetrieved(String result) {
+		if(result != null && result.length() > 0){
+			
+			// Start a search intent for the found product
+			Log.d(LOGTAG, "PRODUCT: " + result);
+        	Intent searchIntent = new Intent(Home.this, Search.class);
+        	searchIntent.putExtra(SearchManager.QUERY, result);
+        	startActivity(searchIntent);
+			
+		} else {
+			Toast.makeText(getApplicationContext(), getText(R.string.toast_search_barcode), Toast.LENGTH_LONG).show();
+		}
+	}
+	
 	public void onUserIdRetrieved(String result){
 		SharedPreferences settings = getApplicationContext().getSharedPreferences(Settings.PREFERENCETAG, 0);
     	SharedPreferences.Editor editor = settings.edit();
     	editor.putString("rb_userid", result);
     	editor.commit();
 	}
+	
 }

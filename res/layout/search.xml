@@ -22,26 +22,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-    <LinearLayout 
-    	android:orientation="horizontal"
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-	    android:paddingBottom="10dip"
-    	>
-		<EditText
-			android:id="@+id/searchText"
-			android:layout_width="0dip"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:singleLine="true"
-		/>
-		<Button
-			android:id="@+id/searchButton"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/search_button"
-		/>
-	</LinearLayout>
 	<ListView
 		android:id="@android:id/list"
 		android:layout_width="fill_parent"

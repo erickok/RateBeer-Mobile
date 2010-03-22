@@ -31,10 +31,15 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
+</activity>
+<activity android:name="Search" android:launchMode="singleTop">
+		    <intent-filter>
+				<action android:name="android.intent.action.SEARCH" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+	    	<meta-data android:name="android.app.searchable" android:resource="@xml/searchable" />
 </activity>
 
-<activity android:name="Search"></activity>
 <activity android:name="Settings"></activity>
 <activity android:name="Rate"></activity>
 <activity android:name="Rating"></activity>
@@ -54,6 +59,10 @@
 		<action android:value="android.intent.action.BOOT_COMPLETED" android:name="android.intent.action.BOOT_COMPLETED"/> 
 	</intent-filter> 
 </receiver>
+
+<provider android:name=".services.BeerSearchHistoryProvider" android:authorities="dk.moers.ratebeermobile.BeerSearchHistoryProvider" />
+
+<meta-data android:name="android.app.default_searchable" android:value=".Search" />
 
 <uses-library android:name="com.google.android.maps"></uses-library>
 </application>
