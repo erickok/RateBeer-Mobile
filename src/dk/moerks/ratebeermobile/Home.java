@@ -39,6 +39,7 @@ import android.widget.Toast;
 import dk.moerks.ratebeermobile.activity.BetterRBListActivity;
 import dk.moerks.ratebeermobile.adapters.FeedAdapter;
 import dk.moerks.ratebeermobile.task.BarcodeLookupTask;
+import dk.moerks.ratebeermobile.task.PostTwitterStatusTask;
 import dk.moerks.ratebeermobile.task.RefreshFriendFeedTask;
 import dk.moerks.ratebeermobile.task.RetrieveUserIdTask;
 import dk.moerks.ratebeermobile.task.SetDrinkingStatusTask;
@@ -131,8 +132,8 @@ public class Home extends BetterRBListActivity {
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
 					// Set the 'now drinking' status when the 'enter' key is used
-            		String updateTextString = updateTextGen.getText().toString();
-        			new SetDrinkingStatusTask(Home.this).execute(updateTextString);
+					String updateTextString = updateTextGen.getText().toString();
+					startUpdateNowDrinkingTask(updateTextString);
 					return true;
 				}
 				return false;
@@ -143,7 +144,7 @@ public class Home extends BetterRBListActivity {
 			public void onClick(View v) {
         		if(hasNewDrinkText){
             		String updateTextString = updateTextGen.getText().toString();
-        			new SetDrinkingStatusTask(Home.this).execute(updateTextString);
+            		startUpdateNowDrinkingTask(updateTextString);
         		} else {
         			new RefreshFriendFeedTask(Home.this).execute();
         		}
@@ -264,6 +265,19 @@ public class Home extends BetterRBListActivity {
     	SharedPreferences.Editor editor = settings.edit();
     	editor.putString("rb_userid", result);
     	editor.commit();
+	}
+
+	private void startUpdateNowDrinkingTask(String updateTextString) {
+		
+		// Post status on RateBeer
+		new SetDrinkingStatusTask(Home.this).execute(updateTextString);
+		
+		// Post status on Twitter?
+		SharedPreferences settings = getApplicationContext().getSharedPreferences(Settings.PREFERENCETAG, 0);
+    	if (settings.getBoolean("rb_twitter_updates", false)) {
+    		new PostTwitterStatusTask(Home.this).execute("Now drinking " + updateTextString);
+    	}
+    	
 	}
 	
 }

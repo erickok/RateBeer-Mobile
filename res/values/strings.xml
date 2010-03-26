@@ -23,9 +23,6 @@
 <string name="refresh">Refresh</string>
 <string name="update">Update</string>
 <string name="app_name">RateBeer Mobile</string>
-<string name="settings_username">Username</string>
-<string name="settings_password">Password</string>
-<string name="settings_save_button">Save</string>
 <string name="menu_item_settings">Settings</string>
 <string name="rate_aroma">Aroma</string>
 <string name="rate_appearance">Appearance</string>
@@ -58,8 +55,6 @@
 <string name="toast_mail_failed">Sending of beer mail failed</string>
 <string name="toast_mail_deleted">Mail Deleted Succesfully</string>
 <string name="toast_mail_deleted_failed">There was an error deleting the mail</string>
-<string name="settings_beermail_notification">Enable Beermail Notifications</string>
-<string name="settings_notification_interval_label">Notification Interval</string>
 <string name="places_menu_button">Places</string>
 <string name="toast_parse_error">There was an error parsing the response from ratebeer.com.</string>
 <string name="scan_button">Scan Barcode</string>
@@ -72,6 +67,15 @@
 <string name="places_retrieving">Getting Nearby Places</string>
 <string name="place_avgrating">Average Rating: </string>
 <string name="place_noplaces">No nearby places found</string>
+
+<string name="settings_username">Username</string>
+<string name="settings_password">Password</string>
+<string name="settings_beermail_notification">Enable Beermail Notifications</string>
+<string name="settings_notification_interval_label">Notification Interval</string>
+<string name="settings_twitter_updates">Tweet drinking status updates</string>
+<string name="settings_twitter_username">Twitter username</string>
+<string name="settings_twitter_password">Twitter password</string>
+<string name="settings_save_button">Save</string>
 
 <string name="search_label">Search for beers</string>
 <string name="search_hint">Beer name</string>

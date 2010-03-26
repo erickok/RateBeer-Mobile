@@ -42,22 +42,25 @@ public class Settings extends Activity {
 
         SharedPreferences settings = getSharedPreferences(PREFERENCETAG, 0);
         
-        EditText usernameGen = (EditText) findViewById(R.id.settings_value_username);
-    	EditText passwordGen = (EditText) findViewById(R.id.settings_value_password);
-    	CheckBox notificationGen = (CheckBox) findViewById(R.id.settings_checkbox_beermail_notification);
-    	Spinner notificationIntervalGen = (Spinner) findViewById(R.id.settings_notification_interval);
-    	usernameGen.setText(settings.getString("rb_username", ""));
-    	passwordGen.setText(settings.getString("rb_password", ""));
-        notificationGen.setChecked(settings.getBoolean("rb_notifications", true));
-        notificationIntervalGen.setSelection(getNotificationIntervalIndex(settings.getString("rb_notification_interval", "")));
+        final EditText username = (EditText) findViewById(R.id.settings_value_username);
+    	final EditText password = (EditText) findViewById(R.id.settings_value_password);
+    	final CheckBox notification = (CheckBox) findViewById(R.id.settings_checkbox_beermail_notification);
+    	final Spinner notificationInterval = (Spinner) findViewById(R.id.settings_notification_interval);
+    	final CheckBox twitUpdates = (CheckBox) findViewById(R.id.settings_checkbox_twitter_updates);
+    	final EditText twitUsername = (EditText) findViewById(R.id.settings_value_twitter_username);
+    	final EditText twitPassword = (EditText) findViewById(R.id.settings_value_twitter_password);
+    	
+    	username.setText(settings.getString("rb_username", ""));
+    	password.setText(settings.getString("rb_password", ""));
+        notification.setChecked(settings.getBoolean("rb_notifications", true));
+        notificationInterval.setSelection(getNotificationIntervalIndex(settings.getString("rb_notification_interval", "")));
+        twitUpdates.setChecked(settings.getBoolean("rb_twitter_updates", false));
+        twitUsername.setText(settings.getString("rb_twitter_username", ""));
+        twitPassword.setText(settings.getString("rb_twitter_password", ""));
         Button saveButton = (Button) findViewById(R.id.settings_button_save);
         saveButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
             	Log.d(LOGTAG, "Saving Preferences");
-            	EditText username = (EditText) findViewById(R.id.settings_value_username);
-            	EditText password = (EditText) findViewById(R.id.settings_value_password);
-            	CheckBox notification = (CheckBox) findViewById(R.id.settings_checkbox_beermail_notification);
-            	Spinner notificationInterval = (Spinner) findViewById(R.id.settings_notification_interval);
             	
             	SharedPreferences settings = getSharedPreferences(PREFERENCETAG, 0);
             	SharedPreferences.Editor editor = settings.edit();
@@ -66,6 +69,9 @@ public class Settings extends Activity {
             	editor.putBoolean("rb_notifications", notification.isChecked());
             	String interval = (String) notificationInterval.getSelectedItem();
             	editor.putString("rb_notification_interval", interval);
+            	editor.putBoolean("rb_twitter_updates", twitUpdates.isChecked());
+            	editor.putString("rb_twitter_username", twitUsername.getText().toString());
+            	editor.putString("rb_twitter_password", twitPassword.getText().toString());
             	editor.commit();
             	
             	if(notification.isChecked()){
