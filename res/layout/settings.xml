@@ -79,6 +79,42 @@
 		        android:layout_height="wrap_content"
 			   	/>
 		</TableRow>
+		<TableRow>
+			<CheckBox 
+				android:id="@+id/settings_checkbox_twitter_updates"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_span="2"
+				android:text="@string/settings_twitter_updates"
+				/>
+		</TableRow>
+		<TableRow>
+	        <TextView android:id="@+id/settings_label_twitter_username"
+                android:text="@string/settings_twitter_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="10px"
+                android:textSize="15sp" />
+	        <EditText android:id="@+id/settings_value_twitter_username"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:singleLine="true" />
+		</TableRow>
+		<TableRow>
+	        <TextView android:id="@+id/settings_label_twitter_password"
+                android:text="@string/settings_twitter_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="10px"
+                android:textSize="15sp" />
+	        <EditText android:id="@+id/settings_value_twitter_password"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:password="true"
+                android:singleLine="true" />
+		</TableRow>
 	</TableLayout>
     <Button android:id="@+id/settings_button_save"
         android:text="@string/settings_save_button"
