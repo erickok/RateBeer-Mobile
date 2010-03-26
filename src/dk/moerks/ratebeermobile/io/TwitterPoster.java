@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -16,8 +15,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.params.HttpProtocolParams;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -39,7 +36,12 @@ public class TwitterPoster {
 		this.password = password;
 	}
 	
-	public static TwitterPoster build(Context context) {
+	/**
+	 * Build a TwitterPoster based on the user preferences
+	 * @param context The application context to get the user preferences from
+	 * @return A reusable TwitterPoster object
+	 */
+	public static TwitterPoster buildFromPreferences(Context context) {
 		
 		// Retrieve the Twitter user credentials from the application preferences
 		SharedPreferences settings = context.getSharedPreferences(Settings.PREFERENCETAG, 0);
@@ -50,13 +52,22 @@ public class TwitterPoster {
 		
 	}
 	
+	/**
+	 * Updates the Twitter status text of the user
+	 * @param context Application context for error logging
+	 * @param status The new status text
+	 * @throws NetworkException When either a network error occurred or the Twitter status could not be set
+	 */
 	public void updateStatus(Context context, String status) throws NetworkException {
 
 		// Send status update POST request
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();  
 		parameters.add(new BasicNameValuePair("status", status));
 		HttpResponse result = postRequest(context, TWITTER_UPDATE_URL, parameters);
-		if (!(result.getStatusLine().getStatusCode() == 200)) {
+		
+		// Check response result
+		//String response = responseString(result);
+		if (result.getStatusLine().getStatusCode() != 200) {
 			throw new NetworkException(context, LOGTAG, "Update of Twitter status was unsuccessfull", null);
 		}
 
@@ -69,11 +80,11 @@ public class TwitterPoster {
 		HttpPost post = new HttpPost(url);
 		
 		// Set RateBeer Mobile as twit source
-		//parameters.add(new BasicNameValuePair("source", SOURCE));
+		parameters.add(new BasicNameValuePair("source", SOURCE));
 		
 		// Basic authentication of our Twitter user
 		client.getCredentialsProvider().setCredentials(
-			new AuthScope("twitter.com", 80, AuthScope.ANY_REALM), 
+			new AuthScope("twitter.com", 80, AuthScope.ANY_REALM),
 			new UsernamePasswordCredentials(this.name, this.password));
 		
 		try {
@@ -91,5 +102,17 @@ public class TwitterPoster {
 		}  
 		
 	}
+
+	/*private String responseString(HttpResponse response){
+		try {
+			ByteArrayOutputStream ostream = new ByteArrayOutputStream();  
+			response.getEntity().writeTo(ostream);
+			//return ostream.toString("ISO8859_1");
+			return ostream.toString("windows-1252"); 
+		} catch(IOException e){
+			e.printStackTrace();
+		}
+		return null;
+	}*/
 	
 }

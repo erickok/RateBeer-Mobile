@@ -18,6 +18,7 @@
  */
 package dk.moerks.ratebeermobile.task;
 
+import java.net.URLEncoder;
 import java.util.List;
 
 import android.content.Context;
@@ -38,8 +39,9 @@ public class SearchTask extends BetterRBTask<String, List<SearchResult>> {
 	protected List<SearchResult> doCheckedInBackground(Context context, String... params) throws Exception {
 
 		// Search RB using a query string
-		Log.d("SearchTask", "Search for '" + params[0] + "' for user '"+params[1]+"'");
-		String responseString = NetBroker.doRBGet(context, "http://www.ratebeer.com/json/s.asp?k=tTmwRTWT-W7tpBhtL&b="+params[0]+"&u="+params[1]);
+		String query = URLEncoder.encode(params[0], "UTF-8");
+		Log.d("SearchTask", "Search for '" + query + "' for user '"+params[1]+"'");
+		String responseString = NetBroker.doRBGet(context, "http://www.ratebeer.com/json/s.asp?k=tTmwRTWT-W7tpBhtL&b="+query+"&u="+params[1]);
 		return RBJSONParser.parseSearch(responseString);
 		
 	}

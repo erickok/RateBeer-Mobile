@@ -35,7 +35,7 @@ public class PostTwitterStatusTask extends BetterRBTask<String, String> {
 		
 		// Update the user's twitter status
 		Log.d("PostTwitterStatusTask", "Updating the user's Twitter status to '" + params[0] + "'");
-		TwitterPoster poster = TwitterPoster.build(context);
+		TwitterPoster poster = TwitterPoster.buildFromPreferences(context);
 		poster.updateStatus(context, params[0]);
 		return params[0];
 		
