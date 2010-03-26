@@ -1,3 +1,21 @@
+/*
+ * Copyright 2010, Jesper Fussing Mørk
+ *
+ * This file is part of Ratebeer Mobile for Android.
+ *
+ * Ratebeer Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Ratebeer Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Ratebeer Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package dk.moerks.ratebeermobile.io;
 
 import java.io.IOException;
@@ -18,6 +36,7 @@ import org.apache.http.params.BasicHttpParams;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import dk.moerks.ratebeermobile.Settings;
 import dk.moerks.ratebeermobile.exceptions.NetworkException;
 
@@ -67,6 +86,7 @@ public class TwitterPoster {
 		
 		// Check response result
 		//String response = responseString(result);
+		Log.d(LOGTAG, "TW_CODE: " + result.getStatusLine().getStatusCode());
 		if (result.getStatusLine().getStatusCode() != 200) {
 			throw new NetworkException(context, LOGTAG, "Update of Twitter status was unsuccessfull", null);
 		}
@@ -84,7 +104,7 @@ public class TwitterPoster {
 		
 		// Basic authentication of our Twitter user
 		client.getCredentialsProvider().setCredentials(
-			new AuthScope("twitter.com", 80, AuthScope.ANY_REALM),
+			new AuthScope("api.twitter.com", 80),
 			new UsernamePasswordCredentials(this.name, this.password));
 		
 		try {
