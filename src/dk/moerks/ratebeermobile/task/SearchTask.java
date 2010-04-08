@@ -42,8 +42,8 @@ public class SearchTask extends BetterRBTask<String, List<SearchResult>> {
 		
 		// Search RB using a query string
 		String query = URLEncoder.encode(searchString, "UTF-8");
-		Log.d("SearchTask", "Search for '" + query + "' for user '"+params[1]+"'");
-		String responseString = NetBroker.doRBGet(context, "http://www.ratebeer.com/json/s.asp?k=tTmwRTWT-W7tpBhtL&b="+query+"&u="+params[1]);
+		Log.d("SearchTask", "Search for '" + query + "' for user '"+useridString+"'");
+		String responseString = NetBroker.doRBGet(context, "http://www.ratebeer.com/json/s.asp?k=tTmwRTWT-W7tpBhtL&b="+query+"&u="+useridString);
 		return RBJSONParser.parseSearch(responseString);
 		
 	}

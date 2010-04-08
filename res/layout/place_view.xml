@@ -55,13 +55,26 @@
     	android:paddingLeft="10px"
    		android:textSize="10px"
    		/>
-	<TextView android:id="@+id/place_view_phone"
-    	android:layout_width="fill_parent"
-   		android:layout_height="wrap_content"
-    	android:paddingLeft="10px"
-    	android:paddingBottom="30px"
-   		android:textSize="10px"
-   		/>
+   	<RelativeLayout
+	    	android:layout_width="fill_parent"
+	   		android:layout_height="wrap_content">
+   		<ImageView
+   			android:id="@+id/place_call_phone"
+	    	android:layout_width="24dip"
+	   		android:layout_height="16dip"
+    		android:paddingLeft="10px"
+	   		android:scaleType="fitXY"
+   			android:src="@android:drawable/sym_action_call"
+   			/>
+		<TextView android:id="@+id/place_view_phone"
+			android:layout_toRightOf="@id/place_call_phone"
+	    	android:layout_width="fill_parent"
+	   		android:layout_height="wrap_content"
+	    	android:paddingLeft="10px"
+	    	android:paddingBottom="30px"
+	   		android:textSize="10px"
+	   		/>
+   	</RelativeLayout>
    	<com.google.android.maps.MapView 
 	    android:id="@+id/place_view_map"
 	    android:layout_width="fill_parent" 
