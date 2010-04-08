@@ -97,7 +97,7 @@ public class MailView extends BetterRBDefaultActivity {
         messageText.setText(result.getMessage());
         
         // Enable the reply button now as well, since we have all needed info
-        replyMailButton.setEnabled(true);
+        //replyMailButton.setEnabled(true);
 	}
 
 	public void showBasedInfo() {
