@@ -17,39 +17,45 @@
   You should have received a copy of the GNU General Public License
   along with Ratebeer Mobile.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-  	android:orientation="horizontal"
-  	android:layout_width="fill_parent"
-  	android:layout_height="fill_parent"
-  	>
-	<LinearLayout
-	 	android:orientation="vertical"
-  		android:layout_width="fill_parent"
-  		android:layout_height="wrap_content"
-  		>
-  		<TextView android:id="@+id/place_name"
-        	android:layout_width="fill_parent"
-        	android:layout_height="fill_parent"
-        	android:textSize="15px"
-        	/>
-		<LinearLayout
-		 	android:orientation="horizontal"
-  			android:layout_width="wrap_content"
-  			android:layout_height="wrap_content"
-  			>
-	  		<TextView android:id="@+id/place_distance"
-    	    	android:layout_width="wrap_content"
-        		android:layout_height="fill_parent"
-	        	android:paddingLeft="10px"
-        		android:textSize="10px"
-        		/>
-	  		<TextView android:id="@+id/place_rating"
-    	    	android:layout_width="wrap_content"
-        		android:layout_height="fill_parent"
-	        	android:paddingLeft="10px"
-        		android:textSize="10px"
-        		/>
-  		</LinearLayout>
-	</LinearLayout>
+ <!-- Based on Android's preference.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:gravity="center_vertical"
+    android:paddingRight="?android:attr/scrollbarSize">
+	<RelativeLayout
+	  	android:layout_width="wrap_content"
+	  	android:layout_height="wrap_content"
+	    android:layout_marginLeft="15dip"
+	    android:layout_marginRight="6dip"
+	    android:layout_marginTop="6dip"
+	    android:layout_marginBottom="6dip"
+	  	>
+		<TextView android:id="@+id/place_name"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content"
+	        android:singleLine="true"
+	        android:textAppearance="?android:attr/textAppearanceLarge"
+	        android:ellipsize="marquee"
+	        android:fadingEdge="horizontal"
+	    	/>
+		<TextView android:id="@+id/place_distance"
+	    	android:layout_width="wrap_content"
+	   		android:layout_height="wrap_content"
+	   		android:layout_below="@id/place_name"
+	   		android:layout_alignLeft="@id/place_name"
+	        android:textAppearance="?android:attr/textAppearanceSmall"
+	        android:maxLines="2"
+	   		/>
+		<TextView android:id="@+id/place_rating"
+	    	android:layout_width="wrap_content"
+	   		android:layout_height="wrap_content"
+	   		android:layout_below="@id/place_name"
+	   		android:layout_toRightOf="@id/place_distance"
+	   		android:paddingLeft="10dip"
+	        android:textAppearance="?android:attr/textAppearanceSmall"
+	        android:maxLines="2"
+	   		/>
+	</RelativeLayout>
 </LinearLayout>

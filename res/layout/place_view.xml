@@ -23,58 +23,95 @@
   	android:layout_height="wrap_content"
   	android:orientation="vertical"
   	>
-	<TextView android:id="@+id/place_view_name"
-    	android:layout_width="fill_parent"
-   		android:layout_height="wrap_content"
-   		android:textSize="15px"
-   		/>
-	<TextView android:id="@+id/place_view_type"
-		android:textColor="#ff22ff22"
-    	android:layout_width="fill_parent"
-   		android:layout_height="wrap_content"
-    	android:paddingLeft="10px"
-    	android:paddingBottom="10px"
-   		android:textSize="10px"
-   		/>
-	<TextView android:id="@+id/place_view_rating"
-    	android:layout_width="fill_parent"
-   		android:layout_height="wrap_content"
-    	android:paddingLeft="10px"
-    	android:paddingBottom="5px"
-   		android:textSize="12px"
-   		/>
-	<TextView android:id="@+id/place_view_address"
-    	android:layout_width="fill_parent"
-   		android:layout_height="wrap_content"
-    	android:paddingLeft="10px"
-   		android:textSize="10px"
-   		/>
-	<TextView android:id="@+id/place_view_city"
-    	android:layout_width="fill_parent"
-   		android:layout_height="wrap_content"
-    	android:paddingLeft="10px"
-   		android:textSize="10px"
-   		/>
-   	<RelativeLayout
-	    	android:layout_width="fill_parent"
-	   		android:layout_height="wrap_content">
-   		<ImageView
-   			android:id="@+id/place_call_phone"
-	    	android:layout_width="24dip"
-	   		android:layout_height="16dip"
-    		android:paddingLeft="10px"
-	   		android:scaleType="fitXY"
-   			android:src="@android:drawable/sym_action_call"
-   			/>
-		<TextView android:id="@+id/place_view_phone"
-			android:layout_toRightOf="@id/place_call_phone"
+	<LinearLayout
+	  	android:layout_width="wrap_content"
+	  	android:layout_height="wrap_content"
+	  	android:orientation="vertical"
+	    android:paddingLeft="15dip"
+	    android:paddingRight="6dip"
+	    android:paddingTop="6dip"
+	    android:paddingBottom="6dip"
+	  	>
+		<TextView android:id="@+id/place_view_name"
 	    	android:layout_width="fill_parent"
 	   		android:layout_height="wrap_content"
-	    	android:paddingLeft="10px"
-	    	android:paddingBottom="30px"
-	   		android:textSize="10px"
+	        android:textAppearance="?android:attr/textAppearanceLarge"
 	   		/>
-   	</RelativeLayout>
+		<TextView android:id="@+id/place_view_type"
+			android:textColor="#ff22ff22"
+	    	android:layout_width="fill_parent"
+	   		android:layout_height="wrap_content"
+	    	android:paddingBottom="10dip"
+	        android:textAppearance="?android:attr/textAppearanceSmall"
+	   		/>
+	   	<RelativeLayout
+	   			android:id="@+id/place_rating"
+		    	android:layout_width="fill_parent"
+		   		android:layout_height="wrap_content">
+	   		<ImageView
+	   			android:id="@+id/place_icon_rating"
+		    	android:layout_width="16dip"
+		   		android:layout_height="16dip"
+		    	android:layout_marginRight="10dip"
+		   		android:scaleType="fitXY"
+	   			android:src="@android:drawable/ic_menu_info_details"
+	   			/>
+			<TextView android:id="@+id/place_view_rating"
+				android:layout_toRightOf="@id/place_icon_rating"
+		    	android:layout_width="fill_parent"
+		   		android:layout_height="wrap_content"
+		    	android:paddingBottom="5dip"
+		        android:textAppearance="?android:attr/textAppearanceSmall"
+		   		/>
+		</RelativeLayout>
+	   	<RelativeLayout
+	   			android:id="@+id/place_address"
+		    	android:layout_width="fill_parent"
+		   		android:layout_height="wrap_content">
+	   		<ImageView
+	   			android:id="@+id/place_route_address"
+		    	android:layout_width="16dip"
+		   		android:layout_height="16dip"
+		    	android:layout_marginRight="10dip"
+		   		android:scaleType="fitXY"
+	   			android:src="@android:drawable/ic_menu_mapmode"
+	   			/>
+			<TextView android:id="@+id/place_view_address"
+				android:layout_toRightOf="@id/place_route_address"
+		    	android:layout_width="fill_parent"
+		   		android:layout_height="wrap_content"
+		        android:textAppearance="?android:attr/textAppearanceSmall"
+		   		/>
+			<TextView android:id="@+id/place_view_city"
+				android:layout_alignLeft="@id/place_view_address"
+				android:layout_below="@id/place_view_address"
+		    	android:layout_width="fill_parent"
+		   		android:layout_height="wrap_content"
+		        android:textAppearance="?android:attr/textAppearanceSmall"
+		   		/>
+		</RelativeLayout>
+	   	<RelativeLayout
+	   			android:id="@+id/place_phone"
+		    	android:layout_width="fill_parent"
+		   		android:layout_height="wrap_content"
+		   		android:layout_marginTop="5dip">
+	   		<ImageView
+	   			android:id="@+id/place_call_phone"
+		    	android:layout_width="16dip"
+		   		android:layout_height="16dip"
+		    	android:layout_marginRight="10dip"
+		   		android:scaleType="fitXY"
+	   			android:src="@android:drawable/ic_menu_call"
+	   			/>
+			<TextView android:id="@+id/place_view_phone"
+				android:layout_toRightOf="@id/place_call_phone"
+		    	android:layout_width="fill_parent"
+		   		android:layout_height="wrap_content"
+		    	android:paddingBottom="20dip"
+		        android:textAppearance="?android:attr/textAppearanceSmall"
+		   		/>
+	   	</RelativeLayout>
+	 </LinearLayout>
    	<com.google.android.maps.MapView 
 	    android:id="@+id/place_view_map"
 	    android:layout_width="fill_parent" 

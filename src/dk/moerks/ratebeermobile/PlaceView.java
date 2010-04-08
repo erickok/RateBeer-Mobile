@@ -25,8 +25,11 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.maps.GeoPoint;
@@ -108,18 +111,21 @@ public class PlaceView extends MapActivity {
 
         TextView placeCityText = (TextView) findViewById(R.id.place_view_city);
         placeCityText.setText(placeCity);
-        
-        TextView placePhoneText = (TextView) findViewById(R.id.place_view_phone);
-        String number = placePhoneNumber;
-        if(placePhoneAC != null && !placePhoneAC.equalsIgnoreCase("Not Set!") && !placePhoneAC.equalsIgnoreCase("null")){
-        	number = "(" + placePhoneAC + ") " + placePhoneNumber;
-        }
-    	placePhoneText.setText(number);
-		final Uri callUri = Uri.parse("tel:" + number);
-    	placePhoneText.setOnClickListener(new OnClickListener() {
+
+    	RelativeLayout placeAddress = (RelativeLayout) findViewById(R.id.place_address);
+    	placeAddress.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				// Start call
-				startActivity(new Intent(Intent.ACTION_VIEW, callUri));
+				startRouteIntent();
+			}
+		});
+
+        TextView placePhoneText = (TextView) findViewById(R.id.place_view_phone);
+    	placePhoneText.setText(getFormattedPhoneNumber());
+
+    	RelativeLayout placePhone = (RelativeLayout) findViewById(R.id.place_phone);
+    	placePhone.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				startCallIntent();
 			}
 		});
 
@@ -145,7 +151,62 @@ public class PlaceView extends MapActivity {
         mc.animateTo(point);
         mc.setZoom(15);
 	}
+	
+	private String getFormattedPhoneNumber() {
+        String number = placePhoneNumber;
+        if(placePhoneAC != null && !placePhoneAC.equalsIgnoreCase("Not Set!") && !placePhoneAC.equalsIgnoreCase("null")){
+        	number = "(" + placePhoneAC + ") " + placePhoneNumber;
+        }
+        return number;
+	}
+	
+	/**
+	 * Starts an intent to call this 'place' (assuming it indeed has a phone number)
+	 */
+	private void startCallIntent() {
+		if (getFormattedPhoneNumber() != null && !getFormattedPhoneNumber().equals("")) {
+			final Uri callUri = Uri.parse("tel:" + getFormattedPhoneNumber());
+			startActivity(new Intent(Intent.ACTION_VIEW, callUri));
+		}
+	}
+	
+	/**
+	 * Starts and intent to plan a route to this 'place'
+	 */
+	private void startRouteIntent() {
+		if (placeLatitude != null && !placeLatitude.equals("")) {
+			// We cannot actually start a route, but we can ask the Google Maps app to show this place's location
+			final Uri geoUri = Uri.parse("geo:" + placeLatitude + "," + placeLongitude + "?q=" + placeName);
+			startActivity(new Intent(Intent.ACTION_VIEW, geoUri));
+		}
+	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+
+		MenuItem call = menu.add(0, 0, 0, R.string.menu_item_call);
+		call.setIcon(android.R.drawable.ic_menu_call);
+		MenuItem route = menu.add(1, 1, 1, R.string.menu_item_route);
+		route.setIcon(android.R.drawable.ic_menu_mapmode);
+		
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()){
+		case 0:
+			startCallIntent();
+			return true;
+		case 1:
+			startRouteIntent();
+			return true;
+		}
+		
+		return false;
+	}
+	
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;

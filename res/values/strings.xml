@@ -23,7 +23,6 @@
 <string name="refresh">Refresh</string>
 <string name="update">Update</string>
 <string name="app_name">RateBeer Mobile</string>
-<string name="menu_item_settings">Settings</string>
 <string name="rate_aroma">Aroma</string>
 <string name="rate_appearance">Appearance</string>
 <string name="rate_flavor">Flavor</string>
@@ -53,6 +52,10 @@
 <string name="places_retrieving">Getting Nearby Places</string>
 <string name="place_avgrating">Average Rating: </string>
 <string name="place_noplaces">No nearby places found</string>
+
+<string name="menu_item_settings">Settings</string>
+<string name="menu_item_call">Call</string>
+<string name="menu_item_route">Get route</string>
 
 <string name="scan_button">Scan Barcode</string>
 <string name="scan_scanner_not_found">This feature uses the free Barcode Scanner application.\n\nWould you like to install this from the Android Market?</string>

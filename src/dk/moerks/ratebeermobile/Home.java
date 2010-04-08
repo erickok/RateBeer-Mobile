@@ -177,7 +177,8 @@ public class Home extends BetterRBListActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		
-		menu.add(0, 0, 0, R.string.menu_item_settings);
+		MenuItem settings = menu.add(0, 0, 0, R.string.menu_item_settings);
+		settings.setIcon(android.R.drawable.ic_menu_preferences);
 		
 		return true;
 	}
