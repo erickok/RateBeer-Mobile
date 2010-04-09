@@ -151,9 +151,9 @@ public class Home extends BetterRBListActivity {
         if (!firstRun) {
         	new RefreshFriendFeedTask(this).execute();
         	
-        	if(getUserId() == null || getUserId().length() <= 0){
+        	//if(getUserId() == null || getUserId().length() <= 0){
         		new RetrieveUserIdTask(this).execute();
-        	}
+        	//}
         }
     }
 
