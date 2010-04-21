@@ -20,7 +20,12 @@ package dk.moerks.ratebeermobile;
 
 import java.util.List;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,30 +33,45 @@ import android.widget.ListView;
 import android.widget.TextView;
 import dk.moerks.ratebeermobile.activity.BetterRBListActivity;
 import dk.moerks.ratebeermobile.adapters.PlacesAdapter;
-import dk.moerks.ratebeermobile.exceptions.LocationException;
-import dk.moerks.ratebeermobile.io.LocationBroker;
 import dk.moerks.ratebeermobile.task.RetrievePlacesTask;
 import dk.moerks.ratebeermobile.vo.PlacesInfo;
 
-public class Places extends BetterRBListActivity {
+public class Places extends BetterRBListActivity implements LocationListener {
 	private static final String LOGTAG = "Places";
-    
+	
+	private static String provider = null;
+	private static String locationString = null;
+	private static LocationManager locationManager = null;
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.places);
 
         // Retrieve a list of nearby places
-        try {
-        	// Note that the location needs to be requested in the UI thread
-        	String location = LocationBroker.requestLocation(this);
-            new RetrievePlacesTask(this).execute(location);
-		} catch (LocationException e) {
-			reportError(e);
+		locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+		if(locationManager != null){
+			Criteria criteria = new Criteria();
+			criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+			provider = locationManager.getBestProvider(criteria, true);
+			
+			Log.d(LOGTAG, "Using "+ provider +" Provider...");
+			locationManager.requestLocationUpdates(provider, 0, 500.0f, this);
+		} else {
+			Log.e(LOGTAG, "LocationManager is null");
 		}
-        
-    }
+	}
 
+	@Override
+	protected void onStart() {
+		super.onStart();
+		if(locationString != null){
+			new RetrievePlacesTask(this).execute(locationString);
+		} else {
+			new RetrievePlacesTask(this).execute(convertLocation(locationManager.getLastKnownLocation(provider)));
+		}
+	}
+	
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
     	super.onListItemClick(l, v, position, id);
@@ -85,5 +105,27 @@ public class Places extends BetterRBListActivity {
 	    	}
     	}
     }
+
+	public void onLocationChanged(Location location) {
+		locationString = convertLocation(location);
+	}
+
+	public void onProviderDisabled(String provider) {
+	}
+
+	public void onProviderEnabled(String provider) {
+	}
+
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+	}
     
+	private String convertLocation(Location location){
+		Log.d(LOGTAG, "LATITUDE : " + location.getLatitude());
+		Log.d(LOGTAG, "LONGITUDE: " + location.getLongitude());
+		String result  = "la=" + location.getLatitude() + "&lo=" + location.getLongitude();
+		
+		Log.d(LOGTAG, "RESULT: " + result);
+		
+		return result;
+	}
 }
