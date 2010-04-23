@@ -21,6 +21,7 @@ package dk.moerks.ratebeermobile.task;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
+import dk.moerks.ratebeermobile.R;
 import dk.moerks.ratebeermobile.activity.BetterRBActivity;
 import dk.moerks.ratebeermobile.io.TwitterPoster;
 
@@ -43,7 +44,7 @@ public class PostTwitterStatusTask extends BetterRBTask<String, String> {
 
 	@Override
 	protected void afterTask(BetterRBActivity activity, String result) {
-		Toast.makeText((Context) activity, "Twitter status updated", Toast.LENGTH_SHORT).show();
+		Toast.makeText((Context) activity, R.string.toast_twit_success, Toast.LENGTH_SHORT).show();
 	}
 
 }

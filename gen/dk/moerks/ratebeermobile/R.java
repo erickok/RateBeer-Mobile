@@ -13,6 +13,7 @@ public final class R {
         public static final int aroma=0x7f050000;
         public static final int flavor=0x7f050002;
         public static final int notification_interval=0x7f050005;
+        public static final int notification_interval_values=0x7f050006;
         public static final int overall=0x7f050004;
         public static final int palate=0x7f050003;
     }
@@ -111,20 +112,6 @@ public final class R {
         public static final int search_row_percentile=0x7f07004b;
         public static final int search_row_ratings=0x7f07004c;
         public static final int sendMailButton=0x7f07000a;
-        public static final int settings=0x7f07004e;
-        public static final int settings_button_save=0x7f07005b;
-        public static final int settings_checkbox_beermail_notification=0x7f070053;
-        public static final int settings_checkbox_twitter_updates=0x7f070056;
-        public static final int settings_label_notification_interval=0x7f070054;
-        public static final int settings_label_password=0x7f070051;
-        public static final int settings_label_twitter_password=0x7f070059;
-        public static final int settings_label_twitter_username=0x7f070057;
-        public static final int settings_label_username=0x7f07004f;
-        public static final int settings_notification_interval=0x7f070055;
-        public static final int settings_value_password=0x7f070052;
-        public static final int settings_value_twitter_password=0x7f07005a;
-        public static final int settings_value_twitter_username=0x7f070058;
-        public static final int settings_value_username=0x7f070050;
     }
     public static final class layout {
         public static final int beermail=0x7f030000;
@@ -140,7 +127,6 @@ public final class R {
         public static final int rating=0x7f03000a;
         public static final int search=0x7f03000b;
         public static final int search_row=0x7f03000c;
-        public static final int settings=0x7f03000d;
     }
     public static final class string {
         public static final int app_name=0x7f060004;
@@ -154,9 +140,9 @@ public final class R {
         public static final int mail_action_message_label=0x7f060019;
         public static final int mail_action_subject_label=0x7f060018;
         public static final int mail_action_to_label=0x7f060017;
-        public static final int menu_item_call=0x7f060023;
-        public static final int menu_item_route=0x7f060024;
-        public static final int menu_item_settings=0x7f060022;
+        public static final int menu_item_call=0x7f060024;
+        public static final int menu_item_route=0x7f060025;
+        public static final int menu_item_settings=0x7f060023;
         public static final int new_mail_button=0x7f060010;
         public static final int no_place_ratings=0x7f06001d;
         public static final int place_avgrating=0x7f060020;
@@ -176,38 +162,45 @@ public final class R {
         public static final int rating_retrieving_text=0x7f06000f;
         public static final int refresh=0x7f060002;
         public static final int reply_mail_button=0x7f060015;
-        public static final int scan_button=0x7f060025;
-        public static final int scan_install=0x7f060027;
-        public static final int scan_nomarket=0x7f060028;
-        public static final int scan_scanner_not_found=0x7f060026;
-        public static final int search_hint=0x7f06003f;
-        public static final int search_label=0x7f06003e;
+        public static final int scan_button=0x7f060026;
+        public static final int scan_install=0x7f060028;
+        public static final int scan_nomarket=0x7f060029;
+        public static final int scan_scanner_not_found=0x7f060027;
+        public static final int search_hint=0x7f060046;
+        public static final int search_label=0x7f060045;
         public static final int search_menu_button=0x7f060001;
-        public static final int search_no_query=0x7f060040;
-        public static final int search_searching=0x7f060041;
+        public static final int search_no_query=0x7f060047;
+        public static final int search_searching=0x7f060048;
         public static final int send_mail_button=0x7f06001a;
-        public static final int settings_beermail_notification=0x7f060038;
-        public static final int settings_notification_interval_label=0x7f060039;
-        public static final int settings_password=0x7f060037;
-        public static final int settings_save_button=0x7f06003d;
-        public static final int settings_twitter_password=0x7f06003c;
-        public static final int settings_twitter_updates=0x7f06003a;
-        public static final int settings_twitter_username=0x7f06003b;
-        public static final int settings_username=0x7f060036;
-        public static final int toast_drink_empty=0x7f06002b;
-        public static final int toast_mail_deleted=0x7f060030;
-        public static final int toast_mail_deleted_failed=0x7f060031;
-        public static final int toast_mail_failed=0x7f06002f;
-        public static final int toast_mail_sent=0x7f06002e;
-        public static final int toast_minimum_length=0x7f060034;
-        public static final int toast_network_error=0x7f06002c;
-        public static final int toast_parse_error=0x7f060032;
-        public static final int toast_rate_failure=0x7f06002a;
+        public static final int settings_notifications=0x7f06003b;
+        public static final int settings_notifications_enable=0x7f06003c;
+        public static final int settings_notifications_enable_summary=0x7f06003d;
+        public static final int settings_notifications_interval=0x7f06003e;
+        public static final int settings_notifications_interval_summary=0x7f06003f;
+        public static final int settings_twitter=0x7f060040;
+        public static final int settings_twitter_drinking=0x7f060041;
+        public static final int settings_twitter_newrating=0x7f060042;
+        public static final int settings_twitter_password=0x7f060044;
+        public static final int settings_twitter_username=0x7f060043;
+        public static final int settings_user=0x7f060038;
+        public static final int settings_user_password=0x7f06003a;
+        public static final int settings_user_username=0x7f060039;
+        public static final int toast_drink_empty=0x7f06002c;
+        public static final int toast_mail_deleted=0x7f060031;
+        public static final int toast_mail_deleted_failed=0x7f060032;
+        public static final int toast_mail_failed=0x7f060030;
+        public static final int toast_mail_sent=0x7f06002f;
+        public static final int toast_minimum_length=0x7f060035;
+        public static final int toast_network_error=0x7f06002d;
+        public static final int toast_parse_error=0x7f060033;
+        public static final int toast_rate_failure=0x7f06002b;
         public static final int toast_rate_shortcomment=0x7f06000c;
-        public static final int toast_rate_success=0x7f060029;
-        public static final int toast_search_barcode=0x7f060035;
-        public static final int toast_search_empty=0x7f060033;
-        public static final int toast_settings_saved=0x7f06002d;
+        public static final int toast_rate_success=0x7f06002a;
+        public static final int toast_search_barcode=0x7f060036;
+        public static final int toast_search_empty=0x7f060034;
+        public static final int toast_settings_saved=0x7f06002e;
+        public static final int toast_twit_success=0x7f060037;
+        public static final int twitter_rating_message=0x7f060022;
         public static final int update=0x7f060003;
     }
     public static final class xml {

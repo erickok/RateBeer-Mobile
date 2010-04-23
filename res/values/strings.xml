@@ -52,6 +52,7 @@
 <string name="places_retrieving">Getting Nearby Places</string>
 <string name="place_avgrating">Average Rating: </string>
 <string name="place_noplaces">No nearby places found</string>
+<string name="twitter_rating_message">Just rated %s with a %s http://www.ratebeer.com/user/%s/</string>
 
 <string name="menu_item_settings">Settings</string>
 <string name="menu_item_call">Call</string>
@@ -75,15 +76,21 @@
 <string name="toast_search_empty">No beers found in search</string>
 <string name="toast_minimum_length">Please use at least 75 characters in your rating</string>
 <string name="toast_search_barcode">Product could not be found</string>
+<string name="toast_twit_success">Twitter post successful</string>
 
-<string name="settings_username">Username</string>
-<string name="settings_password">Password</string>
-<string name="settings_beermail_notification">Enable Beermail Notifications</string>
-<string name="settings_notification_interval_label">Notification Interval</string>
-<string name="settings_twitter_updates">Tweet drinking status updates</string>
+<string name="settings_user">User</string>
+<string name="settings_user_username">Username</string>
+<string name="settings_user_password">Password</string>
+<string name="settings_notifications">Notifications</string>
+<string name="settings_notifications_enable">Enable notifications</string>
+<string name="settings_notifications_enable_summary">Receive notifications for new BeerMail</string>
+<string name="settings_notifications_interval">Interval</string>
+<string name="settings_notifications_interval_summary">How often to check for new mail</string>
+<string name="settings_twitter">Twitter</string>
+<string name="settings_twitter_drinking">Tweet drinking status updates</string>
+<string name="settings_twitter_newrating">Tweet new ratings</string>
 <string name="settings_twitter_username">Twitter username</string>
 <string name="settings_twitter_password">Twitter password</string>
-<string name="settings_save_button">Save</string>
 
 <string name="search_label">Search for beers</string>
 <string name="search_hint">Beer name</string>

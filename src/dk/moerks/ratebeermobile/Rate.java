@@ -24,6 +24,7 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -34,11 +35,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import dk.moerks.ratebeermobile.activity.BetterRBDefaultActivity;
+import dk.moerks.ratebeermobile.task.PostTwitterStatusTask;
 import dk.moerks.ratebeermobile.task.SaveRatingTask;
 
 public class Rate extends BetterRBDefaultActivity {
 	@SuppressWarnings("unused")
 	private static final String LOGTAG = "Rate";
+    String beername =  null;
     String beerid =  null;
 	
     private TextView rateCharleftText = null;
@@ -48,7 +51,6 @@ public class Rate extends BetterRBDefaultActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rate);
         
-        String beername = null;
         Bundle extras = getIntent().getExtras();
         if(extras !=null) {
         	beername = extras.getString("BEERNAME");
@@ -109,11 +111,22 @@ public class Rate extends BetterRBDefaultActivity {
 	    			parameters.add(new BasicNameValuePair("overall", overallString));
 	    			parameters.add(new BasicNameValuePair("totalscore", calculateTotalScore(aromaString, appearanceString, flavorString, palateString, overallString)));
 	    			parameters.add(new BasicNameValuePair("Comments", commentString));
+	    			
 	    			new SaveRatingTask(Rate.this).execute(parameters.toArray(new NameValuePair[] {}));
+	    			
+	    			SharedPreferences prefs = getSharedPreferences(Settings.PREFERENCETAG, 0);
+	    			if (prefs.getBoolean("rb_twitter_ratings", false)) {
+	    				new PostTwitterStatusTask(Rate.this).execute(buildTwitterMessage(overallString));
+	    			}
+	    			
     			} else {
     				Toast.makeText(Rate.this, R.string.toast_minimum_length, Toast.LENGTH_LONG).show();
     			}
             }
+        	
+        	private String buildTwitterMessage(String score) {
+        		return getString(R.string.twitter_rating_message, beername, score, getUserId());
+        	}
 
 			private String calculateTotalScore(String aromaString, String appearanceString, String flavorString, String palateString, String overallString) {
 				int aroma = Integer.parseInt(aromaString);

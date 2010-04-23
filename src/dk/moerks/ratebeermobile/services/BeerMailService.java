@@ -29,6 +29,7 @@ import android.os.IBinder;
 import android.util.Log;
 import dk.moerks.ratebeermobile.BeerMail;
 import dk.moerks.ratebeermobile.R;
+import dk.moerks.ratebeermobile.Settings;
 import dk.moerks.ratebeermobile.exceptions.LoginException;
 import dk.moerks.ratebeermobile.exceptions.NetworkException;
 import dk.moerks.ratebeermobile.io.NetBroker;
@@ -36,8 +37,6 @@ import dk.moerks.ratebeermobile.util.RBParser;
 
 public class BeerMailService extends Service {
 	private static final String LOGTAG = "BeerMailService";
-	
-	public static final String PREFERENCETAG = "RBMOBILE";
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -48,7 +47,7 @@ public class BeerMailService extends Service {
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 
-		SharedPreferences settings = getSharedPreferences(PREFERENCETAG, 0);
+		SharedPreferences settings = getSharedPreferences(Settings.PREFERENCETAG, 0);
 
 		if(settings.getBoolean("rb_notifications", true)){
 			

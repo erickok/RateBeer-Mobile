@@ -63,7 +63,7 @@ public class Home extends BetterRBListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        //Verify if this might be the first run of the application
+        // Verify if this might be the first run of the application
 		SharedPreferences settings = getApplicationContext().getSharedPreferences(Settings.PREFERENCETAG, 0);
 		String username = settings.getString("rb_username", "");
 		String password = settings.getString("rb_password", "");

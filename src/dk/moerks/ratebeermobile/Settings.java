@@ -18,105 +18,159 @@
  */
 package dk.moerks.ratebeermobile;
 
-import dk.moerks.ratebeermobile.receivers.BootReceiver;
-import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
+import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
+import android.preference.PreferenceScreen;
+import android.preference.Preference.OnPreferenceChangeListener;
+import android.view.inputmethod.EditorInfo;
+import dk.moerks.ratebeermobile.receivers.BootReceiver;
 
-public class Settings extends Activity {
-	private static final String LOGTAG = "Settings";
+public class Settings extends PreferenceActivity {
+	//private static final String LOGTAG = "Settings";
 	public static final String PREFERENCETAG = "RBMOBILE";
+	
+	private CheckBoxPreference enable, twitStatus, twitRating;
+	private ListPreference interval;
+	private EditTextPreference twitPass, twitUser;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings);
 
-        SharedPreferences settings = getSharedPreferences(PREFERENCETAG, 0);
+        // Set up preferences
+        getPreferenceManager().setSharedPreferencesName(PREFERENCETAG);
+        PreferenceScreen root = getPreferenceManager().createPreferenceScreen(this);
+        setPreferenceScreen(root);
+        SharedPreferences prefs = getSharedPreferences(PREFERENCETAG, 0);
         
-        final EditText username = (EditText) findViewById(R.id.settings_value_username);
-    	final EditText password = (EditText) findViewById(R.id.settings_value_password);
-    	final CheckBox notification = (CheckBox) findViewById(R.id.settings_checkbox_beermail_notification);
-    	final Spinner notificationInterval = (Spinner) findViewById(R.id.settings_notification_interval);
-    	final CheckBox twitUpdates = (CheckBox) findViewById(R.id.settings_checkbox_twitter_updates);
-    	final EditText twitUsername = (EditText) findViewById(R.id.settings_value_twitter_username);
-    	final EditText twitPassword = (EditText) findViewById(R.id.settings_value_twitter_password);
-    	
-    	username.setText(settings.getString("rb_username", ""));
-    	password.setText(settings.getString("rb_password", ""));
-        notification.setChecked(settings.getBoolean("rb_notifications", true));
-        notificationInterval.setSelection(getNotificationIntervalIndex(settings.getString("rb_notification_interval", "")));
-        twitUpdates.setChecked(settings.getBoolean("rb_twitter_updates", false));
-        twitUsername.setText(settings.getString("rb_twitter_username", ""));
-        twitPassword.setText(settings.getString("rb_twitter_password", ""));
-        Button saveButton = (Button) findViewById(R.id.settings_button_save);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-        	public void onClick(View v) {
-            	Log.d(LOGTAG, "Saving Preferences");
-            	
-            	SharedPreferences settings = getSharedPreferences(PREFERENCETAG, 0);
-            	SharedPreferences.Editor editor = settings.edit();
-            	editor.putString("rb_username", username.getText().toString());
-            	editor.putString("rb_password", password.getText().toString());
-            	editor.putBoolean("rb_notifications", notification.isChecked());
-            	String interval = (String) notificationInterval.getSelectedItem();
-            	editor.putString("rb_notification_interval", interval);
-            	editor.putBoolean("rb_twitter_updates", twitUpdates.isChecked());
-            	editor.putString("rb_twitter_username", twitUsername.getText().toString());
-            	editor.putString("rb_twitter_password", twitPassword.getText().toString());
-            	editor.commit();
-            	
-            	if(notification.isChecked()){
-            		BootReceiver.cancelAlarm();
-            		BootReceiver.startAlarm(getApplicationContext());
-            	}
-            	
-				Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.toast_settings_saved), Toast.LENGTH_SHORT);
-				toast.show();
-				
-            	Intent homeIntent = new Intent(Settings.this, Home.class);  
-            	startActivity(homeIntent);  
-            }
-        });
-	}
-	
-	private int getNotificationIntervalIndex(String value) {
-		if(value.equalsIgnoreCase("15 min")){
-			return 0;
-		}
-		if(value.equalsIgnoreCase("30 min")){
-			return 1;
-		}
-		if(value.equalsIgnoreCase("60 min")){
-			return 2;
-		}
-		return -1;
-	}
-	@Override
-	protected void onStart() {
-		super.onStart();
+        // RateBeer user
+        PreferenceCategory user = new PreferenceCategory(this);
+        user.setTitle(R.string.settings_user);
+        root.addPreference(user);
 
-		Log.d(LOGTAG, "Reading Preferences - onStart");
-        SharedPreferences settings = getSharedPreferences(PREFERENCETAG, 0);        
-        EditText usernameGen = (EditText) findViewById(R.id.settings_value_username);
-    	EditText passwordGen = (EditText) findViewById(R.id.settings_value_password);
-    	CheckBox notificationGen = (CheckBox) findViewById(R.id.settings_checkbox_beermail_notification);
-    	usernameGen.setText(settings.getString("rb_username", ""));
-    	passwordGen.setText(settings.getString("rb_password", ""));
-    	notificationGen.setChecked(settings.getBoolean("rb_notifications", false));
+        EditTextPreference username = new EditTextPreference(this);
+        username.setKey("rb_username");
+        username.setTitle(R.string.settings_user_username);
+        username.setDialogTitle(R.string.settings_user_username);
+        username.getEditText().setSingleLine();
+        user.addPreference(username);
+
+        EditTextPreference password = new EditTextPreference(this);
+        password.setKey("rb_password");
+        password.setTitle(R.string.settings_user_password);
+        password.setDialogTitle(R.string.settings_user_password);
+        password.getEditText().setSingleLine();
+        password.getEditText().setInputType(password.getEditText().getInputType() | EditorInfo.TYPE_TEXT_VARIATION_PASSWORD);
+        user.addPreference(password);
+        
+        // Notifications
+        PreferenceCategory notify = new PreferenceCategory(this);
+        notify.setTitle(R.string.settings_notifications);
+        root.addPreference(notify);
+
+        enable = new CheckBoxPreference(this);
+        enable.setKey("rb_notifications");
+        enable.setTitle(R.string.settings_notifications_enable);
+        enable.setSummary(R.string.settings_notifications_enable_summary);
+        enable.setOnPreferenceChangeListener(notificationsChanged);
+        notify.addPreference(enable);
+
+        interval = new ListPreference(this);
+        interval.setKey("rb_notifications_interval");
+        interval.setTitle(R.string.settings_notifications_interval);
+        interval.setSummary(R.string.settings_notifications_interval_summary);
+        interval.setDialogTitle(R.string.settings_notifications_interval);
+        interval.setEntries(R.array.notification_interval);
+        interval.setEntryValues(R.array.notification_interval_values);
+        interval.setOnPreferenceChangeListener(notificationsChanged);
+        interval.setEnabled(prefs.getBoolean("rb_notifications", false));
+        notify.addPreference(interval);
+        
+        // Twitter updates
+        PreferenceCategory twitter = new PreferenceCategory(this);
+        twitter.setTitle(R.string.settings_twitter);
+        root.addPreference(twitter);
+
+        twitStatus = new CheckBoxPreference(this);
+        twitStatus.setKey("rb_twitter_updates");
+        twitStatus.setTitle(R.string.settings_twitter_drinking);
+        twitStatus.setOnPreferenceChangeListener(twitChanged);
+        twitter.addPreference(twitStatus);
+
+        twitRating = new CheckBoxPreference(this);
+        twitRating.setKey("rb_twitter_ratings");
+        twitRating.setTitle(R.string.settings_twitter_newrating);
+        twitRating.setOnPreferenceChangeListener(twitChanged);
+        twitter.addPreference(twitRating);
+
+        twitUser = new EditTextPreference(this);
+        twitUser.setKey("rb_twitter_username");
+        twitUser.setTitle(R.string.settings_twitter_username);
+        twitUser.setDialogTitle(R.string.settings_twitter_username);
+        twitUser.getEditText().setSingleLine();
+        twitUser.setEnabled(prefs.getBoolean("rb_twitter_updates", false) ||
+        		prefs.getBoolean("rb_twitter_ratings", false));
+        twitter.addPreference(twitUser);
+
+        twitPass = new EditTextPreference(this);
+        twitPass.setKey("rb_twitter_password");
+        twitPass.setTitle(R.string.settings_twitter_password);
+        twitPass.setDialogTitle(R.string.settings_twitter_password);
+        twitPass.getEditText().setSingleLine();
+        twitPass.getEditText().setInputType(password.getEditText().getInputType() | EditorInfo.TYPE_TEXT_VARIATION_PASSWORD);
+        twitPass.setEnabled(prefs.getBoolean("rb_twitter_updates", false) ||
+        		prefs.getBoolean("rb_twitter_ratings", false));
+        twitter.addPreference(twitPass);
+            	
 	}
 	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		onStart();
-	}
+	private OnPreferenceChangeListener notificationsChanged = new OnPreferenceChangeListener() {
+		public boolean onPreferenceChange(Preference preference, Object newValue) {
+			
+			// Maintain preference dependency manually
+			SharedPreferences prefs = getSharedPreferences(PREFERENCETAG, 0);
+			if (preference.equals(enable)) {
+				Editor editor = prefs.edit();
+				editor.putBoolean("rb_notifications", (Boolean) newValue);
+				editor.commit();
+			}
+			boolean isEnabled = prefs.getBoolean("rb_notifications", false);
+			interval.setEnabled(isEnabled);
+			
+			// First cancel the alarm
+			BootReceiver.cancelAlarm();
+			// Set it up again, if needed
+			if (isEnabled) {
+				BootReceiver.startAlarm(getApplicationContext());
+			}
+			
+			return true;
+		}
+	};
+
+	private OnPreferenceChangeListener twitChanged = new OnPreferenceChangeListener() {
+		public boolean onPreferenceChange(Preference preference, Object newValue) {
+			
+			// Maintain preference dependency manully
+			// Use the newValue, since both the Preference widget and stored preference itself have not yet been updated here
+			boolean usingTwitter = (Boolean) newValue;
+			if (preference.equals(twitStatus)) {
+				usingTwitter |= twitRating.isChecked();
+			} else if (preference.equals(twitRating)) {
+				usingTwitter |= twitStatus.isChecked();
+			}
+			twitUser.setEnabled(usingTwitter);
+			twitPass.setEnabled(usingTwitter);
+			
+			return true;
+		}
+	};
+
 }
