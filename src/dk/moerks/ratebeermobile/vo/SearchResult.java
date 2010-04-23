@@ -52,6 +52,9 @@ public class SearchResult {
 		this.beerPercentile = beerPercentile;
 	}
 	public String getBeerPercentile() {
+		if(beerPercentile.contains(".")){
+			return beerPercentile.substring(0, beerPercentile.indexOf(".")+2);
+		}
 		return beerPercentile;
 	}
 	public void setBeerRatings(String beerRatings) {
