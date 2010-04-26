@@ -21,6 +21,7 @@ package dk.moerks.ratebeermobile.adapters;
 import java.util.List;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,7 +83,7 @@ public class SearchAdapter extends ArrayAdapter<SearchResult> {
 				additional.setText("Information\nRetired");
 			}
 			if(!results.get(position).isAlias() && !results.get(position).isRetired()){
-				additional.setVisibility(TextView.INVISIBLE);
+				additional.setText("Information\nAvailable");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
