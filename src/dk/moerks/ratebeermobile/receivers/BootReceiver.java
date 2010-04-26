@@ -57,7 +57,7 @@ public class BootReceiver extends BroadcastReceiver {
 		if (settings.getBoolean("rb_notifications", true)) {
 			
 			// Get the interval in milliseconds from the user preferences
-			PERIOD = settings.getInt("rb_notifications_interval", 900000);
+			PERIOD = Integer.parseInt(settings.getString("rb_notifications_interval", "900000"));
 			
 			// Set up pendingintent for the BeerMail checker service
 			mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);

@@ -78,7 +78,7 @@
 <string name="toast_search_barcode">Product could not be found</string>
 <string name="toast_twit_success">Twitter post successful</string>
 
-<string name="settings_user">User</string>
+<string name="settings_user">RateBeer user</string>
 <string name="settings_user_username">Username</string>
 <string name="settings_user_password">Password</string>
 <string name="settings_notifications">Notifications</string>
@@ -89,8 +89,8 @@
 <string name="settings_twitter">Twitter</string>
 <string name="settings_twitter_drinking">Tweet drinking status updates</string>
 <string name="settings_twitter_newrating">Tweet new ratings</string>
-<string name="settings_twitter_username">Twitter username</string>
-<string name="settings_twitter_password">Twitter password</string>
+<string name="settings_twitter_username">Username</string>
+<string name="settings_twitter_password">Password</string>
 
 <string name="search_label">Search for beers</string>
 <string name="search_hint">Beer name</string>
