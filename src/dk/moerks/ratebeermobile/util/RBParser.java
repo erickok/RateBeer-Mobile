@@ -250,7 +250,7 @@ public class RBParser {
 						feed.setFriend(actions[j].substring(friendStart, friendEnd));
 						
 						int beerStart = actions[j].indexOf("\"><b>", friendEnd)+5;
-						int beerEnd = actions[j].indexOf("</b></a>", beerStart);
+						int beerEnd = actions[j].indexOf("</b><", beerStart);
 						feed.setBeer(cleanHtml(actions[j].substring(beerStart, beerEnd)));
 					}
 		
@@ -303,7 +303,7 @@ public class RBParser {
 						feed.setFriend(actions[j].substring(friendStart, friendEnd));
 
 						int eventStart = actions[j].indexOf("\"><b>", friendEnd)+5;
-						int eventEnd = actions[j].indexOf("</b></a>", eventStart);
+						int eventEnd = actions[j].indexOf("</b><", eventStart);
 						feed.setEvent(actions[j].substring(eventStart, eventEnd));
 					}
 					
@@ -311,6 +311,7 @@ public class RBParser {
 				}
 			}
 		} catch(Exception e){
+			e.printStackTrace();
 			throw new RBParserException(LOGTAG, "Unable to parse feed", e);
 		}		
 		return result;
