@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2010, Jesper Fussing Mørk
+ 
+  This file is part of Ratebeer Mobile for Android.
+ 
+  Ratebeer Mobile is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+ 
+  Ratebeer Mobile is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+ 
+  You should have received a copy of the GNU General Public License
+  along with Ratebeer Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<LinearLayout
+  	xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:orientation="vertical"
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	>
+ 	<TableLayout
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:paddingBottom="15dip"
+		>
+		<TableRow>
+	        <TextView
+	        	android:id="@+id/beerview_value_beername"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+				android:textSize="20sp"
+				android:gravity="center_horizontal"
+                />
+		</TableRow>
+		<TableRow>
+			<TextView 
+        		android:id="@+id/beerview_label_brewer"
+                android:text="@string/view_brewer"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+				android:textSize="14sp"
+				android:paddingLeft="10px"
+				/>
+	        <TextView
+	        	android:id="@+id/beerview_value_brewer"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+				android:textSize="14sp"
+                />
+		</TableRow>
+		<TableRow>
+			<TextView 
+        		android:id="@+id/beerview_label_style"
+                android:text="@string/view_style"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+				android:textSize="14sp"
+				android:paddingLeft="10px"
+				/>
+	        <TextView
+	        	android:id="@+id/beerview_value_style"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+				android:textSize="14sp"
+                />
+		</TableRow>
+	</TableLayout>
+  	<LinearLayout
+  		android:orientation="horizontal"
+  		android:layout_width="fill_parent"
+  		android:layout_height="wrap_content"
+  		>
+  	  	<TableLayout
+			android:layout_height="fill_parent"
+			android:layout_width="fill_parent"
+			android:paddingBottom="15dip"
+			>
+			<TableRow>
+	        	<TextView
+	        		android:id="@+id/beerview_label_ratings"
+	                android:text="@string/view_ratings"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+					android:textSize="12sp"
+					android:gravity="center_horizontal"
+					android:paddingLeft="10px"
+	                />
+		        <TextView
+		        	android:id="@+id/beerview_label_mean"
+	                android:text="@string/view_mean"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+					android:textSize="12sp"
+					android:gravity="center_horizontal"
+					android:paddingLeft="10px"
+	                />
+		        <TextView
+		        	android:id="@+id/beerview_label_weighted_avg"
+	                android:text="@string/view_weighted_avg"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+					android:textSize="12sp"
+					android:gravity="center_horizontal"
+					android:paddingLeft="10px"
+	                />
+		        <TextView
+		        	android:id="@+id/beerview_label_seasonal"
+	                android:text="@string/view_seasonal"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+					android:textSize="12sp"
+					android:gravity="center_horizontal"
+					android:paddingLeft="10px"
+	                />
+		        <TextView
+		        	android:id="@+id/beerview_label_abv"
+	                android:text="@string/view_abv"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+					android:textSize="12sp"
+					android:gravity="center_horizontal"
+					android:paddingLeft="10px"
+	                />
+			</TableRow>  	
+			<TableRow>
+		        <TextView
+		        	android:id="@+id/beerview_value_ratings"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+					android:textSize="12sp"
+					android:gravity="center_horizontal"
+					android:paddingLeft="10px"
+	                />
+		        <TextView
+		        	android:id="@+id/beerview_value_mean"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+					android:textSize="12sp"
+					android:gravity="center_horizontal"
+	                />
+		        <TextView
+		        	android:id="@+id/beerview_value_weighted_avg"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+					android:textSize="12sp"
+					android:gravity="center_horizontal"
+	                />
+		        <TextView
+		        	android:id="@+id/beerview_value_abv"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+					android:textSize="12sp"
+					android:gravity="center_horizontal"
+	                />
+			</TableRow>  	
+		</TableLayout>
+	</LinearLayout>
+					<Button
+					android:id="@+id/viewRateButton"
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:text="@string/view_rate_button"
+					/>	
+		<ListView
+			android:id="@android:id/list"
+			android:layout_width="fill_parent"
+			android:layout_height="0dip"
+			android:layout_weight="1"
+			android:divider="#99ffffff"
+			android:dividerHeight="1px"
+			android:clickable="false"
+			android:longClickable="false"
+			android:drawSelectorOnTop="false"
+			android:choiceMode="none"
+			android:listSelector="@android:color/transparent"
+			/>  
+</LinearLayout>

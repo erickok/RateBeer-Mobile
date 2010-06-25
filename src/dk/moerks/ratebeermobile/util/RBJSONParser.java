@@ -28,7 +28,9 @@ import org.json.JSONObject;
 import android.util.Log;
 
 import dk.moerks.ratebeermobile.exceptions.RBParserException;
+import dk.moerks.ratebeermobile.vo.Message;
 import dk.moerks.ratebeermobile.vo.PlacesInfo;
+import dk.moerks.ratebeermobile.vo.Review;
 import dk.moerks.ratebeermobile.vo.SearchResult;
 
 public class RBJSONParser {
@@ -100,6 +102,49 @@ public class RBJSONParser {
 				
 				results.add(searchResult);
 			}
+		} catch(JSONException e){
+			throw new RBParserException(LOGTAG, "Unable to parse search", e);
+		}
+		
+		return results;
+	}
+
+	public static List<Review> parseReviews(String responseString) throws RBParserException {
+		ArrayList<Review> results = new ArrayList<Review>();
+
+		try {
+			Log.d(LOGTAG, "Creating JSON Object");
+			JSONArray jsonObjects = new JSONArray(responseString);
+			
+			Log.d(LOGTAG, "ARRAY LENGTH: " + jsonObjects.length());
+			for (int i = 0; i < jsonObjects.length(); i++) {
+				Review review = new Review();
+				
+				Log.d(LOGTAG, "JSONObject("+i+"): " + jsonObjects.get(i));
+				JSONObject json = new JSONObject(jsonObjects.getString(i));
+				
+				review.setResultNum(json.getString("resultNum"));
+				review.setRatingId(json.getString("RatingID"));
+				review.setAppearance(json.getString("Appearance"));
+				review.setAroma(json.getString("Aroma"));
+				review.setComments(json.getString("Comments"));
+				review.setFlavor(json.getString("Flavor"));
+				review.setMouthfeel(json.getString("Mouthfeel"));
+				review.setOverall(json.getString("Overall"));
+				review.setTotalScore(json.getString("TotalScore"));
+				review.setTimeEntered(json.getString("TimeEntered"));
+				review.setTimeUpdated(json.getString("TimeUpdated"));
+				review.setUserId(json.getString("UserID"));
+				review.setUserName(json.getString("UserName"));
+				review.setCity(json.getString("City"));
+				review.setStateId(json.getString("StateID"));
+				review.setState(json.getString("State"));
+				review.setCountryId(json.getString("CountryID"));
+				review.setCountry(json.getString("Country"));
+				review.setRateCount(json.getString("RateCount"));
+				
+				results.add(review);
+			}		
 		} catch(JSONException e){
 			throw new RBParserException(LOGTAG, "Unable to parse search", e);
 		}

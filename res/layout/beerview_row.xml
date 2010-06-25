@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2010, Jesper Fussing Mørk
+ 
+  This file is part of Ratebeer Mobile for Android.
+ 
+  Ratebeer Mobile is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+ 
+  Ratebeer Mobile is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+ 
+  You should have received a copy of the GNU General Public License
+  along with Ratebeer Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<LinearLayout
+  	xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:orientation="vertical"
+  	android:layout_width="fill_parent"
+  	android:layout_height="fill_parent"
+  	>
+	<TableLayout
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		>
+		<TableRow>
+			<TextView
+	        	android:id="@+id/beerview_row_value_total"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+				android:textSize="16sp"
+				android:gravity="center_horizontal"
+				android:paddingLeft="5px"
+                />
+			<TextView
+	        	android:id="@+id/beerview_row_value_aroma"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+				android:textSize="14sp"
+				android:gravity="center_horizontal"
+				android:paddingLeft="10px"
+                />
+			<TextView
+	        	android:id="@+id/beerview_row_value_appearance"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+				android:textSize="14sp"
+				android:gravity="center_horizontal"
+				android:paddingLeft="10px"
+                />
+			<TextView
+	        	android:id="@+id/beerview_row_value_taste"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+				android:textSize="14sp"
+				android:gravity="center_horizontal"
+				android:paddingLeft="10px"
+                />
+			<TextView
+	        	android:id="@+id/beerview_row_value_palate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+				android:textSize="14sp"
+				android:gravity="center_horizontal"
+				android:paddingLeft="10px"
+                />
+			<TextView
+	        	android:id="@+id/beerview_row_value_overall"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+				android:textSize="14sp"
+				android:gravity="center_horizontal"
+				android:paddingLeft="10px"
+                />			
+		</TableRow>
+		<TextView
+        	android:id="@+id/beerview_row_value_username"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+			android:textSize="14sp"
+            />
+		<TextView
+        	android:id="@+id/beerview_row_value_comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+			android:textSize="12sp"
+            />
+	</TableLayout>
+</LinearLayout>
