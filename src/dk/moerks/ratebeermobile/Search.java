@@ -92,6 +92,8 @@ public class Search extends BetterRBListActivity {
     	rateIntent.putExtra("BEERNAME", item.getBeerName());
     	rateIntent.putExtra("BEERID", item.getBeerId());
     	rateIntent.putExtra("ISRATED", item.isRated());
+    	rateIntent.putExtra("RATINGS", item.getBeerRatings());
+    	
     	startActivity(rateIntent);  
     }
 

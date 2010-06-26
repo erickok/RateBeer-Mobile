@@ -38,14 +38,6 @@
                 />
 		</TableRow>
 		<TableRow>
-			<TextView 
-        		android:id="@+id/beerview_label_brewer"
-                android:text="@string/view_brewer"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-				android:textSize="14sp"
-				android:paddingLeft="10px"
-				/>
 	        <TextView
 	        	android:id="@+id/beerview_value_brewer"
                 android:layout_width="fill_parent"
@@ -54,14 +46,6 @@
                 />
 		</TableRow>
 		<TableRow>
-			<TextView 
-        		android:id="@+id/beerview_label_style"
-                android:text="@string/view_style"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-				android:textSize="14sp"
-				android:paddingLeft="10px"
-				/>
 	        <TextView
 	        	android:id="@+id/beerview_value_style"
                 android:layout_width="fill_parent"
@@ -91,26 +75,8 @@
 					android:paddingLeft="10px"
 	                />
 		        <TextView
-		        	android:id="@+id/beerview_label_mean"
-	                android:text="@string/view_mean"
-	                android:layout_width="fill_parent"
-	                android:layout_height="wrap_content"
-					android:textSize="12sp"
-					android:gravity="center_horizontal"
-					android:paddingLeft="10px"
-	                />
-		        <TextView
-		        	android:id="@+id/beerview_label_weighted_avg"
-	                android:text="@string/view_weighted_avg"
-	                android:layout_width="fill_parent"
-	                android:layout_height="wrap_content"
-					android:textSize="12sp"
-					android:gravity="center_horizontal"
-					android:paddingLeft="10px"
-	                />
-		        <TextView
-		        	android:id="@+id/beerview_label_seasonal"
-	                android:text="@string/view_seasonal"
+		        	android:id="@+id/beerview_label_overallpctl"
+	                android:text="@string/view_overallpctl"
 	                android:layout_width="fill_parent"
 	                android:layout_height="wrap_content"
 					android:textSize="12sp"
@@ -137,14 +103,7 @@
 					android:paddingLeft="10px"
 	                />
 		        <TextView
-		        	android:id="@+id/beerview_value_mean"
-	                android:layout_width="fill_parent"
-	                android:layout_height="wrap_content"
-					android:textSize="12sp"
-					android:gravity="center_horizontal"
-	                />
-		        <TextView
-		        	android:id="@+id/beerview_value_weighted_avg"
+		        	android:id="@+id/beerview_value_overallpctl"
 	                android:layout_width="fill_parent"
 	                android:layout_height="wrap_content"
 					android:textSize="12sp"
@@ -160,12 +119,12 @@
 			</TableRow>  	
 		</TableLayout>
 	</LinearLayout>
-					<Button
-					android:id="@+id/viewRateButton"
-					android:layout_width="fill_parent"
-					android:layout_height="fill_parent"
-					android:text="@string/view_rate_button"
-					/>	
+	<Button
+		android:id="@+id/viewRateButton"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:text="@string/view_rate_button"
+		/>	
 		<ListView
 			android:id="@android:id/list"
 			android:layout_width="fill_parent"

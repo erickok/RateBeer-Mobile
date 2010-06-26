@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import android.util.Log;
 
 import dk.moerks.ratebeermobile.exceptions.RBParserException;
+import dk.moerks.ratebeermobile.vo.BeerInfo;
 import dk.moerks.ratebeermobile.vo.Message;
 import dk.moerks.ratebeermobile.vo.PlacesInfo;
 import dk.moerks.ratebeermobile.vo.Review;
@@ -146,9 +147,51 @@ public class RBJSONParser {
 				results.add(review);
 			}		
 		} catch(JSONException e){
-			throw new RBParserException(LOGTAG, "Unable to parse search", e);
+			throw new RBParserException(LOGTAG, "Unable to parse beer reviews", e);
 		}
 		
 		return results;
+	}
+
+	public static BeerInfo parseBeerInfo(String responseString) throws RBParserException {
+		BeerInfo info = new BeerInfo();
+		
+		try {
+			Log.d(LOGTAG, "Creating JSON Object");
+			JSONArray jsonObjects = new JSONArray(responseString);
+
+			Log.d(LOGTAG, "JSONObject(0): " + jsonObjects.get(0));
+			JSONObject json = jsonObjects.getJSONObject(0);
+			
+			info.setBeerId(json.getString("BeerID"));
+			info.setBeerName(json.getString("BeerName"));
+			info.setBrewerId(json.getString("BrewerID"));
+			info.setBrewerName(json.getString("BrewerName"));
+			info.setOverallPctl(json.getLong("OverallPctl"));
+			info.setBeerStyleName(json.getString("BeerStyleName"));
+			info.setDescription(json.getString("Description"));
+			info.setAbv(json.getString("Alcohol"));
+		} catch(JSONException e){
+			throw new RBParserException(LOGTAG, "Unable to parse beer info", e);
+		}
+		
+		return info;
+	}
+
+	public static Integer parseRateCount(String responseString) throws RBParserException {
+		int count = 0;
+		try {
+			Log.d(LOGTAG, "Creating JSON Object");
+			JSONArray jsonObjects = new JSONArray(responseString);
+
+			Log.d(LOGTAG, "JSONObject(0): " + jsonObjects.get(0));
+			JSONObject json = jsonObjects.getJSONObject(0);
+
+			count = json.getInt("RateCount");
+		} catch(JSONException e){
+			throw new RBParserException(LOGTAG, "Unable to parse rate count", e);
+		}
+		
+		return new Integer(count);
 	}
 }

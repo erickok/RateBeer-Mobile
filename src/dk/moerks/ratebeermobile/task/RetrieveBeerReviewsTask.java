@@ -46,5 +46,4 @@ public class RetrieveBeerReviewsTask extends BetterRBTask<String, List<Review>>{
 	protected void afterTask(BetterRBActivity activity, List<Review> result) {
 		((BeerView)activity).onResultsRetrieved(result);
 	}
-
 }
