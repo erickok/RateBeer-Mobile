@@ -101,6 +101,7 @@ public class Rate extends BetterRBDefaultActivity {
                 	final String flavorString = (String)flavorText.getSelectedItem();
                 	final String palateString = (String)palateText.getSelectedItem();
                 	final String overallString = (String)overallText.getSelectedItem();
+                	String totalScore = calculateTotalScore(aromaString, appearanceString, flavorString, palateString, overallString);
                 	
 	    			List<NameValuePair> parameters = new ArrayList<NameValuePair>();  
 	    			parameters.add(new BasicNameValuePair("BeerID", beerid));  
@@ -109,15 +110,17 @@ public class Rate extends BetterRBDefaultActivity {
 	    			parameters.add(new BasicNameValuePair("flavor", flavorString));  
 	    			parameters.add(new BasicNameValuePair("palate", palateString));  
 	    			parameters.add(new BasicNameValuePair("overall", overallString));
-	    			parameters.add(new BasicNameValuePair("totalscore", calculateTotalScore(aromaString, appearanceString, flavorString, palateString, overallString)));
+	    			parameters.add(new BasicNameValuePair("totalscore", totalScore));
 	    			parameters.add(new BasicNameValuePair("Comments", commentString));
 	    			
 	    			new SaveRatingTask(Rate.this).execute(parameters.toArray(new NameValuePair[] {}));
 	    			
 	    			SharedPreferences prefs = getSharedPreferences(Settings.PREFERENCETAG, 0);
 	    			if (prefs.getBoolean("rb_twitter_ratings", false)) {
-	    				new PostTwitterStatusTask(Rate.this).execute(buildTwitterMessage(overallString));
+	    				new PostTwitterStatusTask(Rate.this).execute(buildTwitterMessage(totalScore));
 	    			}
+	    			
+	    			finish();
 	    			
     			} else {
     				Toast.makeText(Rate.this, R.string.toast_minimum_length, Toast.LENGTH_LONG).show();

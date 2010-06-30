@@ -39,7 +39,7 @@ public class SaveRatingTask extends BetterRBTask<NameValuePair, Void> {
 	protected Void doCheckedInBackground(Context context, NameValuePair... params) throws Exception {
 		
 		// Post the new 'now drinking' status
-		Log.d("NowDrinkingStatusTask", "Setting drink status to '" + params[0] + "'");
+		Log.d("SaveRatingTask", "Saving rating for '" + params[0] + "'");
 		List<NameValuePair> parameters = Arrays.asList(params);
 		NetBroker.doRBPost(context, "http://www.ratebeer.com/saverating.asp", parameters);
 		return null;

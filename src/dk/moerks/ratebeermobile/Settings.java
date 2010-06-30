@@ -18,6 +18,7 @@
  */
 package dk.moerks.ratebeermobile;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -172,5 +173,10 @@ public class Settings extends PreferenceActivity {
 			return true;
 		}
 	};
+
+	public static String getUserId(Context context) {
+		SharedPreferences prefs = context.getSharedPreferences(Settings.PREFERENCETAG, 0);
+		return prefs.getString("rb_userid", null);
+	}
 
 }
