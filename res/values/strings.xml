@@ -96,4 +96,13 @@
 <string name="search_hint">Beer name</string>
 <string name="search_no_query">No search query provided</string>
 <string name="search_searching">Searching for beers</string>
+
+<string name="view_brewer">by</string>
+<string name="view_style">Style:</string>
+<string name="view_ratings">Ratings</string>
+<string name="view_overallpctl">Percentile</string>
+<string name="view_abv">ABV</string>
+<string name="view_rate_button">Rate This</string>
+<string name="view_rate_button_rated">See Rating</string>
+<string name="view_no_reviews_found">No Reviews Found</string>
 </resources>

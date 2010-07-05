@@ -88,17 +88,13 @@ public class Search extends BetterRBListActivity {
     	
     	SearchResult item = (SearchResult) getListView().getItemAtPosition(position);
     	Log.d(LOGTAG, "ITEM NAME: " + item.getBeerName());
-    	if(item.isRated()){
-        	Intent ratingIntent = new Intent(Search.this, Rating.class);  
-        	ratingIntent.putExtra("BEERNAME", item.getBeerName());
-        	ratingIntent.putExtra("BEERID", item.getBeerId());
-        	startActivity(ratingIntent);  
-    	} else {
-        	Intent rateIntent = new Intent(Search.this, Rate.class);  
-        	rateIntent.putExtra("BEERNAME", item.getBeerName());
-        	rateIntent.putExtra("BEERID", item.getBeerId());
-        	startActivity(rateIntent);  
-    	}
+    	Intent rateIntent = new Intent(Search.this, BeerView.class);  
+    	rateIntent.putExtra("BEERNAME", item.getBeerName());
+    	rateIntent.putExtra("BEERID", item.getBeerId());
+    	rateIntent.putExtra("ISRATED", item.isRated());
+    	rateIntent.putExtra("RATINGS", item.getBeerRatings());
+    	
+    	startActivity(rateIntent);  
     }
 
 	public void onResultsRetrieved(List<SearchResult> results) {
