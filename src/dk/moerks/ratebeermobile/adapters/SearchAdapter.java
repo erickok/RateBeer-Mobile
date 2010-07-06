@@ -28,6 +28,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import dk.moerks.ratebeermobile.R;
+import dk.moerks.ratebeermobile.util.StringUtils;
 import dk.moerks.ratebeermobile.vo.SearchResult;
 
 public class SearchAdapter extends ArrayAdapter<SearchResult> {
@@ -59,7 +60,7 @@ public class SearchAdapter extends ArrayAdapter<SearchResult> {
 			}
 			
 			TextView name = (TextView)row.findViewById(R.id.search_row_name);
-			name.setText(results.get(position).getBeerName());
+			name.setText(StringUtils.cleanHtml(results.get(position).getBeerName()));
 			
 			TextView percentile = (TextView)row.findViewById(R.id.search_row_percentile);
 			if(results.get(position).getBeerPercentile().equalsIgnoreCase("")){

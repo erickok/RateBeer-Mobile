@@ -49,6 +49,7 @@ import dk.moerks.ratebeermobile.task.RefreshFriendFeedTask;
 import dk.moerks.ratebeermobile.task.RetrieveUserIdTask;
 import dk.moerks.ratebeermobile.task.SetDrinkingStatusTask;
 import dk.moerks.ratebeermobile.task.RefreshFriendFeedTask.FriendFeedTaskResult;
+import dk.moerks.ratebeermobile.util.StringUtils;
 
 public class Home extends BetterRBListActivity {
 	private static final String LOGTAG = "Home";
@@ -287,7 +288,7 @@ public class Home extends BetterRBListActivity {
 
 		// Update Drinking Status
 		TextView updateStatusGen = (TextView) findViewById(R.id.drinkingStatus);
-		updateStatusGen.setText("You are currently drinking " + result);
+		updateStatusGen.setText("You are currently drinking " + StringUtils.cleanHtml(result));
 
 		// Updated, so clear the text box
         EditText updateTextGen = (EditText) findViewById(R.id.drinkingText);
