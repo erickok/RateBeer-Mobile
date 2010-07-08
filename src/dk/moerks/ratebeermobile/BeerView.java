@@ -11,6 +11,7 @@ import dk.moerks.ratebeermobile.activity.BetterRBListActivity;
 import dk.moerks.ratebeermobile.adapters.ReviewAdapter;
 import dk.moerks.ratebeermobile.task.RetrieveBeerInfoTask;
 import dk.moerks.ratebeermobile.task.RetrieveBeerReviewsTask;
+import dk.moerks.ratebeermobile.task.SetDrinkingBeerIdTask;
 import dk.moerks.ratebeermobile.vo.BeerInfo;
 import dk.moerks.ratebeermobile.vo.Review;
 
@@ -58,6 +59,12 @@ public class BeerView extends BetterRBListActivity {
 			}
 		});
 
+        Button drinkingButton = (Button) findViewById(R.id.viewDrinkingButton);
+        drinkingButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+	        	new SetDrinkingBeerIdTask(BeerView.this).execute(beername);
+			}
+		});
         
         TextView beernameText = (TextView) findViewById(R.id.beerview_value_beername);
         beernameText.setText(beername);
@@ -93,5 +100,10 @@ public class BeerView extends BetterRBListActivity {
 		
 		TextView abvView = (TextView)findViewById(R.id.beerview_value_abv);
 		abvView.setText(result.getAbv() + "%");
+	}
+
+	public void onDrinkingStatusUpdated(String result) {
+		Intent homeIntent = new Intent(BeerView.this, Home.class);
+		startActivity(homeIntent);
 	}
 }

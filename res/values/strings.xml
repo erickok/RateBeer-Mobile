@@ -102,6 +102,7 @@
 <string name="view_ratings">Ratings</string>
 <string name="view_overallpctl">Percentile</string>
 <string name="view_abv">ABV</string>
+<string name="view_drinking_button">Drinking This</string>
 <string name="view_rate_button">Rate This</string>
 <string name="view_rate_button_rated">See Rating</string>
 <string name="view_no_reviews_found">No Reviews Found</string>

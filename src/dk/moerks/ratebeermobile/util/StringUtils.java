@@ -34,5 +34,17 @@ public class StringUtils {
 			return number;
 		}
 	}
+	
+	public static String cleanHtml(String value){
+		String result = value.replaceAll("&nbsp;", " ");
+		result = result.replaceAll("\n", "");
+		result = result.replaceAll("<br>", "\n");
+		result = result.replaceAll("<BR>", "\n");
+		result = result.replaceAll("&#40;", "(");
+		result = result.replaceAll("&#41;", ")");
+		result = result.replaceAll("&#033;", "!");
+		//result = result.replaceAll("", "'");
+		return result.trim();
+	}
 
 }

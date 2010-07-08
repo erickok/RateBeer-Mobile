@@ -119,23 +119,35 @@
 			</TableRow>  	
 		</TableLayout>
 	</LinearLayout>
-	<Button
-		android:id="@+id/viewRateButton"
+  	<LinearLayout
+  		android:orientation="horizontal"
+  		android:layout_width="fill_parent"
+  		android:layout_height="wrap_content"
+  		>	
+		<Button
+			android:id="@+id/viewRateButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/view_rate_button"
+			/>
+		<Button
+			android:id="@+id/viewDrinkingButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/view_drinking_button"
+			/>
+	</LinearLayout>
+	<ListView
+		android:id="@android:id/list"
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:text="@string/view_rate_button"
-		/>	
-		<ListView
-			android:id="@android:id/list"
-			android:layout_width="fill_parent"
-			android:layout_height="0dip"
-			android:layout_weight="1"
-			android:divider="#99ffffff"
-			android:dividerHeight="1px"
-			android:clickable="false"
-			android:longClickable="false"
-			android:drawSelectorOnTop="false"
-			android:choiceMode="none"
-			android:listSelector="@android:color/transparent"
-			/>  
+		android:layout_height="0dip"
+		android:layout_weight="1"
+		android:divider="#99ffffff"
+		android:dividerHeight="1px"
+		android:clickable="false"
+		android:longClickable="false"
+		android:drawSelectorOnTop="false"
+		android:choiceMode="none"
+		android:listSelector="@android:color/transparent"
+		/>  
 </LinearLayout>
