@@ -63,8 +63,8 @@ public class BootReceiver extends BroadcastReceiver {
 			mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 			Intent i = new Intent(context, BeerMailServiceReceiver.class);
 			pi = PendingIntent.getBroadcast(context, 0, i, 0);
+			mgr.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + 20000, PERIOD, pi);
 		}
-		mgr.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + 20000, PERIOD, pi);
 	}
 	
 }
