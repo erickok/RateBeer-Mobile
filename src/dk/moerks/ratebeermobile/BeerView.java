@@ -3,15 +3,20 @@ package dk.moerks.ratebeermobile;
 import java.util.List;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import dk.moerks.ratebeermobile.activity.BetterRBListActivity;
 import dk.moerks.ratebeermobile.adapters.ReviewAdapter;
+import dk.moerks.ratebeermobile.task.RetrieveBeerImageTask;
 import dk.moerks.ratebeermobile.task.RetrieveBeerInfoTask;
 import dk.moerks.ratebeermobile.task.RetrieveBeerReviewsTask;
 import dk.moerks.ratebeermobile.task.SetDrinkingBeerIdTask;
+import dk.moerks.ratebeermobile.util.StringUtils;
 import dk.moerks.ratebeermobile.vo.BeerInfo;
 import dk.moerks.ratebeermobile.vo.Review;
 
@@ -74,6 +79,7 @@ public class BeerView extends BetterRBListActivity {
 
         new RetrieveBeerInfoTask(this).execute(beerId);
         new RetrieveBeerReviewsTask(this).execute(beerId);
+        new RetrieveBeerImageTask(this).execute(beerId);
     }
 
 	public void onResultsRetrieved(List<Review> results) {
@@ -92,7 +98,7 @@ public class BeerView extends BetterRBListActivity {
 		brewerView.setText(getText(R.string.view_brewer) + " " + result.getBrewerName());
 		
 		TextView styleView = (TextView)findViewById(R.id.beerview_value_style);
-		styleView.setText(getText(R.string.view_style) + " " + result.getBeerStyleName());
+		styleView.setText(getText(R.string.view_style) + " " + StringUtils.cleanHtml(result.getBeerStyleName()));
 		
 		
 		TextView pctlView = (TextView)findViewById(R.id.beerview_value_overallpctl);
@@ -105,5 +111,11 @@ public class BeerView extends BetterRBListActivity {
 	public void onDrinkingStatusUpdated(String result) {
 		Intent homeIntent = new Intent(BeerView.this, Home.class);
 		startActivity(homeIntent);
+	}
+
+	public void onImageRetrieved(Drawable result) {
+		Log.d(LOGTAG, "Setting Beer Image");
+		ImageView imageView = (ImageView)findViewById(R.id.beerview_image);
+		imageView.setImageDrawable(result);
 	}
 }
