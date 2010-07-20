@@ -54,6 +54,7 @@ import dk.moerks.ratebeermobile.util.StringUtils;
 public class Home extends BetterRBListActivity {
 	private static final String LOGTAG = "Home";
 	private static final int BARCODE_ACTIVITY = 101;
+	private static final int SETTINGS_ACTIVITY = 102;
 	private static final int INSTALL_BARCODE_SCANNER = 1;
 	
 	private boolean firstRun;
@@ -151,10 +152,7 @@ public class Home extends BetterRBListActivity {
         // Force an update of the friend feed on startup and retrieve userids
         if (!firstRun) {
         	new RefreshFriendFeedTask(this).execute();
-        	
-        	//if(getUserId() == null || getUserId().length() <= 0){
-        		new RetrieveUserIdTask(this).execute();
-        	//}
+        	new RetrieveUserIdTask(this).execute();
         }
     }
 
@@ -164,7 +162,7 @@ public class Home extends BetterRBListActivity {
 
 		if(firstRun){
         	Intent settingsIntent = new Intent(Home.this, Settings.class);  
-        	startActivity(settingsIntent);
+        	startActivityForResult(settingsIntent, SETTINGS_ACTIVITY);
 		}
 	}
 	
@@ -264,6 +262,11 @@ public class Home extends BetterRBListActivity {
             } else if (resultCode == RESULT_CANCELED) {
                 Log.d(LOGTAG, "ACTIVTIY RESULT WAS CANCELLED");
             }
+        } else if (requestCode == SETTINGS_ACTIVITY) {
+        	
+        	// Retrieve user id again (since this might have changed now)
+        	new RetrieveUserIdTask(this).execute();
+        	
         }
     }
     
