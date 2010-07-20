@@ -44,6 +44,7 @@ import org.apache.http.params.HttpParams;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import dk.moerks.ratebeermobile.Settings;
 import dk.moerks.ratebeermobile.exceptions.LoginException;
@@ -54,6 +55,31 @@ public class NetBroker {
 	
 	public static String doGet(Context context, String url) throws NetworkException {
 		return doGet(context, null, url);
+	}
+	
+	public static Drawable doGetImage(Context context, DefaultHttpClient httpclient, String url) throws NetworkException {
+		
+		if(httpclient == null){
+			httpclient = init();
+		}
+		
+		Log.d(LOGTAG, "URL: " + url);
+		HttpGet httpget = new HttpGet(url);  
+
+		try {  
+			// Execute HTTP Post Request  
+			HttpResponse response = httpclient.execute(httpget);  
+			Drawable result = responseDrawable(response);
+			response.getEntity().consumeContent();
+			
+			return result; 
+		} catch (ClientProtocolException e) {
+		} catch (IOException e) {
+		} catch (Exception e){
+			throw new NetworkException(context, LOGTAG, "Network Error - Do you have a network connection?", e);
+		}
+		
+		return null;
 	}
 	
 	public static String doGet(Context context, DefaultHttpClient httpclient, String url) throws NetworkException {
@@ -209,6 +235,17 @@ public class NetBroker {
 			response.getEntity().writeTo(ostream);
 			//return ostream.toString("ISO8859_1");
 			return ostream.toString("windows-1252"); 
+		} catch(IOException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	private static Drawable responseDrawable(HttpResponse response){
+		try {
+			Drawable result = Drawable.createFromStream(response.getEntity().getContent(), "tmp.jpg");
+			Log.d(LOGTAG, "HEIGHT: " + result.getMinimumHeight());
+			return result;
 		} catch(IOException e){
 			e.printStackTrace();
 		}
