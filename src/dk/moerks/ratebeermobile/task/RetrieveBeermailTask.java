@@ -20,6 +20,7 @@ package dk.moerks.ratebeermobile.task;
 
 import android.content.Context;
 import android.util.Log;
+import dk.moerks.ratebeermobile.R;
 import dk.moerks.ratebeermobile.MailView;
 import dk.moerks.ratebeermobile.activity.BetterRBActivity;
 import dk.moerks.ratebeermobile.io.NetBroker;
@@ -29,7 +30,7 @@ import dk.moerks.ratebeermobile.vo.Message;
 public class RetrieveBeermailTask extends BetterRBTask<String, Message> {
 
 	public RetrieveBeermailTask(MailView activity) {
-		super(activity, "Loading beermail...");
+		super(activity, R.string.task_retrievebeermail);
 	}
 
 	@Override

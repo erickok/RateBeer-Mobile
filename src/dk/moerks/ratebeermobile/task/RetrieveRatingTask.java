@@ -20,6 +20,7 @@ package dk.moerks.ratebeermobile.task;
 
 import android.content.Context;
 import android.util.Log;
+import dk.moerks.ratebeermobile.R;
 import dk.moerks.ratebeermobile.Rating;
 import dk.moerks.ratebeermobile.activity.BetterRBActivity;
 import dk.moerks.ratebeermobile.io.NetBroker;
@@ -29,7 +30,7 @@ import dk.moerks.ratebeermobile.vo.RatingData;
 public class RetrieveRatingTask extends BetterRBTask<String, RatingData> {
 
 	public RetrieveRatingTask(Rating activity) {
-		super(activity, "Retrieving Rating...");
+		super(activity, R.string.task_retrieverating);
 	}
 
 	@Override

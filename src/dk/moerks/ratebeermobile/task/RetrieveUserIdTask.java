@@ -20,6 +20,7 @@ package dk.moerks.ratebeermobile.task;
 
 import android.content.Context;
 import android.util.Log;
+import dk.moerks.ratebeermobile.R;
 import dk.moerks.ratebeermobile.Home;
 import dk.moerks.ratebeermobile.activity.BetterRBActivity;
 import dk.moerks.ratebeermobile.io.NetBroker;
@@ -29,7 +30,7 @@ public class RetrieveUserIdTask extends BetterRBTask<String, String> {
 	private static final String LOGTAG = "RetrieveUserIdTask";
 	
 	public RetrieveUserIdTask(BetterRBActivity activity) {
-		super(activity, "Retrieving UserId");
+		super(activity, R.string.task_retrieveuserid);
 	}
 
 	@Override
@@ -39,6 +40,14 @@ public class RetrieveUserIdTask extends BetterRBTask<String, String> {
 		Log.d(LOGTAG, "Getting UserId");
 		String responseString = NetBroker.doRBGet(context, "http://www.ratebeer.com/activity");
 		return RBParser.parseUserId(responseString);
+		
+	}
+
+	@Override
+	protected void handleError(Context context, Exception error) {
+		super.handleError(context, error);
+		// Also allow the activity to disable buttons on a login failure
+		((Home)context).onFailedUserIdRetrieval(this, error);
 	}
 	
 	@Override

@@ -23,6 +23,7 @@ import java.util.List;
 import android.content.Context;
 import android.util.Log;
 import dk.moerks.ratebeermobile.Home;
+import dk.moerks.ratebeermobile.R;
 import dk.moerks.ratebeermobile.activity.BetterRBActivity;
 import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.util.RBParser;
@@ -31,7 +32,7 @@ import dk.moerks.ratebeermobile.vo.Feed;
 public class RefreshFriendFeedTask extends BetterRBTask<Void, RefreshFriendFeedTask.FriendFeedTaskResult> {
 
 	public RefreshFriendFeedTask(Home activity) {
-		super(activity, "Refreshing friend feed...");
+		super(activity, R.string.task_refreshfriendfeed);
 	}
 
 	@Override

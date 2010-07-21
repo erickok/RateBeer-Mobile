@@ -26,6 +26,7 @@ import org.apache.http.NameValuePair;
 import android.content.Context;
 import android.util.Log;
 import dk.moerks.ratebeermobile.MailAction;
+import dk.moerks.ratebeermobile.R;
 import dk.moerks.ratebeermobile.activity.BetterRBActivity;
 import dk.moerks.ratebeermobile.io.NetBroker;
 
@@ -34,7 +35,7 @@ public class SendBeermailTask extends BetterRBTask<NameValuePair, Void> {
 	private boolean isReply;
 
 	public SendBeermailTask(MailAction activity, boolean isReply) {
-		super(activity, "Sending beermail...");
+		super(activity, R.string.task_sendbeermail);
 		this.isReply = isReply;
 	}
 

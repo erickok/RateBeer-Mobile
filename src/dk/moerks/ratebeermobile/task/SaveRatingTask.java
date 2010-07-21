@@ -25,6 +25,7 @@ import org.apache.http.NameValuePair;
 
 import android.content.Context;
 import android.util.Log;
+import dk.moerks.ratebeermobile.R;
 import dk.moerks.ratebeermobile.Rate;
 import dk.moerks.ratebeermobile.activity.BetterRBActivity;
 import dk.moerks.ratebeermobile.io.NetBroker;
@@ -32,7 +33,7 @@ import dk.moerks.ratebeermobile.io.NetBroker;
 public class SaveRatingTask extends BetterRBTask<NameValuePair, Void> {
 	
 	public SaveRatingTask(Rate activity) {
-		super(activity, "Saving new rating...");
+		super(activity, R.string.task_savingrating);
 	}
 
 	@Override

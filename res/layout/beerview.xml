@@ -23,126 +23,27 @@
   	android:layout_width="fill_parent"
   	android:layout_height="wrap_content"
   	>
- 	<TableLayout
-		android:layout_height="wrap_content"
+  	
+	<TextView
+		android:id="@+id/beerview_value_beername"
 		android:layout_width="fill_parent"
-		android:paddingBottom="15dip"
-		>
-		<TableRow>
-	        <TextView
-	        	android:id="@+id/beerview_value_beername"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-				android:textSize="20sp"
-				android:gravity="center_horizontal"
-                />
-		</TableRow>
-		<TableRow>
-	        <TextView
-	        	android:id="@+id/beerview_value_brewer"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-				android:textSize="14sp"
-                />
-		</TableRow>
-		<TableRow>
-	        <TextView
-	        	android:id="@+id/beerview_value_style"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-				android:textSize="14sp"
-                />
-		</TableRow>
-	</TableLayout>
-  	<LinearLayout
-  		android:orientation="horizontal"
-  		android:layout_width="wrap_content"
-  		android:layout_height="wrap_content"
-  		>
-  	  	<TableLayout
-			android:layout_height="fill_parent"
-			android:layout_width="fill_parent"
-			android:paddingBottom="15dip"
-			>
-			<TableRow>
-	        	<TextView
-	        		android:id="@+id/beerview_label_ratings"
-	                android:text="@string/view_ratings"
-	                android:layout_width="fill_parent"
-	                android:layout_height="wrap_content"
-					android:textSize="12sp"
-					android:gravity="center_horizontal"
-					android:paddingLeft="10px"
-	                />
-		        <TextView
-		        	android:id="@+id/beerview_label_overallpctl"
-	                android:text="@string/view_overallpctl"
-	                android:layout_width="fill_parent"
-	                android:layout_height="wrap_content"
-					android:textSize="12sp"
-					android:gravity="center_horizontal"
-					android:paddingLeft="10px"
-	                />
-		        <TextView
-		        	android:id="@+id/beerview_label_abv"
-	                android:text="@string/view_abv"
-	                android:layout_width="fill_parent"
-	                android:layout_height="wrap_content"
-					android:textSize="12sp"
-					android:gravity="center_horizontal"
-					android:paddingLeft="10px"
-	                />
-			</TableRow>  	
-			<TableRow>
-		        <TextView
-		        	android:id="@+id/beerview_value_ratings"
-	                android:layout_width="fill_parent"
-	                android:layout_height="wrap_content"
-					android:textSize="12sp"
-					android:gravity="center_horizontal"
-					android:paddingLeft="10px"
-	                />
-		        <TextView
-		        	android:id="@+id/beerview_value_overallpctl"
-	                android:layout_width="fill_parent"
-	                android:layout_height="wrap_content"
-					android:textSize="12sp"
-					android:gravity="center_horizontal"
-	                />
-		        <TextView
-		        	android:id="@+id/beerview_value_abv"
-	                android:layout_width="fill_parent"
-	                android:layout_height="wrap_content"
-					android:textSize="12sp"
-					android:gravity="center_horizontal"
-	                />
-			</TableRow>  	
-		</TableLayout>
-		<ImageView 
-		    android:id="@+id/beerview_image"
-		    android:paddingLeft="10px"
-            android:layout_width="100dip"
-            android:layout_height="100dip"
+		android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:ellipsize="marquee"
+        android:fadingEdge="horizontal"
+		android:gravity="center_horizontal"
+		android:paddingTop="2dip"
 		/>
-	</LinearLayout>
-  	<LinearLayout
-  		android:orientation="horizontal"
-  		android:layout_width="fill_parent"
-  		android:layout_height="wrap_content"
-  		>	
-		<Button
-			android:id="@+id/viewRateButton"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/view_rate_button"
-			/>
-		<Button
-			android:id="@+id/viewDrinkingButton"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/view_drinking_button"
-			/>
-	</LinearLayout>
+		
+	<TextView
+		android:id="@+id/beerview_value_brewer"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:fadingEdge="horizontal"
+		android:gravity="center_horizontal"
+		/>
+		
 	<ListView
 		android:id="@android:id/list"
 		android:layout_width="fill_parent"
@@ -155,5 +56,14 @@
 		android:drawSelectorOnTop="false"
 		android:choiceMode="none"
 		android:listSelector="@android:color/transparent"
-		/>  
+		/>
+	<TextView
+		android:id="@android:id/empty"
+		android:layout_width="fill_parent"
+		android:layout_height="0dip"
+		android:layout_weight="1"
+		android:gravity="center"
+		android:layout_gravity="center"
+		/>
+		
 </LinearLayout>

@@ -28,9 +28,9 @@ import dk.moerks.ratebeermobile.exceptions.RBException;
 
 public abstract class BetterRBTask<ParameterT, ReturnT> extends BetterAsyncTask<ParameterT, Void, ReturnT> {
 	
-	private String progressMessage;
+	private int progressMessage;
 	
-	public BetterRBTask(BetterRBActivity activity, String progressMessage) {
+	public BetterRBTask(BetterRBActivity activity, int progressMessage) {
 		super(activity.getContext());
 		this.progressMessage = progressMessage;
 	}
@@ -42,13 +42,22 @@ public abstract class BetterRBTask<ParameterT, ReturnT> extends BetterAsyncTask<
 	@Override
 	protected final void before(Context context) {
 		// Show a progress indicator text in the application title bar
-		getActivity(context).setTitle(progressMessage);
+		getActivity(context).setTitle(context.getText(progressMessage).toString());
 		getActivity(context).hasRunningTask(true);
 	}
 	
+	/**
+	 * Will publish the error to the activity, which will show at least a Toast. May 
+	 * be overridden to extend this behavior, like disabling functions based on the 
+	 * failure.
+	 * @param context The original activity that started the task
+	 * @param error The error that was thrown by the task
+	 */
 	@Override
-	protected final void handleError(Context context, Exception error) {
+	protected void handleError(Context context, Exception error) {
 		// Always let the activity report any errors
+		getActivity(context).setTitle(context.getText(R.string.app_name).toString());
+		getActivity(context).hasRunningTask(false);
 		getActivity(context).reportError((RBException) error);
 	}
 
@@ -63,7 +72,7 @@ public abstract class BetterRBTask<ParameterT, ReturnT> extends BetterAsyncTask<
 	/**
 	 * Should implement the actual showing of the task results, such as showing the 
 	 * returned/parsed list of search results. 
-	 * @param activity The original RB activity that started the tast
+	 * @param activity The original RB activity that started the task
 	 * @param result The task results
 	 */
 	protected abstract void afterTask(BetterRBActivity activity, ReturnT result);

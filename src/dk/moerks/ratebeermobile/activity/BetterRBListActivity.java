@@ -31,7 +31,7 @@ import com.github.droidfu.activities.BetterListActivity;
 import dk.moerks.ratebeermobile.Settings;
 import dk.moerks.ratebeermobile.exceptions.RBException;
 
-public class BetterRBListActivity extends BetterListActivity implements BetterRBActivity {
+public abstract class BetterRBListActivity extends BetterListActivity implements BetterRBActivity {
 	
 	private static final String EXTRA_HAS_TASK = "has_running_task";
 	private boolean hasTask;

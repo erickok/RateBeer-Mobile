@@ -46,13 +46,29 @@
 <string name="mail_action_message_label">Message:</string>
 <string name="send_mail_button">Send Message</string>
 <string name="places_menu_button">Places</string>
-<string name="bcHint">Longpress to scan beer</string>
 <string name="no_place_ratings">N/A - Not enough ratings!</string>
 <string name="places_retrieving_text">Getting nearby places to current location</string>
 <string name="places_retrieving">Getting Nearby Places</string>
 <string name="place_avgrating">Average Rating: </string>
 <string name="place_noplaces">No nearby places found</string>
 <string name="twitter_rating_message">Just rated %s with a %s http://www.ratebeer.com/user/%s/</string>
+
+<string name="task_barcodelookup">Identifying barcode...</string>
+<string name="task_deletebeermail">Deleting beermail...</string>
+<string name="task_updatetwitter">Updating Twitter status...</string>
+<string name="task_refreshfriendfeed">Refreshing friend feed...</string>
+<string name="task_fetchbeerimage">Fetching beer image...</string>
+<string name="task_loadbeerinfo">Loading beer info...</string>
+<string name="task_retrievebeermails">Retrieving beermails...</string>
+<string name="task_retrievebeermail">Loading beermail...</string>
+<string name="task_loadreviews">Loading reviews...</string>
+<string name="task_retrieveplaces">Retrieving nearby places...</string>
+<string name="task_retrieverating">Retrieving rating...</string>
+<string name="task_retrieveuserid">Retrieving user id...</string>
+<string name="task_savingrating">Saving new rating...</string>
+<string name="task_search">Searching...</string>
+<string name="task_sendbeermail">Sending beermail...</string>
+<string name="task_updatedrinkstatus">Updating drink status...</string>
 
 <string name="menu_item_settings">Settings</string>
 <string name="menu_item_call">Call</string>
@@ -68,9 +84,9 @@
 <string name="toast_drink_empty">Please enter the name of the drink!</string>
 <string name="toast_network_error">There was a connection error. Please check your connection and ratebeer.com credentials!</string>
 <string name="toast_settings_saved">Your settings were saved</string>
-<string name="toast_mail_sent">Mail Sent Succesfully</string>
+<string name="toast_mail_sent">Mail sent successfully</string>
 <string name="toast_mail_failed">Sending of beer mail failed</string>
-<string name="toast_mail_deleted">Mail Deleted Succesfully</string>
+<string name="toast_mail_deleted">Mail deleted successfully</string>
 <string name="toast_mail_deleted_failed">There was an error deleting the mail</string>
 <string name="toast_parse_error">There was an error parsing the response from ratebeer.com.</string>
 <string name="toast_search_empty">No beers found in search</string>
@@ -97,8 +113,14 @@
 <string name="search_no_query">No search query provided</string>
 <string name="search_searching">Searching for beers</string>
 
+<string name="view_scorena">N/A</string>
+<string name="view_information">Information</string>
+<string name="view_alias">Retired</string>
+<string name="view_retired">Retired</string>
+<string name="view_retalias">Ret. &amp; Alias</string>
 <string name="view_brewer">by</string>
 <string name="view_style">Style:</string>
+<string name="view_score">Score</string>
 <string name="view_ratings">Ratings</string>
 <string name="view_overallpctl">Percentile</string>
 <string name="view_abv">ABV</string>

@@ -17,77 +17,70 @@
   You should have received a copy of the GNU General Public License
   along with Ratebeer Mobile.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout
+<RelativeLayout
   	xmlns:android="http://schemas.android.com/apk/res/android"
-  	android:orientation="vertical"
   	android:layout_width="fill_parent"
-  	android:layout_height="fill_parent"
+  	android:layout_height="wrap_content"
+	android:paddingBottom="5dip"
   	>
-	<TableLayout
+  	
+	<TextView
+		android:id="@+id/beerview_row_value_total"
+		android:layout_width="55dip"
 		android:layout_height="wrap_content"
+		android:textSize="35dip"
+		android:gravity="center_horizontal"
+		/>
+              
+	<TextView
+		android:id="@+id/beerview_row_value_aroma"
+		android:layout_width="25dip"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@id/beerview_row_value_total"
+		android:paddingTop="3dip"
+		/>
+	<TextView
+		android:id="@+id/beerview_row_value_appearance"
+		android:layout_width="25dip"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@id/beerview_row_value_aroma"
+		android:paddingTop="3dip"
+		/>
+	<TextView
+		android:id="@+id/beerview_row_value_taste"
+		android:layout_width="25dip"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@id/beerview_row_value_appearance"
+		android:paddingTop="3dip"
+		/>
+	<TextView
+		android:id="@+id/beerview_row_value_palate"
+		android:layout_width="25dip"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@id/beerview_row_value_taste"
+		android:paddingTop="3dip"
+		/>
+	<TextView
+		android:id="@+id/beerview_row_value_overall"
+		android:layout_width="25dip"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@id/beerview_row_value_palate"
+		android:paddingTop="3dip"
+		/>
+		
+	<TextView
+		android:id="@+id/beerview_row_value_username"
 		android:layout_width="wrap_content"
-		>
-		<TableRow>
-			<TextView
-	        	android:id="@+id/beerview_row_value_total"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-				android:textSize="16sp"
-				android:gravity="center_horizontal"
-				android:paddingLeft="5px"
-                />
-			<TextView
-	        	android:id="@+id/beerview_row_value_aroma"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-				android:textSize="14sp"
-				android:gravity="center_horizontal"
-				android:paddingLeft="10px"
-                />
-			<TextView
-	        	android:id="@+id/beerview_row_value_appearance"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-				android:textSize="14sp"
-				android:gravity="center_horizontal"
-				android:paddingLeft="10px"
-                />
-			<TextView
-	        	android:id="@+id/beerview_row_value_taste"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-				android:textSize="14sp"
-				android:gravity="center_horizontal"
-				android:paddingLeft="10px"
-                />
-			<TextView
-	        	android:id="@+id/beerview_row_value_palate"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-				android:textSize="14sp"
-				android:gravity="center_horizontal"
-				android:paddingLeft="10px"
-                />
-			<TextView
-	        	android:id="@+id/beerview_row_value_overall"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-				android:textSize="14sp"
-				android:gravity="center_horizontal"
-				android:paddingLeft="10px"
-                />			
-		</TableRow>
-		<TextView
-        	android:id="@+id/beerview_row_value_username"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-			android:textSize="14sp"
-            />
-		<TextView
-        	android:id="@+id/beerview_row_value_comments"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-			android:textSize="12sp"
-            />
-	</TableLayout>
-</LinearLayout>
+		android:layout_height="wrap_content"
+		android:layout_below="@id/beerview_row_value_aroma"
+		android:layout_toRightOf="@id/beerview_row_value_total"
+		/>
+		
+	<TextView
+		android:id="@+id/beerview_row_value_comments"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/beerview_row_value_username"
+		/>
+		
+</RelativeLayout>

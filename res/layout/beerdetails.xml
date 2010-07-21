@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2010, Jesper Fussing Mørk
+ 
+  This file is part of Ratebeer Mobile for Android.
+ 
+  Ratebeer Mobile is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+ 
+  Ratebeer Mobile is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+ 
+  You should have received a copy of the GNU General Public License
+  along with Ratebeer Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<LinearLayout
+  	xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	android:orientation="vertical"
+  	>
+  	
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		>
+	<FrameLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:padding="10dip"
+		>
+		<RelativeLayout
+			android:id="@+id/beerview_scorecard"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:background="#66A212"
+			android:layout_gravity="center_horizontal"
+			android:visibility="invisible"
+			>
+			<TextView
+				android:id="@+id/beerview_label_score"
+				android:text="@string/view_score"
+				android:layout_width="150dip"
+				android:layout_height="wrap_content"
+				android:gravity="center_horizontal"
+				android:background="#333"
+				android:padding="3dip"
+				/>
+			<TextView
+				android:id="@+id/beerview_value_overallpctl"
+				android:layout_width="100dip"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/beerview_label_score"
+				android:gravity="center_horizontal"
+				android:background="#036"
+				android:textSize="60dip"
+				/>
+			<TextView
+				android:id="@+id/beerview_label_overallpctl"
+				android:layout_width="100dip"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/beerview_value_overallpctl"
+				android:gravity="center_horizontal"
+				android:text="@string/view_overallpctl"
+				android:background="#036"
+				android:paddingBottom="3dip"
+				/>
+			<TextView
+				android:id="@+id/beerview_value_ratings"
+				android:layout_width="50dip"
+				android:layout_height="wrap_content"
+				android:layout_toRightOf="@id/beerview_value_overallpctl"
+				android:layout_below="@id/beerview_label_score"
+				android:gravity="center_horizontal"
+				android:padding="5dip"
+				/>
+			<TextView
+				android:id="@+id/beerview_label_ratings"
+				android:layout_width="50dip"
+				android:layout_height="wrap_content"
+				android:layout_toRightOf="@id/beerview_value_overallpctl"
+				android:layout_below="@id/beerview_value_ratings"
+				android:gravity="center_horizontal"
+				android:text="@string/view_ratings"
+				/>
+			<TextView
+				android:id="@+id/beerview_value_abv"
+				android:layout_width="50dip"
+				android:layout_height="wrap_content"
+				android:layout_toRightOf="@id/beerview_value_overallpctl"
+				android:layout_below="@id/beerview_label_ratings"
+				android:gravity="center_horizontal"
+				android:padding="5dip"
+				/>
+			<TextView
+				android:id="@+id/beerview_label_abv"
+				android:layout_width="50dip"
+				android:layout_height="wrap_content"
+				android:layout_toRightOf="@id/beerview_value_overallpctl"
+				android:layout_below="@id/beerview_value_abv"
+				android:gravity="center_horizontal"
+				android:text="@string/view_abv"
+				/>
+		</RelativeLayout>
+	</FrameLayout>
+	
+	<FrameLayout
+		android:layout_width="0dip"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:padding="10dip"
+		>
+		<ImageView 
+			android:id="@+id/beerview_image"
+			android:layout_width="150dip"
+			android:layout_height="150dip"
+			android:layout_gravity="center_horizontal"
+			android:scaleType="fitCenter"
+			android:src="@drawable/icon"
+			/>
+	</FrameLayout>
+	</LinearLayout>
+	
+	<TextView
+		android:id="@+id/beerview_value_style"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		/>
+	
+	<TextView
+		android:id="@+id/beerview_value_description"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:textColor="#ddd"
+		android:paddingTop="3dip"
+		android:paddingBottom="3dip"
+		/>
+		
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		>
+		<Button
+			android:id="@+id/view_rate_button"
+			android:layout_width="0dip"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="@string/view_rate_button"
+			/>
+		<Button
+			android:id="@+id/view_drinking_button"
+			android:layout_width="0dip"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="@string/view_drinking_button"
+			/>
+	</LinearLayout>
+	
+</LinearLayout>

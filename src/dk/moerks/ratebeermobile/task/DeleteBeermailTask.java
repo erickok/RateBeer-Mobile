@@ -21,13 +21,14 @@ package dk.moerks.ratebeermobile.task;
 import android.content.Context;
 import android.util.Log;
 import dk.moerks.ratebeermobile.MailView;
+import dk.moerks.ratebeermobile.R;
 import dk.moerks.ratebeermobile.activity.BetterRBActivity;
 import dk.moerks.ratebeermobile.io.NetBroker;
 
 public class DeleteBeermailTask extends BetterRBTask<String, String> {
 
 	public DeleteBeermailTask(MailView activity) {
-		super(activity, "Deleting beermail...");
+		super(activity, R.string.task_deletebeermail);
 	}
 
 	@Override

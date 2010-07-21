@@ -3,13 +3,14 @@ package dk.moerks.ratebeermobile.task;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import dk.moerks.ratebeermobile.BeerView;
+import dk.moerks.ratebeermobile.R;
 import dk.moerks.ratebeermobile.activity.BetterRBActivity;
 import dk.moerks.ratebeermobile.io.NetBroker;
 
 public class RetrieveBeerImageTask extends BetterRBTask<String, Drawable> {
 
 	public RetrieveBeerImageTask(BetterRBActivity activity) {
-		super(activity, "Fetching Beer Image");
+		super(activity, R.string.task_fetchbeerimage);
 	}
 
 	@Override

@@ -23,6 +23,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.util.Log;
+import dk.moerks.ratebeermobile.R;
 import dk.moerks.ratebeermobile.Search;
 import dk.moerks.ratebeermobile.activity.BetterRBActivity;
 import dk.moerks.ratebeermobile.io.NetBroker;
@@ -32,7 +33,7 @@ import dk.moerks.ratebeermobile.vo.SearchResult;
 public class SearchTask extends BetterRBTask<String, List<SearchResult>> {
 
 	public SearchTask(Search activity) {
-		super(activity, "Searching...");
+		super(activity, R.string.task_search);
 	}
 
 	@Override

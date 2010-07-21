@@ -25,23 +25,22 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
-import android.util.Log;
 import dk.moerks.ratebeermobile.BeerView;
-import dk.moerks.ratebeermobile.Home;
+import dk.moerks.ratebeermobile.R;
 import dk.moerks.ratebeermobile.activity.BetterRBActivity;
 import dk.moerks.ratebeermobile.io.NetBroker;
 
 public class SetDrinkingBeerIdTask extends BetterRBTask<String, String> {
 	
 	public SetDrinkingBeerIdTask(BeerView activity) {
-		super(activity, "Updating drink status...");
+		super(activity, R.string.task_updatedrinkstatus);
 	}
 
 	@Override
 	protected String doCheckedInBackground(Context context, String... params) throws Exception {
 		
 		// Post the new 'now drinking' status using the beer name
-		//TODO: This should be fixed so that we use the beer id instead, but apparantly just visiting this url is not enough: http://www.ratebeer.com/userstatus-process.asp?BeerID=85934
+		//TODO: This should be fixed so that we use the beer id instead, but apparently just visiting this url is not enough: http://www.ratebeer.com/userstatus-process.asp?BeerID=85934
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("MyStatus", params[0]));
 		NetBroker.doRBPost(context, "http://www.ratebeer.com/userstatus-process.asp", parameters);

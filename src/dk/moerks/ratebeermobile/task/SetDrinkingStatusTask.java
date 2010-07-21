@@ -27,13 +27,14 @@ import org.apache.http.message.BasicNameValuePair;
 import android.content.Context;
 import android.util.Log;
 import dk.moerks.ratebeermobile.Home;
+import dk.moerks.ratebeermobile.R;
 import dk.moerks.ratebeermobile.activity.BetterRBActivity;
 import dk.moerks.ratebeermobile.io.NetBroker;
 
 public class SetDrinkingStatusTask extends BetterRBTask<String, String> {
 	
 	public SetDrinkingStatusTask(Home activity) {
-		super(activity, "Updating drink status...");
+		super(activity, R.string.task_updatedrinkstatus);
 	}
 
 	@Override

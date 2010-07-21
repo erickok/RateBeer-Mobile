@@ -23,6 +23,7 @@ import java.util.List;
 import android.content.Context;
 import android.util.Log;
 import dk.moerks.ratebeermobile.BeerMail;
+import dk.moerks.ratebeermobile.R;
 import dk.moerks.ratebeermobile.activity.BetterRBActivity;
 import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.util.RBParser;
@@ -31,7 +32,7 @@ import dk.moerks.ratebeermobile.vo.MessageHeader;
 public class RetrieveBeermailsTask extends BetterRBTask<String, List<MessageHeader>> {
 
 	public RetrieveBeermailsTask(BeerMail activity) {
-		super(activity, "Retrieving beermails...");
+		super(activity, R.string.task_retrievebeermails);
 	}
 
 	@Override

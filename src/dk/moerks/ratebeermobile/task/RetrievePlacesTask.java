@@ -22,6 +22,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.util.Log;
+import dk.moerks.ratebeermobile.R;
 import dk.moerks.ratebeermobile.Places;
 import dk.moerks.ratebeermobile.activity.BetterRBActivity;
 import dk.moerks.ratebeermobile.io.NetBroker;
@@ -31,7 +32,7 @@ import dk.moerks.ratebeermobile.vo.PlacesInfo;
 public class RetrievePlacesTask extends BetterRBTask<String, List<PlacesInfo>> {
 
 	public RetrievePlacesTask(Places activity) {
-		super(activity, "Retrieving nearby places...");
+		super(activity, R.string.task_retrieveplaces);
 	}
 
 	@Override

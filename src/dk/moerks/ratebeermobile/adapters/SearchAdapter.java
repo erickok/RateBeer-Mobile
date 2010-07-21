@@ -54,9 +54,9 @@ public class SearchAdapter extends ArrayAdapter<SearchResult> {
 			
 			ImageView icon = (ImageView) row.findViewById(R.id.search_row_icon);
 			if(results.get(position).isRated()){
-				icon.setImageResource(R.drawable.rated);
+				icon.setImageResource(R.drawable.israted);
 			} else {
-				icon.setImageResource(R.drawable.notrated);
+				icon.setImageResource(R.drawable.isnotrated);
 			}
 			
 			TextView name = (TextView)row.findViewById(R.id.search_row_name);
@@ -64,27 +64,28 @@ public class SearchAdapter extends ArrayAdapter<SearchResult> {
 			
 			TextView percentile = (TextView)row.findViewById(R.id.search_row_percentile);
 			if(results.get(position).getBeerPercentile().equalsIgnoreCase("")){
-				percentile.setText("Score\nN/A");
+				percentile.setText(context.getText(R.string.view_score) + "\n" + context.getText(R.string.view_scorena));
 			} else {
-				percentile.setText("Score\n" + results.get(position).getBeerPercentile());
+				percentile.setText(context.getText(R.string.view_score) + "\n" + results.get(position).getBeerPercentile());
 			}
 			
 			TextView ratings = (TextView)row.findViewById(R.id.search_row_ratings);
-			ratings.setText("Ratings\n" + results.get(position).getBeerRatings());
+			ratings.setText(context.getText(R.string.view_ratings) + "\n" + results.get(position).getBeerRatings());
 			
 			TextView additional = (TextView)row.findViewById(R.id.search_row_additional);
-			if(results.get(position).isAlias() && results.get(position).isRetired()){
-				additional.setText("Information\nRet. & Alias");
+			boolean isRetired = results.get(position).isRetired();
+			boolean isAlias = results.get(position).isAlias();
+			additional.setVisibility((!isRetired && !isAlias)? View.GONE: View.VISIBLE);
+			if (isRetired && isAlias) {
+				additional.setText(context.getText(R.string.view_information) + "\n" + context.getText(R.string.view_retalias));
+			} else if (isAlias) {
+				additional.setText(context.getText(R.string.view_information) + "\n" + context.getText(R.string.view_alias));
+			} else if(isRetired) {
+				additional.setText(context.getText(R.string.view_information) + "\n" + context.getText(R.string.view_retired));
 			}
-			if(results.get(position).isAlias() && !results.get(position).isRetired()){
-				additional.setText("Information\nAlias");
-			}
-			if(!results.get(position).isAlias() && results.get(position).isRetired()){
-				additional.setText("Information\nRetired");
-			}
-			if(!results.get(position).isAlias() && !results.get(position).isRetired()){
+			/*} else { 
 				additional.setText("Information\nAvailable");
-			}
+			}*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

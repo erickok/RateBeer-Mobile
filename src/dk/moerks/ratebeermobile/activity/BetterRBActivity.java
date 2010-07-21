@@ -61,5 +61,5 @@ public interface BetterRBActivity extends BetterActivity {
 	 * @return True is a task is running; false otherwise
 	 */
 	public abstract boolean hasRunningTask();
-	
+
 }

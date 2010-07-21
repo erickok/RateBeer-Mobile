@@ -26,10 +26,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
-
 import dk.moerks.ratebeermobile.exceptions.RBParserException;
 import dk.moerks.ratebeermobile.vo.BeerInfo;
-import dk.moerks.ratebeermobile.vo.Message;
 import dk.moerks.ratebeermobile.vo.PlacesInfo;
 import dk.moerks.ratebeermobile.vo.Review;
 import dk.moerks.ratebeermobile.vo.SearchResult;

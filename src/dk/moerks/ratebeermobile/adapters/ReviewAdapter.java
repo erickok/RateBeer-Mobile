@@ -7,11 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import dk.moerks.ratebeermobile.R;
+import dk.moerks.ratebeermobile.util.StringUtils;
 import dk.moerks.ratebeermobile.vo.Review;
-import dk.moerks.ratebeermobile.vo.SearchResult;
 
 public class ReviewAdapter extends ArrayAdapter<Review> {
 	Activity context;
@@ -60,11 +59,11 @@ public class ReviewAdapter extends ArrayAdapter<Review> {
 			
 			//Username (RATINGS), CITY, COUNTRY
 			TextView usernameView = (TextView)row.findViewById(R.id.beerview_row_value_username);
-			usernameView.setText(results.get(position).getUserName() + " (" + results.get(position).getRateCount() + "), " + results.get(position).getCity() + ", " + results.get(position).getCountry());
+			usernameView.setText(StringUtils.cleanHtml(results.get(position).getUserName() + " (" + results.get(position).getRateCount() + "), " + results.get(position).getCity() + ", " + results.get(position).getCountry()));
 
 			//Comments
 			TextView commentsView = (TextView)row.findViewById(R.id.beerview_row_value_comments);
-			commentsView.setText(results.get(position).getComments());
+			commentsView.setText(StringUtils.cleanHtml(results.get(position).getComments()));
 
 		} catch (Exception e) {
 			e.printStackTrace();

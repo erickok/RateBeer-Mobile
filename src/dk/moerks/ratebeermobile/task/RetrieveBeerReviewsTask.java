@@ -21,8 +21,8 @@ package dk.moerks.ratebeermobile.task;
 import java.util.List;
 
 import android.content.Context;
+import dk.moerks.ratebeermobile.R;
 import dk.moerks.ratebeermobile.BeerView;
-import dk.moerks.ratebeermobile.Search;
 import dk.moerks.ratebeermobile.activity.BetterRBActivity;
 import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.util.RBJSONParser;
@@ -31,7 +31,7 @@ import dk.moerks.ratebeermobile.vo.Review;
 public class RetrieveBeerReviewsTask extends BetterRBTask<String, List<Review>>{
 
 	public RetrieveBeerReviewsTask(BetterRBActivity activity) {
-		super(activity, "Loading reviews...");
+		super(activity, R.string.task_loadreviews);
 	}
 
 	@Override
@@ -44,6 +44,6 @@ public class RetrieveBeerReviewsTask extends BetterRBTask<String, List<Review>>{
 	
 	@Override
 	protected void afterTask(BetterRBActivity activity, List<Review> result) {
-		((BeerView)activity).onResultsRetrieved(result);
+		((BeerView)activity).onReviewsRetrieved(result);
 	}
 }

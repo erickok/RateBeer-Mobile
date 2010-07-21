@@ -21,6 +21,7 @@ package dk.moerks.ratebeermobile.task;
 import android.content.Context;
 import android.util.Log;
 import dk.moerks.ratebeermobile.Home;
+import dk.moerks.ratebeermobile.R;
 import dk.moerks.ratebeermobile.activity.BetterRBActivity;
 import dk.moerks.ratebeermobile.io.NetBroker;
 import dk.moerks.ratebeermobile.util.BCPParser;
@@ -28,7 +29,7 @@ import dk.moerks.ratebeermobile.util.BCPParser;
 public class BarcodeLookupTask extends BetterRBTask<String, String> {
 
 	public BarcodeLookupTask(Home home) {
-		super(home, "Identifying barcode...");
+		super(home, R.string.task_barcodelookup);
 	}
 
 	@Override

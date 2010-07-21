@@ -28,7 +28,7 @@ import dk.moerks.ratebeermobile.io.TwitterPoster;
 public class PostTwitterStatusTask extends BetterRBTask<String, String> {
 	
 	public PostTwitterStatusTask(BetterRBActivity activity) {
-		super(activity, "Updating Twitter status...");
+		super(activity, R.string.task_updatetwitter);
 	}
 
 	@Override
